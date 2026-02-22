@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
         gameSpeed: Float,
         screenWidth: Float
     )
+
     // در فایل MainActivity.kt
 // تغییر جدی: به جای FloatArray از ByteBuffer استفاده می‌کنیم
     external fun findHitFruitIndexDirect(
@@ -30,11 +31,16 @@ class MainActivity : ComponentActivity() {
         ty: Float,
         r: Float
     ): Int
+
     external fun getSplitPhysics(vx: Float, vy: Float): FloatArray
+
     // در فایل MainActivity.kt
     external fun findFallenFruitIndexDirect(buffer: ByteBuffer, count: Int, deathLine: Float): Int
+
     companion object {
-        init { System.loadLibrary("myproject") }
+        init {
+            System.loadLibrary("myproject")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,14 +50,20 @@ class MainActivity : ComponentActivity() {
             val fruitTypes = remember {
                 listOf(
                     FruitType(
-                        whole = BitmapFactory.decodeResource(resources, R.drawable.apple_whole).asImageBitmap(),
-                        left = BitmapFactory.decodeResource(resources, R.drawable.apple_left).asImageBitmap(),
-                        right = BitmapFactory.decodeResource(resources, R.drawable.apple_right).asImageBitmap()
+                        whole = BitmapFactory.decodeResource(resources, R.drawable.apple_whole)
+                            .asImageBitmap(),
+                        left = BitmapFactory.decodeResource(resources, R.drawable.apple_left)
+                            .asImageBitmap(),
+                        right = BitmapFactory.decodeResource(resources, R.drawable.apple_right)
+                            .asImageBitmap()
                     ),
                     FruitType(
-                        whole = BitmapFactory.decodeResource(resources, R.drawable.melon_whole).asImageBitmap(),
-                        left = BitmapFactory.decodeResource(resources, R.drawable.melon_left).asImageBitmap(),
-                        right = BitmapFactory.decodeResource(resources, R.drawable.melon_right).asImageBitmap()
+                        whole = BitmapFactory.decodeResource(resources, R.drawable.melon_whole)
+                            .asImageBitmap(),
+                        left = BitmapFactory.decodeResource(resources, R.drawable.melon_left)
+                            .asImageBitmap(),
+                        right = BitmapFactory.decodeResource(resources, R.drawable.melon_right)
+                            .asImageBitmap()
                     ),
                     // هر میوه دیگری که داری را اینجا اضافه کن
                 )
