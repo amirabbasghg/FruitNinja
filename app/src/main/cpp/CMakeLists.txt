@@ -1,24 +1,33 @@
+# تعیین حداقل نسخه مورد نیاز برای ساخت پروژه
 cmake_minimum_required(VERSION 3.22.1)
 
+# اسم پروژه را مشخص می‌کنیم تا سیستم آن را بشناسد
 project("myproject")
 
 # فعال‌سازی زبان اسمبلی به صورت صریح
+# بدون این خط، فایل‌های s. توسط کامپایلر شناسایی نمی‌شوند
 enable_language(ASM)
 
+# معرفی مهره‌های اصلی موتور بازی برای ساخت کتابخانه نهایی
 add_library(
-        myproject
-        SHARED
+        myproject       # نام خروجی که در کاتلین لود می‌شود
+        SHARED          # ساخت به صورت کتابخانه پویا یا Shared Library
+
+        # ۱. فایل واسط سی‌پلاس‌پلاس (پل ارتباطی کاتلین و اسمبلی)
         native-lib.cpp
-        ball_logic.s # اگر نام فایل در پوشه با s کوچک است همین بماند، اما بهتر است به S تغییر دهی
-        processPhysicsNeon.s
-        collision_neon.s
-        split_fruit_physics.s
-        out_of_bounds.s
+
+        # ۲. هسته فیزیک و محاسبات که با اسمبلی ARM64 نوشته شده
+        processPhysicsNeon.s     # پردازش فیزیک و جاذبه
+        collision_neon.s         # تشخیص برخورد فوق سریع
+        split_fruit_physics.s    # محاسبات متلاشی شدن میوه
+        out_of_bounds.s          # اسکن موازی خروج از صفحه
 )
 
+# پیدا کردن کتابخانه Log اندروید برای خطایابی و چاپ پیام در Logcat
 find_library(log-lib log)
 
+# پیوند دادن تمام فایل‌ها و کتابخانه‌ها به یکدیگر برای تولید فایل so.
 target_link_libraries(
         myproject
-        ${log-lib}
+        ${log-lib} # متصل کردن سیستم لاگ به پروژه
 )

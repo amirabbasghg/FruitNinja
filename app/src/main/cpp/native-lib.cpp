@@ -4,7 +4,7 @@ extern "C" {
 void update_all_fruits_neon(float* data, int count , float gameSpeed, float screenWidth);
 int check_and_find_fruit_index(float* data, int count, float tx, float ty, float r);
 void calculate_split_velocities(float vx, float vy, float* results);
-int find_fallen_fruit_index(float* data, int count, float deathLine);
+int find_fallen_fruit_index_neon(float* data, int count, float deathLine);
 }
 
 
@@ -51,7 +51,6 @@ Java_com_example_myproject_MainActivity_getSplitPhysics(JNIEnv *env, jobject thi
 }
 
 extern "C" {
-int find_fallen_fruit_index_neon(float* data, int count, float deathLine);
 }
 
 extern "C" JNIEXPORT jint JNICALL
