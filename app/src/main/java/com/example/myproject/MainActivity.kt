@@ -31,6 +31,8 @@ class MainActivity : ComponentActivity() {
         r: Float
     ): Int
     external fun getSplitPhysics(vx: Float, vy: Float): FloatArray
+    // در فایل MainActivity.kt
+    external fun findFallenFruitIndexDirect(buffer: ByteBuffer, count: Int, deathLine: Float): Int
     companion object {
         init { System.loadLibrary("myproject") }
     }

@@ -13,6 +13,7 @@ add_library(
         processPhysicsNeon.s
         collision_neon.s
         split_fruit_physics.s
+        out_of_bounds.s
 )
 
 find_library(log-lib log)
