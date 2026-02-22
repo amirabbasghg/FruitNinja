@@ -32,6 +32,7 @@ fun FruitNinjaGame(
     processPhysicsNeonDirect: (ByteBuffer, Int, Float, Float) -> Unit,
     findHitFruitIndexDirect: (ByteBuffer, Int, Float, Float, Float) -> Int,
     getSplitPhysics: (Float, Float) -> FloatArray,
+    findFallenFruitIndexDirect: (ByteBuffer, Int, Float) -> Int,
     fruitTypes: List<FruitType>,
     screenWidth: Float
 ) {
@@ -55,24 +56,27 @@ fun FruitNinjaGame(
     }
 
     // ۲. Game Loop و چک کردن سقوط میوه
+    // در لایوش افکت گیم لوپ (FruitNinjaGame.kt)
     LaunchedEffect(isGameOver) {
         while (!isGameOver) {
             withFrameNanos {
                 engine.updatePhysics()
 
-                // چک کردن میوه‌هایی که از پایین صفحه خارج شده‌اند
-                val iterator = fruits.iterator()
-                while (iterator.hasNext()) {
-                    val fruit = iterator.next()
-                    // اگر میوه از ارتفاع ۲۵۰۰ (پایین صفحه) رد شد
-                    if (fruit.y > 2500f) {
-                        // فقط اگر میوه سالم باشد (دونیم نشده باشد) جان کم می‌شود
-                        if (!fruit.isHalf) {
-                            lives -= 1
-                            if (lives <= 0) isGameOver = true
-                        }
-                        iterator.remove() // حذف میوه از لیست
+                // ۱. از اسمبلی می‌پرسیم آیا میوه‌ای افتاده یا نه؟
+                val fallenIndex = findFallenFruitIndexDirect(engine.getBuffer(), fruits.size, 2500f)
+
+                // ۲. اگر اسمبلی ایندکسی (غیر از -1) برگرداند
+                if (fallenIndex != -1 && fallenIndex < fruits.size) {
+                    val fallenFruit = fruits[fallenIndex]
+
+                    // اگر میوه سالم بود، جان کم شود
+                    if (!fallenFruit.isHalf) {
+                        lives -= 1
+                        if (lives <= 0) isGameOver = true
                     }
+
+                    // در هر صورت میوه از لیست حذف شود
+                    fruits.removeAt(fallenIndex)
                 }
             }
         }

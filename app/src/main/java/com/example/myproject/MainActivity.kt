@@ -65,6 +65,7 @@ class MainActivity : ComponentActivity() {
                     ::processPhysicsNeonDirect,
                     ::findHitFruitIndexDirect, // نام تابع باید دقیقاً همین باشد
                     ::getSplitPhysics,
+                    ::findFallenFruitIndexDirect,
                     fruitTypes,
                     screenWidth
                 )
