@@ -13,7 +13,7 @@ update_all_fruits_neon:
     // بارگذاری ثوابت فیزیکی
     ldr w2, =0x3f7c28f6        // DRAG (0.985)
     fmov s10, w2
-    ldr w2, =0x400ccccd        // GRAVITY (1.2) - طبق کالیبراسیون قبلی
+    ldr w2, =0x40400000
     fmov s11, w2
     ldr w2, =0x40a00000        // ROTATION_STEP (5.0)
     fmov s13, w2

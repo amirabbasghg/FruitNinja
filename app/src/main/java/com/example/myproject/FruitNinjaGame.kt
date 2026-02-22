@@ -17,14 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import drawFruit
+import java.nio.ByteBuffer
 
 // فرض بر این است که این توابع در فایل‌های FruitComponents.kt و FruitLogic.kt هستند
 // اگر در همان پکیج باشند نیازی به Import دستی نیست، در غیر این صورت Import کنید.
 
 @Composable
 fun FruitNinjaGame(
-    processPhysicsNeon: (FloatArray, Int, Float , Float) -> Unit,
-    findHitFruitIndex: (FloatArray, Int, Float, Float, Float) -> Int,
+    processPhysicsNeonDirect: (ByteBuffer, Int, Float, Float) -> Unit, // تغییر FloatArray به ByteBuffer
+    findHitFruitIndexDirect: (ByteBuffer, Int, Float, Float, Float) -> Int, // (این یکی را بعداً درست می‌کنیم)
     fruitTypes: List<FruitType>,
     screenWidth: Float
 ) {
@@ -34,7 +35,7 @@ fun FruitNinjaGame(
     var score by remember { mutableIntStateOf(0) }
 
     // مقداردهی Engine برای مدیریت فیزیک اسمبلی
-    val engine = remember { GameEngine(fruits, screenWidth, processPhysicsNeon) }
+    val engine = remember { GameEngine(fruits, screenWidth, processPhysicsNeonDirect) }
 
     // ۱. Spawner: تولید میوه‌ها با استفاده از تابع کمکی در FruitLogic
     LaunchedEffect(Unit) {
@@ -65,7 +66,7 @@ fun FruitNinjaGame(
             .fillMaxSize()
             .pointerInput(Unit) {
                 // مدیریت لمس و تشخیص برخورد اسمبلی (تعریف شده در FruitLogic)
-                handleTouchInput(fruits, findHitFruitIndex, trailPoints) { hitFruit: FruitState ->
+                handleTouchInput(engine, findHitFruitIndexDirect, trailPoints) { hitFruit: FruitState ->
                     score += 10
                     handleFruitSplit(fruits, hitFruit)
                 }

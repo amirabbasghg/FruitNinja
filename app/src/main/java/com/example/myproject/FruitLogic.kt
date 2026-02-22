@@ -8,38 +8,55 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerInputScope
 import kotlin.random.Random
 
+// این ایمپورت‌ها را بالای فایل FruitLogic.kt اضافه کن
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+
 class GameEngine(
     val fruits: SnapshotStateList<FruitState>,
     val screenWidth: Float,
-    val processPhysicsNeon: (FloatArray, Int, Float, Float) -> Unit // اضافه شدن پارامتر چهارم
+    // ورودی تابع به ByteBuffer تغییر کرد
+    val processPhysicsNeonDirect: (ByteBuffer, Int, Float, Float) -> Unit
 ) {
     var gameSpeed by mutableFloatStateOf(1.0f)
+
+    // رزرو حافظه مستقیم (خارج از JVM). فرض می‌کنیم نهایتاً 100 میوه داریم.
+    // 100 میوه * 5 پارامتر * 4 بایت (حجم هر Float) = 2000 بایت حافظه خام
+    private val maxFruits = 100
+    private val byteBuffer = ByteBuffer.allocateDirect(maxFruits * 5 * 4).order(ByteOrder.nativeOrder())
+    private val floatBuffer = byteBuffer.asFloatBuffer()
+    fun getBuffer(): ByteBuffer = byteBuffer
 
     fun updatePhysics() {
         if (fruits.isEmpty()) return
 
-        val data = FloatArray(fruits.size * 5)
-        fruits.forEachIndexed { i, f ->
-            data[i * 5 + 0] = f.x
-            data[i * 5 + 1] = f.y
-            data[i * 5 + 2] = f.velX
-            data[i * 5 + 3] = f.velY
-            data[i * 5 + 4] = f.rotation
-        }
+        // ۱. ریست کردن نشانگر بافر
+        floatBuffer.position(0)
 
-        // فراخوانی موتور تمام‌اسمبلی
-        processPhysicsNeon(data, fruits.size, gameSpeed, screenWidth)
-
+        // ۲. نوشتن دیتای کاتلین در حافظه خام (بدون ساخت آرایه جدید)
         for (i in fruits.indices) {
             val f = fruits[i]
-            f.x = data[i * 5 + 0]
-            f.y = data[i * 5 + 1]
-            f.velX = data[i * 5 + 2]
-            f.velY = data[i * 5 + 3]
-            f.rotation = data[i * 5 + 4]
+            floatBuffer.put(i * 5 + 0, f.x)
+            floatBuffer.put(i * 5 + 1, f.y)
+            floatBuffer.put(i * 5 + 2, f.velX)
+            floatBuffer.put(i * 5 + 3, f.velY)
+            floatBuffer.put(i * 5 + 4, f.rotation)
         }
 
-        // تنها کاری که کاتلین انجام می‌دهد: مدیریت لیست
+        // ۳. شلیک کردن آدرس حافظه به C++ و Assembly
+        processPhysicsNeonDirect(byteBuffer, fruits.size, gameSpeed, screenWidth)
+
+        // ۴. خواندن مستقیم نتایج اسمبلی از همان حافظه
+        for (i in fruits.indices) {
+            val f = fruits[i]
+            f.x = floatBuffer.get(i * 5 + 0)
+            f.y = floatBuffer.get(i * 5 + 1)
+            f.velX = floatBuffer.get(i * 5 + 2)
+            f.velY = floatBuffer.get(i * 5 + 3)
+            f.rotation = floatBuffer.get(i * 5 + 4)
+        }
+
+        // حذف میوه‌های خارج شده
         fruits.removeAll { it.y > 2600f }
     }
 }
@@ -76,9 +93,11 @@ fun spawnFruits(fruits: SnapshotStateList<FruitState>, fruitTypes: List<FruitTyp
 }
 
 // ۲. مدیریت لمس و تشخیص برخورد
+// در فایل FruitLogic.kt
+
 suspend fun PointerInputScope.handleTouchInput(
-    fruits: SnapshotStateList<FruitState>,
-    findHitFruitIndex: (FloatArray, Int, Float, Float, Float) -> Int,
+    engine: GameEngine, // به جای لیست میوه‌ها، کل انجین را می‌فرستیم تا به بافر دسترسی داشته باشیم
+    findHitFruitIndexDirect: (ByteBuffer, Int, Float, Float, Float) -> Int,
     trailPoints: MutableList<Offset>,
     onHit: (FruitState) -> Unit
 ) {
@@ -89,23 +108,24 @@ suspend fun PointerInputScope.handleTouchInput(
                 if (change.pressed) {
                     val touchPos = change.position
                     trailPoints.add(touchPos)
-                    if (trailPoints.size > 15) trailPoints.removeAt(0)
 
-                    if (fruits.isNotEmpty()) {
-                        val data = FloatArray(fruits.size * 5)
-                        fruits.forEachIndexed { i, f ->
-                            data[i * 5 + 0] = f.x
-                            data[i * 5 + 1] = f.y
-                        }
+                    if (engine.fruits.isNotEmpty()) {
+                        // نکته طلایی: دیتای میوه‌ها همین الان در engine.byteBuffer (توسط updatePhysics) آپدیت شده است
+                        // پس نیازی به هیچ For لوپی برای کپی کردن مجدد نیست!
 
-                        val hitIndex = findHitFruitIndex(data, fruits.size, touchPos.x, touchPos.y, 120f)
+                        val hitIndex = findHitFruitIndexDirect(
+                            engine.getBuffer(), // بافر مستقیم انجین
+                            engine.fruits.size,
+                            touchPos.x,
+                            touchPos.y,
+                            120f // شعاع برخورد
+                        )
 
-                        if (hitIndex != -1 && hitIndex < fruits.size) {
-                            val f = fruits[hitIndex]
+                        if (hitIndex != -1 && hitIndex < engine.fruits.size) {
+                            val f = engine.fruits[hitIndex]
                             if (!f.isHalf) {
                                 onHit(f)
-                                // حذف میوه سالم بلافاصله بعد از برخورد
-                                fruits.removeAt(hitIndex)
+                                engine.fruits.removeAt(hitIndex)
                             }
                         }
                     }

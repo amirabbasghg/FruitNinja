@@ -6,35 +6,36 @@ int check_and_find_fruit_index(float* data, int count, float tx, float ty, float
 void calculate_split_velocities(float vx, float vy, float* results);
 }
 
-// تابع آپدیت فیزیک (همان که قبلاً نوشتیم)
+
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_myproject_MainActivity_processPhysicsNeon(JNIEnv *env, jobject thiz,
-                                                           jfloatArray data, jint count,
-                                                           jfloat gameSpeed, jfloat screenWidth) {
-    jfloat* ptr = env->GetFloatArrayElements(data, NULL);
+Java_com_example_myproject_MainActivity_processPhysicsNeonDirect(
+        JNIEnv *env, jobject thiz,
+        jobject buffer, // دریافت بافر مستقیم
+        jint count, jfloat gameSpeed, jfloat screenWidth) {
 
-    // s0 = gameSpeed, s1 = screenWidth
+    // استخراج آدرس فیزیکی RAM (بدون هیچ کپی کردن!)
+    float* ptr = (float*) env->GetDirectBufferAddress(buffer);
+
+    // فراخوانی مستقیم کد اسمبلی NEON
     update_all_fruits_neon(ptr, (int)count, gameSpeed, screenWidth);
-
-    env->ReleaseFloatArrayElements(data, ptr, 0);
 }
 
 // تابع جدید برخورد
+// تابع جدید برخورد با استفاده از Direct Buffer
 extern "C" JNIEXPORT jint JNICALL
-Java_com_example_myproject_MainActivity_findHitFruitIndex(JNIEnv *env, jobject thiz,
-                                                          jfloatArray data, jint count,
-                                                          jfloat tx, jfloat ty, jfloat r) {
-    // ۱. دسترسی به دیتای آرایه کاتلین
-    jfloat* ptr = env->GetFloatArrayElements(data, NULL);
+Java_com_example_myproject_MainActivity_findHitFruitIndexDirect(JNIEnv *env, jobject thiz,
+                                                                jobject buffer, jint count,
+                                                                jfloat tx, jfloat ty, jfloat r) {
+    // استخراج مستقیم پوینتر بدون کپی کردن دیتای آرایه
+    float* ptr = (float*) env->GetDirectBufferAddress(buffer);
 
-    // ۲. فراخوانی تابع اسمبلی
-    int index = check_and_find_fruit_index(ptr, count, tx, ty, r);
+    // فراخوانی مستقیم تابع اسمبلی که قبلاً داشتی
+    // اسمبلی همان پوینتر خام را می‌گیرد و با سرعت بالا جستجو می‌کند
+    int index = check_and_find_fruit_index(ptr, (int)count, tx, ty, r);
 
-    // ۳. آزاد کردن آرایه
-    env->ReleaseFloatArrayElements(data, ptr, 0);
-
-    return index;
+    return (jint)index;
 }
+
 extern "C" JNIEXPORT jfloatArray JNICALL
 Java_com_example_myproject_MainActivity_getSplitPhysics(JNIEnv *env, jobject thiz, jfloat vx, jfloat vy) {
     float results[3];
