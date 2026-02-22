@@ -50,22 +50,17 @@ Java_com_example_myproject_MainActivity_getSplitPhysics(JNIEnv *env, jobject thi
     return out;
 }
 
+extern "C" {
+int find_fallen_fruit_index_neon(float* data, int count, float deathLine);
+}
+
 extern "C" JNIEXPORT jint JNICALL
 Java_com_example_myproject_MainActivity_findFallenFruitIndexDirect(
-        JNIEnv *env,
-        jobject thiz,
-        jobject buffer,
-        jint count,
-        jfloat deathLine
-) {
-    // ۱. استخراج آدرس حافظه مستقیم از ByteBuffer
-    float* data = (float*)env->GetDirectBufferAddress(buffer);
+        JNIEnv *env, jobject thiz, jobject buffer, jint count, jfloat deathLine) {
 
+    float* data = (float*)env->GetDirectBufferAddress(buffer);
     if (data == nullptr) return -1;
 
-    // ۲. فراخوانی تابع فوق‌سریع اسمبلی
-    // این تابع کل لیست را در سطح CPU اسکن می‌کند
-    int fallenIndex = find_fallen_fruit_index(data, count, deathLine);
-
-    return (jint)fallenIndex;
+    // فراخوانی نسخه موازی (NEON)
+    return (jint)find_fallen_fruit_index_neon(data, count, deathLine);
 }
