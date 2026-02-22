@@ -138,8 +138,40 @@ suspend fun PointerInputScope.handleTouchInput(
 }
 
 // ۳. تابع مدیریت دو نیم شدن میوه با افکت فیزیکی
-fun handleFruitSplit(fruits: SnapshotStateList<FruitState>, f: FruitState) {
-    // ارسال f.rotation به نیمه‌ها
-    fruits.add(FruitState(f.x, f.y, f.velY, f.velX - 12f, f.leftImage!!, isHalf = true, initialRotation = f.rotation))
-    fruits.add(FruitState(f.x, f.y, f.velY, f.velX + 12f, f.rightImage!!, isHalf = true, initialRotation = f.rotation))
+// در فایل FruitLogic.kt
+
+fun handleFruitSplit(
+    fruits: SnapshotStateList<FruitState>,
+    f: FruitState,
+    getSplitPhysics: (Float, Float) -> FloatArray // دریافت تابع اسمبلی
+) {
+    // ۱. فراخوانی تابع اسمبلی برای محاسبه سرعت‌های جدید
+    // اسمبلی بر اساس vx و vy فعلی، سرعت‌های انفجاری محاسبه می‌کند
+    val splitResults = getSplitPhysics(f.velX, f.velY)
+
+    val newVelX_Left = splitResults[0]
+    val newVelX_Right = splitResults[1]
+    val newVelY = splitResults[2]
+
+    // ۲. ایجاد نیمه چپ با سرعت محاسبه شده در اسمبلی
+    fruits.add(FruitState(
+        initialX = f.x - 10f,
+        initialY = f.y,
+        velY = newVelY,
+        velX = newVelX_Left,
+        image = f.leftImage!!,
+        isHalf = true,
+        initialRotation = f.rotation
+    ))
+
+    // ۳. ایجاد نیمه راست با سرعت محاسبه شده در اسمبلی
+    fruits.add(FruitState(
+        initialX = f.x + 10f,
+        initialY = f.y,
+        velY = newVelY,
+        velX = newVelX_Right,
+        image = f.rightImage!!,
+        isHalf = true,
+        initialRotation = f.rotation
+    ))
 }

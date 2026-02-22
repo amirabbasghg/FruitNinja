@@ -26,6 +26,7 @@ import java.nio.ByteBuffer
 fun FruitNinjaGame(
     processPhysicsNeonDirect: (ByteBuffer, Int, Float, Float) -> Unit, // تغییر FloatArray به ByteBuffer
     findHitFruitIndexDirect: (ByteBuffer, Int, Float, Float, Float) -> Int, // (این یکی را بعداً درست می‌کنیم)
+    getSplitPhysics: (Float, Float) -> FloatArray,
     fruitTypes: List<FruitType>,
     screenWidth: Float
 ) {
@@ -68,7 +69,7 @@ fun FruitNinjaGame(
                 // مدیریت لمس و تشخیص برخورد اسمبلی (تعریف شده در FruitLogic)
                 handleTouchInput(engine, findHitFruitIndexDirect, trailPoints) { hitFruit: FruitState ->
                     score += 10
-                    handleFruitSplit(fruits, hitFruit)
+                    handleFruitSplit(fruits, hitFruit, getSplitPhysics)
                 }
             }
         ) {

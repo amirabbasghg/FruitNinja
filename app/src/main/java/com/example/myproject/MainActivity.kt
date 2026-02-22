@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
         ty: Float,
         r: Float
     ): Int
+    external fun getSplitPhysics(vx: Float, vy: Float): FloatArray
     companion object {
         init { System.loadLibrary("myproject") }
     }
@@ -61,6 +62,7 @@ class MainActivity : ComponentActivity() {
                 FruitNinjaGame(
                     ::processPhysicsNeonDirect,
                     ::findHitFruitIndexDirect, // نام تابع باید دقیقاً همین باشد
+                    ::getSplitPhysics,
                     fruitTypes,
                     screenWidth
                 )
