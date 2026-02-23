@@ -11,6 +11,7 @@ import kotlin.random.Random
 // این ایمپورت‌ها را بالای فایل FruitLogic.kt اضافه کن
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlin.text.clear
 
 class GameEngine(
     val fruits: SnapshotStateList<FruitState>,
@@ -26,6 +27,22 @@ class GameEngine(
     private val byteBuffer = ByteBuffer.allocateDirect(maxFruits * 5 * 4).order(ByteOrder.nativeOrder())
     private val floatBuffer = byteBuffer.asFloatBuffer()
     fun getBuffer(): ByteBuffer = byteBuffer
+    fun updateBufferFromList() {
+        // ۱. ابتدا نشانگر بافر را به نقطه شروع (صفر) برمی‌گردانیم
+        byteBuffer.clear()
+
+        // ۲. تمام میوه‌های باقی‌مانده در لیست را دوباره توی بافر می‌ریزیم
+        fruits.forEach { fruit ->
+            byteBuffer.putFloat(fruit.x)
+            byteBuffer.putFloat(fruit.y)
+            byteBuffer.putFloat(fruit.velX)
+            byteBuffer.putFloat(fruit.velY)
+            byteBuffer.putFloat(if (fruit.isHalf) 1f else 0f) // یا هر دیتای دیگری که داری
+        }
+
+        // ۳. موقعیت بافر را برای خواندن توسط اسمبلی آماده می‌کنیم
+        byteBuffer.flip()
+    }
 
     fun updatePhysics() {
         if (fruits.isEmpty()) return
@@ -96,7 +113,7 @@ fun spawnFruits(fruits: SnapshotStateList<FruitState>, fruitTypes: List<FruitTyp
 // در فایل FruitLogic.kt
 
 suspend fun PointerInputScope.handleTouchInput(
-    engine: GameEngine, // به جای لیست میوه‌ها، کل انجین را می‌فرستیم تا به بافر دسترسی داشته باشیم
+    engine: GameEngine,
     findHitFruitIndexDirect: (ByteBuffer, Int, Float, Float, Float) -> Int,
     trailPoints: MutableList<Offset>,
     onHit: (FruitState) -> Unit
@@ -110,24 +127,39 @@ suspend fun PointerInputScope.handleTouchInput(
                     trailPoints.add(touchPos)
 
                     if (engine.fruits.isNotEmpty()) {
-                        // نکته طلایی: دیتای میوه‌ها همین الان در engine.byteBuffer (توسط updatePhysics) آپدیت شده است
-                        // پس نیازی به هیچ For لوپی برای کپی کردن مجدد نیست!
+                        // --- شروع حلقه پاکسازی (Multi-Hit Cleaning) ---
+                        // این حلقه تا زمانی که اسمبلی میوه‌ای زیر انگشت پیدا کنه، تکرار میشه
+                        while (true) {
+                            val hitIndex = findHitFruitIndexDirect(
+                                engine.getBuffer(), // بافر مستقیم که اسمبلی روش اسکن می‌کنه
+                                engine.fruits.size,
+                                touchPos.x,
+                                touchPos.y,
+                                120f // شعاع برخورد
+                            )
 
-                        val hitIndex = findHitFruitIndexDirect(
-                            engine.getBuffer(), // بافر مستقیم انجین
-                            engine.fruits.size,
-                            touchPos.x,
-                            touchPos.y,
-                            120f // شعاع برخورد
-                        )
+                            // اگر اسمبلی -1 برگردونه، یعنی دیگه هیچ میوه‌ای زیر انگشت نیست
+                            if (hitIndex != -1 && hitIndex < engine.fruits.size) {
+                                val f = engine.fruits[hitIndex]
 
-                        if (hitIndex != -1 && hitIndex < engine.fruits.size) {
-                            val f = engine.fruits[hitIndex]
-                            if (!f.isHalf) {
-                                onHit(f)
-                                engine.fruits.removeAt(hitIndex)
+                                if (!f.isHalf) {
+                                    onHit(f) // اجرای افکت انفجار
+                                    engine.fruits.removeAt(hitIndex) // حذف از لیست کاتلین
+
+                                    // نکته حیاتی:
+                                    // بعد از حذف از لیست، باید بافر رو آپدیت کنی تا اسمبلی در دور بعدی
+                                    // بدونه که میوه حذف شده و دوباره همون رو پیدا نکنه (جلوگیری از Loop بی‌پایان)
+                                    engine.updateBufferFromList()
+                                } else {
+                                    // اگر به هر دلیلی میوه نصف شده بود و هنوز در لیست بود، بشکن که گیر نکنی
+                                    break
+                                }
+                            } else {
+                                // هیچ میوه دیگه‌ای پیدا نشد، از حلقه while خارج شو
+                                break
                             }
                         }
+                        // --- پایان حلقه پاکسازی ---
                     }
                 } else {
                     trailPoints.clear()
