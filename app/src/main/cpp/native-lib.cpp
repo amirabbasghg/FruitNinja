@@ -10,18 +10,31 @@ void calculate_split_velocities(float vx, float vy, float* results);
 int find_fallen_fruit_index_neon(float* data, int count, float deathLine);
 }
 
-// ۱. آپدیت فیزیک تمام میوه‌ها به صورت یکجا
+// راهنمای درک عملکرد این فایل (مرکز مخابرات JNI):
+// -----------------------------------------------------------------
+// ۱. این فایل نقش "پل" یا "مترجم" رو بین کاتلین و اسمبلی بازی می‌کنه.
+// ۲. دریافت Buffer: کاتلین یک بافر مستقیم (Direct) شامل دیتای میوه‌ها رو می‌فرسته.
+// ۳. استخراج آدرس (Pointer): آدرس دقیق فیزیکی اون بافر رو در RAM پیدا می‌کنیم.
+// ۴. ارسال آدرس : آدرس رو به اسمبلی می‌دیم.
+// ۵. فراخوانی اسمبلی: پوینتر رو به توابع NEON می‌دیم تا محاسبات انجام بشه.
+
+// ۱. تابع آپدیت فیزیک (تحلیل ساختار JNI):
+// نام تابع: Java + نام پکیج + نام کلاس + نام متد در کاتلین (یک آدرس پستی برای پیدا شدن توسط اندروید)
+// پارامتر JNIEnv *env: همان جعبه‌ابزار ما برای حرف زدن با کاتلین و سیستم‌عامل.
+// پارامتر jobject buffer: همان بافر حاوی مختصات میوه‌ها که از کاتلین رسیده.
 extern "C" JNIEXPORT void JNICALL
 Java_com_example_myproject_MainActivity_processPhysicsNeonDirect(
         JNIEnv *env, jobject thiz,
         jobject buffer, // دریافت مستقیم بافر از کاتلین
         jint count, jfloat gameSpeed, jfloat screenWidth) {
 
-    // جادوی اصلی اینجاست: استخراج آدرس فیزیکی RAM بدون ذره‌ای کپی کردن دیتا!
-    // با این کار، کاتلین و اسمبلی هر دو دارند روی یک "میز کار" مشترک تغییرات رو اعمال می‌کنن.
+    // استخراج آدرس حافظه محلی (Native Address):
+    // متد GetDirectBufferAddress آدرس شروع بلوک حافظه را در RAM بازمی‌گرداند.
+    // این رویکرد مانع از کپی شدن داده‌ها (Zero-Copy) بین Heap ماشین مجازی و محیط Native می‌شود.
     float* ptr = (float*) env->GetDirectBufferAddress(buffer);
 
-    // فرستادن پوینتر مستقیم به موتور NEON برای محاسبات موازی
+    // انتقال کنترل به واحد پردازش اسمبلی:
+    // ارسال اشاره‌گر (Pointer) مستقیم به تابع اسمبلی جهت اعمال محاسبات برداری بر روی داده‌های فیزیک.
     update_all_fruits_neon(ptr, (int)count, gameSpeed, screenWidth);
 }
 
@@ -58,7 +71,7 @@ extern "C" JNIEXPORT jint JNICALL
 Java_com_example_myproject_MainActivity_findFallenFruitIndexDirect(
         JNIEnv *env, jobject thiz, jobject buffer, jint count, jfloat deathLine) {
 
-    // گرفتن آدرس مستقیم تخته‌سیاه (ByteBuffer)
+    // گرفتن آدرس مستقیم (ByteBuffer)
     float* data = (float*)env->GetDirectBufferAddress(buffer);
     if (data == nullptr) return -1;
 
