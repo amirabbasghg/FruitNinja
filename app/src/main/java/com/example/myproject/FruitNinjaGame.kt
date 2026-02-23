@@ -47,7 +47,7 @@ fun FruitNinjaGame(
     val engine = remember { GameEngine(fruits, screenWidth, processPhysicsNeonDirect) }
 
     // ۱. Spawner (فقط اگر بازی تمام نشده باشد تولید کند)
-    LaunchedEffect(isGameOver, engine.gameSpeed) {
+    LaunchedEffect(isGameOver) {
         while (!isGameOver) {
             spawnFruits(fruits, fruitTypes, screenWidth)
             val baseDelay = Random.nextLong(1200, 2000)

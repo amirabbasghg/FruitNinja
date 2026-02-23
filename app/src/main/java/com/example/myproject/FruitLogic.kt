@@ -73,8 +73,6 @@ class GameEngine(
             f.rotation = floatBuffer.get(i * 5 + 4)
         }
 
-        // حذف میوه‌های خارج شده
-        fruits.removeAll { it.y > 2600f }
     }
 }
 //    private fun applyWallBounce(f: FruitState) {
