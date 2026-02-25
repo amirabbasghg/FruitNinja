@@ -1,8 +1,7 @@
 package com.example.myproject
 
+import GameHud
 import GameOverOverlay
-import ScoreAndLivesDisplay
-import ScoreDisplay
 import SpeedControlSlider
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -21,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import drawFruit
 import java.nio.ByteBuffer
 
@@ -108,7 +108,14 @@ fun FruitNinjaGame(
     Box(modifier = Modifier.fillMaxSize()) {
 
         // نمایش گرافیکی امتیاز (Score) و تعداد جان‌های باقی‌مانده (Lives) در بالای صفحه
-        ScoreAndLivesDisplay(score, lives)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter)
+                .zIndex(1f) // بالاتر از Canvas
+        ) {
+            GameHud(score, lives)
+        }
 
         // اصلی‌ترین بخش بصری بازی: بوم نقاشی (Canvas) برای رسم میوه‌ها و افکت‌ها
         Canvas(
@@ -135,27 +142,47 @@ fun FruitNinjaGame(
             drawBladeTrail(trailPoints)
         }
 
-        // --- صفحه باخت (Overlay) ---
-        // این لایه فقط زمانی نمایش داده می‌شود که متغیر isGameOver مقدار true داشته باشد
-        if (isGameOver) {
-            GameOverOverlay(
-                score = score,
-                onRestart = {
-                    // ریست کردن تمام مقادیر به حالت اولیه برای شروع مجدد بازی
-                    lives = 3            // بازگرداندن جان‌ها به ۳
-                    score = 0            // صفر کردن امتیاز
-                    fruits.clear()       // پاک کردن تمام میوه‌های باقی‌مانده از صحنه
-                    isGameOver = false   // مخفی کردن صفحه باخت و شروع مجدد حلقه‌های فیزیک
-                }
-            )
+        // --- مدیریت لایه‌های کنترلی و وضعیت پایان بازی ---
+
+        // بررسی وضعیت بازی: اگر بازی تمام نشده باشد (!isGameOver)، اسلایدر کنترل سرعت نمایش داده شود
+        if (!isGameOver) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()           // اشغال کل عرض پایین صفحه
+                    .align(Alignment.BottomCenter) // قرارگیری دقیق در پایین و وسط
+                    .zIndex(1f)               // اولویت نمایش ۱ (بالاتر از بوم نقاشی یا Canvas)
+                    .padding(bottom = 16.dp)  // ایجاد فاصله از لبه پایینی گوشی
+            ) {
+                // کامپوننت اسلایدر برای تغییر دینامیک سرعت موتور فیزیک (NEON)
+                SpeedControlSlider(
+                    currentSpeed = engine.gameSpeed,
+                    onSpeedChange = { engine.gameSpeed = it } // به‌روزرسانی ضریب سرعت در لحظه
+                )
+            }
         }
 
-        // نمایش اسلایدر کنترل سرعت (فقط در حین بازی نمایش داده می‌شود)
-        if (!isGameOver) {
-            SpeedControlSlider(
-                currentSpeed = engine.gameSpeed,
-                onSpeedChange = { engine.gameSpeed = it } // تغییر ضریب سرعت در موتور فیزیک
-            )
+        // --- لایه بالایی: صفحه Game Over (وسط صفحه) ---
+        // این بلاک فقط زمانی اجرا می‌شود که بازیکن تمام جان‌های خود را از دست داده باشد
+        if (isGameOver) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()            // پوشاندن کل صفحه برای جلوگیری از تعامل با زیر لایه‌ها
+                    .align(Alignment.Center)  // مرکزیت بخشیدن به محتوای پایان بازی
+                    .zIndex(2f)               // اولویت نمایش ۲ (بالاترین لایه ممکن، حتی روی اسلایدر)
+            ) {
+                // فراخوانی کامپوننت لایه‌ی باخت که در FruitComponents تعریف کردیم
+                GameOverOverlay(
+                    score = score,            // نمایش امتیاز نهایی کسب شده
+                    onRestart = {
+                        // عملیات ریست کلی (Hard Reset) برای شروع یک راند جدید:
+                        lives = 3            // بازگرداندن جان‌ها به مقدار اولیه
+                        score = 0            // صفر کردن امتیاز
+                        fruits.clear()       // حذف تمام میوه‌های موجود در حافظه و بافر
+                        trailPoints.clear()  // پاک کردن ردِ شمشیر باقی‌مانده روی صفحه
+                        isGameOver = false   // تغییر وضعیت به "درحال بازی" و فعال شدن دوباره حلقه‌ها
+                    }
+                )
+            }
         }
-    }
-}
+    } // پایان Box اصلی
+} // پایان تابع FruitNinjaGame

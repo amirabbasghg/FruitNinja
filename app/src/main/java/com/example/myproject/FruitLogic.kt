@@ -14,56 +14,46 @@ import java.nio.ByteOrder
 import kotlin.text.clear
 
 class GameEngine(
-    val fruits: SnapshotStateList<FruitState>,
-    val screenWidth: Float,
-    // ورودی تابع به ByteBuffer تغییر کرد
-    val processPhysicsNeonDirect: (ByteBuffer, Int, Float, Float) -> Unit
+    val fruits: SnapshotStateList<FruitState>, // لیستی هوشمند که با تغییر هر میوه، UI خودش آپدیت می‌شود (مثل Observable در فلاتر)
+    val screenWidth: Float,                    // عرض صفحه برای چک کردن برخورد میوه‌ها به دیواره‌ها
+    val processPhysicsNeonDirect: (ByteBuffer, Int, Float, Float) -> Unit // رفرنس تابع سی‌‎پلاس‌پلاس (اسمبلی)
 ) {
+    // سرعت بازی که به صورت هوشمند (State) تعریف شده؛ تغییر این مقدار، سرعت پرتاب را آنی عوض می‌کند
     var gameSpeed by mutableFloatStateOf(1.0f)
 
-    // رزرو حافظه مستقیم (خارج از JVM). فرض می‌کنیم نهایتاً 100 میوه داریم.
-    // 100 میوه * 5 پارامتر * 4 بایت (حجم هر Float) = 2000 بایت حافظه خام
+    // رزرو یک فضای اختصاصی در RAM خارج از مدیریت جاوا (برای اینکه C++ مستقیم به آن دسترسی داشته باشد)
     private val maxFruits = 100
+    // هر میوه 5 ویژگی (X, Y, VX, VY, Rotation) دارد که هر کدام 4 بایت (Float) فضا می‌گیرند
     private val byteBuffer = ByteBuffer.allocateDirect(maxFruits * 5 * 4).order(ByteOrder.nativeOrder())
+
+    // یک "لایه دید" روی بافر که اجازه می‌دهد به جای بایت، مستقیماً با اعداد اعشاری (Float) کار کنیم
     private val floatBuffer = byteBuffer.asFloatBuffer()
+
+    // تابعی برای فرستادن کل آدرس حافظه به بخش‌های دیگر
     fun getBuffer(): ByteBuffer = byteBuffer
-    fun updateBufferFromList() {
-        // ۱. ابتدا نشانگر بافر را به نقطه شروع (صفر) برمی‌گردانیم
-        byteBuffer.clear()
 
-        // ۲. تمام میوه‌های باقی‌مانده در لیست را دوباره توی بافر می‌ریزیم
-        fruits.forEach { fruit ->
-            byteBuffer.putFloat(fruit.x)
-            byteBuffer.putFloat(fruit.y)
-            byteBuffer.putFloat(fruit.velX)
-            byteBuffer.putFloat(fruit.velY)
-            byteBuffer.putFloat(if (fruit.isHalf) 1f else 0f) // یا هر دیتای دیگری که داری
-        }
-
-        // ۳. موقعیت بافر را برای خواندن توسط اسمبلی آماده می‌کنیم
-        byteBuffer.flip()
-    }
-
+    // آپدیت کردن فیزیک (جایی که جادو اتفاق می‌افتد)
     fun updatePhysics() {
-        if (fruits.isEmpty()) return
+        if (fruits.isEmpty()) return // اگر میوه‌ای در صحنه نیست، وقت پردازنده را نگیر
 
-        // ۱. ریست کردن نشانگر بافر
+        // ۱. نشانگرِ نوشتن در حافظه را به نقطه صفر (شروع) برمی‌گردانیم
         floatBuffer.position(0)
 
-        // ۲. نوشتن دیتای کاتلین در حافظه خام (بدون ساخت آرایه جدید)
+        // ۲. انتقال اطلاعات از دنیای کاتلین به دنیای حافظه خام (RAM)
         for (i in fruits.indices) {
             val f = fruits[i]
-            floatBuffer.put(i * 5 + 0, f.x)
-            floatBuffer.put(i * 5 + 1, f.y)
-            floatBuffer.put(i * 5 + 2, f.velX)
-            floatBuffer.put(i * 5 + 3, f.velY)
-            floatBuffer.put(i * 5 + 4, f.rotation)
+            // اطلاعات هر میوه را در ردیف مخصوص خودش (i * 5) می‌چینیم
+            floatBuffer.put(i * 5 + 0, f.x)        // موقعیت افقی
+            floatBuffer.put(i * 5 + 1, f.y)        // موقعیت عمودی
+            floatBuffer.put(i * 5 + 2, f.velX)     // سرعت افقی
+            floatBuffer.put(i * 5 + 3, f.velY)     // سرعت عمودی
+            floatBuffer.put(i * 5 + 4, f.rotation) // زاویه چرخش
         }
 
-        // ۳. شلیک کردن آدرس حافظه به C++ و Assembly
+        // ۳. شلیک! آدرس حافظه را به موتور اسمبلی (NEON) می‌دهیم تا با سرعت نور محاسبات را انجام دهد
         processPhysicsNeonDirect(byteBuffer, fruits.size, gameSpeed, screenWidth)
 
-        // ۴. خواندن مستقیم نتایج اسمبلی از همان حافظه
+        // ۴. حالا اسمبلی مختصات جدید را در همان حافظه نوشته است؛ ما آن‌ها را پس می‌گیریم
         for (i in fruits.indices) {
             val f = fruits[i]
             f.x = floatBuffer.get(i * 5 + 0)
@@ -72,135 +62,162 @@ class GameEngine(
             f.velY = floatBuffer.get(i * 5 + 3)
             f.rotation = floatBuffer.get(i * 5 + 4)
         }
+        // با این کار، میوه‌ها در صفحه حرکت می‌کنند بدون اینکه میلی‌ثانیه‌ای تاخیر ایجاد شود
+    }
+    fun updateBufferFromList() {
+        // ۱. پاکسازی نشانگر بافر
+        // این دستور دیتای قبلی را پاک نمی‌کند، بلکه فقط "نشانگر" (Pointer) را به ابتدای حافظه می‌برد.
+        // مثل این است که به ابتدای یک نوار کاست برگردی تا آماده ضبط کردن (نوشتن) شوی.
+        byteBuffer.clear()
 
+        // ۲. حلقه برای ریختن دیتای تمام میوه‌ها در بافر
+        // به ازای هر میوه‌ای که در حال حاضر در بازی وجود دارد (مثلاً ۳ تا میوه):
+        fruits.forEach { fruit ->
+            // اطلاعات را با فرمت Float پشت سر هم در حافظه خام می‌چسبانیم
+            byteBuffer.putFloat(fruit.x)        // اول مختصات X
+            byteBuffer.putFloat(fruit.y)        // بعد مختصات Y
+            byteBuffer.putFloat(fruit.velX)     // بعد سرعت افقی
+            byteBuffer.putFloat(fruit.velY)     // بعد سرعت عمودی
+
+            // در نهایت یک وضعیت (IsHalf) را می‌فرستیم.
+            // چون اسمبلی فقط عدد می‌فهمد، True را به 1f و False را به 0f تبدیل می‌کنیم.
+            byteBuffer.putFloat(if (fruit.isHalf) 1f else 0f)
+        }
+
+        // ۳. آماده‌سازی برای خواندن (Flip)
+        // این خط بسیار حیاتی است! وقتی نوشتن تمام شد، flip نشانگر را دوباره به اول برمی‌گرداند
+        // و محدودیت (Limit) را روی آخرین جایی که نوشتیم تنظیم می‌کند.
+        // با این کار اسمبلی می‌فهمد دقیقاً تا کجا باید اطلاعات را بخواند و از مرز رد نشود.
+        byteBuffer.flip()
     }
 }
-//    private fun applyWallBounce(f: FruitState) {
-//        val margin = 80f // حاشیه امنیت دیواره‌ها
-//
-//        if (f.x < margin) {
-//            f.x = margin
-//            f.velX = Math.abs(f.velX) * 0.7f // معکوس کردن سرعت به سمت راست
-//        } else if (f.x > screenWidth - margin) {
-//            f.x = screenWidth - margin
-//            f.velX = -Math.abs(f.velX) * 0.7f // معکوس کردن سرعت به سمت چپ
-//        }
-//    }
-//}
 
-// ۱. تابع تولید میوه (اصلاح شده برای پرتاب عمودی‌تر)
-// در FruitLogic.kt تابع spawnFruits را اینگونه اصلاح کن:
 fun spawnFruits(fruits: SnapshotStateList<FruitState>, fruitTypes: List<FruitType>, screenWidth: Float) {
-    repeat(if (Random.nextInt(100) < 70) 2 else 3) {
+    // یک عدد تصادفی بین ۱ تا ۱۰۰ برای تعیین "شانس" (مثل قرعه‌کشی)
+    val chance = Random.nextInt(1, 101)
+
+    // تعیین تعداد میوه‌هایی که همزمان پرتاب می‌شوند (بر اساس شانس)
+    val count = when {
+        chance <= 15 -> 1      // ۱۵٪ احتمال تک میوه (آسان)
+        chance <= 40 -> 2      // ۲۵٪ احتمال دو میوه
+        chance <= 70 -> 3      // ۳۰٪ احتمال سه میوه
+        else -> 4              // ۳۰٪ احتمال چهار میوه همزمان (سخت و هیجانی)
+    }
+
+    // به تعداد تعیین شده، میوه می‌سازیم و به لیست اضافه می‌کنیم
+    repeat(count) {
+        // یک نوع میوه (سیب، طالبی و...) را به صورت تصادفی انتخاب کن
         val randomType = fruitTypes.random()
+
         fruits.add(FruitState(
+            // نقطه شروع X: میوه‌ها را وسط صفحه متمرکز می‌کنیم (۲۰٪ تا ۸۰٪ عرض صفحه) که به لبه‌ها نچسبند
             initialX = (screenWidth * 0.2f) + Random.nextFloat() * (screenWidth * 0.6f),
+
+            // نقطه شروع Y: پایین‌تر از لبه پایین صفحه (خارج از دید کاربر)
             initialY = 2300f,
+
+            // سرعت پرتاب به سمت بالا (منفی یعنی رو به بالا): عددی بین -90 تا -115
             velY = -90f - (Random.nextFloat() * 25f),
+
+            // سرعت افقی تصادفی: برای اینکه میوه‌ها کمی به چپ یا راست منحرف شوند
             velX = (Random.nextFloat() - 0.5f) * 14f,
+
+            // تصاویر مربوط به این نوع میوه (کامل، نیمه چپ، نیمه راست)
             image = randomType.whole,
             leftImage = randomType.left,
             rightImage = randomType.right,
-            // شروع با یک زاویه تصادفی که بازی طبیعی‌تر شود
+
+            // زاویه چرخش اولیه تصادفی برای طبیعی‌تر شدن
             initialRotation = Random.nextFloat() * 360f
         ))
     }
 }
 
-// ۲. مدیریت لمس و تشخیص برخورد
-// در فایل FruitLogic.kt
 
 suspend fun PointerInputScope.handleTouchInput(
     engine: GameEngine,
-    findHitFruitIndexDirect: (ByteBuffer, Int, Float, Float, Float) -> Int,
-    trailPoints: MutableList<Offset>,
-    onHit: (FruitState) -> Unit
+    findHitFruitIndexDirect: (ByteBuffer, Int, Float, Float, Float) -> Int, // تابع کمکی اسمبلی
+    trailPoints: MutableList<Offset>, // لیستی برای ذخیره مسیر حرکت انگشت
+    onHit: (FruitState) -> Unit // واکنشی که باید بعد از برخورد نشان دهیم
 ) {
-    awaitPointerEventScope {
+    awaitPointerEventScope { // شروع گوش دادن به رویدادهای لمس صفحه
         while (true) {
-            val event = awaitPointerEvent()
+            val event = awaitPointerEvent() // منتظر بمان تا کاربر صفحه را لمس کند
             event.changes.forEach { change ->
-                if (change.pressed) {
-                    val touchPos = change.position
-                    trailPoints.add(touchPos)
+                if (change.pressed) { // اگر انگشت روی صفحه فشار داده شده (در حال کشیدن)
+                    val touchPos = change.position // مختصات دقیق انگشت (X, Y) را بگیر
+                    trailPoints.add(touchPos) // این نقطه را به لیست "رد شمشیر" اضافه کن
 
                     if (engine.fruits.isNotEmpty()) {
-                        // --- شروع حلقه پاکسازی (Multi-Hit Cleaning) ---
-                        // این حلقه تا زمانی که اسمبلی میوه‌ای زیر انگشت پیدا کنه، تکرار میشه
+                        // --- شروع حلقه پاکسازی (اگر چند میوه روی هم بودند، همه را ببرد) ---
                         while (true) {
+                            // از اسمبلی بپرس: "آیا در این مختصات لمس، میوه‌ای وجود دارد؟"
                             val hitIndex = findHitFruitIndexDirect(
-                                engine.getBuffer(), // بافر مستقیم که اسمبلی روش اسکن می‌کنه
-                                engine.fruits.size,
+                                engine.getBuffer(), // بافر مستقیم اطلاعات میوه‌ها
+                                engine.fruits.size, // تعداد کل میوه‌ها
                                 touchPos.x,
                                 touchPos.y,
-                                120f // شعاع برخورد
+                                120f // شعاع (Radius) حساسیت شمشیر (هر چه بیشتر باشد، بریدن آسان‌تر است)
                             )
 
-                            // اگر اسمبلی -1 برگردونه، یعنی دیگه هیچ میوه‌ای زیر انگشت نیست
+                            // اگر اسمبلی عددی غیر از -1 برگرداند، یعنی یک میوه پیدا شد!
                             if (hitIndex != -1 && hitIndex < engine.fruits.size) {
                                 val f = engine.fruits[hitIndex]
 
-                                if (!f.isHalf) {
-                                    onHit(f) // اجرای افکت انفجار
-                                    engine.fruits.removeAt(hitIndex) // حذف از لیست کاتلین
+                                if (!f.isHalf) { // فقط میوه‌های "کامل" را ببر (نیمه‌ها دوباره بریده نمی‌شوند)
+                                    onHit(f) // صدای بریدن یا لرزش را اجرا کن
+                                    engine.fruits.removeAt(hitIndex) // میوه کامل را از لیست حذف کن
 
-                                    // نکته حیاتی:
-                                    // بعد از حذف از لیست، باید بافر رو آپدیت کنی تا اسمبلی در دور بعدی
-                                    // بدونه که میوه حذف شده و دوباره همون رو پیدا نکنه (جلوگیری از Loop بی‌پایان)
+                                    // !!! خیلی مهم: حالا که لیست عوض شد، باید بافر را سریع آپدیت کنیم
+                                    // تا اسمبلی در دور بعدیِ همین حلقه، میوه حذف شده را دوباره نبیند
                                     engine.updateBufferFromList()
                                 } else {
-                                    // اگر به هر دلیلی میوه نصف شده بود و هنوز در لیست بود، بشکن که گیر نکنی
-                                    break
+                                    break // اگر میوه از قبل نصف بود، بقیه حلقه را رها کن
                                 }
                             } else {
-                                // هیچ میوه دیگه‌ای پیدا نشد، از حلقه while خارج شو
-                                break
+                                break // اگر هیچ میوه‌ای پیدا نشد، از حلقه جستجو خارج شو
                             }
                         }
-                        // --- پایان حلقه پاکسازی ---
                     }
                 } else {
-                    trailPoints.clear()
+                    // اگر کاربر انگشتش را از روی صفحه برداشت
+                    trailPoints.clear() // رد شمشیر را پاک کن تا خط سفید غیب شود
                 }
             }
         }
     }
 }
-
-// ۳. تابع مدیریت دو نیم شدن میوه با افکت فیزیکی
-// در فایل FruitLogic.kt
-
 fun handleFruitSplit(
-    fruits: SnapshotStateList<FruitState>,
-    f: FruitState,
-    getSplitPhysics: (Float, Float) -> FloatArray // دریافت تابع اسمبلی
+    fruits: SnapshotStateList<FruitState>, // لیست اصلی میوه‌ها برای اضافه کردن نیمه‌ها
+    f: FruitState, // میوه‌ای که همین الان بریده شد
+    getSplitPhysics: (Float, Float) -> FloatArray // تابع اسمبلی برای محاسبه سرعت انفجار
 ) {
-    // ۱. فراخوانی تابع اسمبلی برای محاسبه سرعت‌های جدید
-    // اسمبلی بر اساس vx و vy فعلی، سرعت‌های انفجاری محاسبه می‌کند
+    // ۱. از اسمبلی می‌خواهیم سرعت‌های جدید را بر اساس فیزیک محاسباتی به ما بدهد
+    // ما سرعت فعلی میوه (vx, vy) را می‌دهیم و او ۳ سرعت جدید (چپ، راست و پرتاب عمودی) برمی‌گرداند
     val splitResults = getSplitPhysics(f.velX, f.velY)
 
-    val newVelX_Left = splitResults[0]
-    val newVelX_Right = splitResults[1]
-    val newVelY = splitResults[2]
+    val newVelX_Left = splitResults[0]  // سرعت پرتاب شدن نیمه چپ به سمت بیرون
+    val newVelX_Right = splitResults[1] // سرعت پرتاب شدن نیمه راست به سمت بیرون
+    val newVelY = splitResults[2]       // سرعت پرتاب رو به بالای هر دو نیمه
 
-    // ۲. ایجاد نیمه چپ با سرعت محاسبه شده در اسمبلی
+    // ۲. ایجاد و اضافه کردن نیمه چپ به بازی
     fruits.add(FruitState(
-        initialX = f.x - 10f,
+        initialX = f.x - 10f,    // کمی فاصله به چپ نسبت به مرکز میوه اصلی
         initialY = f.y,
-        velY = newVelY,
-        velX = newVelX_Left,
-        image = f.leftImage!!,
-        isHalf = true,
-        initialRotation = f.rotation
+        velY = newVelY,          // سرعتی که اسمبلی حساب کرده (معمولاً کمی رو به بالاست)
+        velX = newVelX_Left,     // پرتاب به سمت چپ
+        image = f.leftImage!!,   // تصویر نیمه چپ میوه
+        isHalf = true,           // علامت‌گذاری به عنوان نیمه (که امتیاز دوباره ندهد)
+        initialRotation = f.rotation // شروع چرخش از همان زاویه‌ای که میوه اصلی بود
     ))
 
-    // ۳. ایجاد نیمه راست با سرعت محاسبه شده در اسمبلی
+    // ۳. ایجاد و اضافه کردن نیمه راست به بازی
     fruits.add(FruitState(
-        initialX = f.x + 10f,
+        initialX = f.x + 10f,    // کمی فاصله به راست نسبت به مرکز میوه اصلی
         initialY = f.y,
         velY = newVelY,
-        velX = newVelX_Right,
-        image = f.rightImage!!,
+        velX = newVelX_Right,    // پرتاب به سمت راست
+        image = f.rightImage!!,  // تصویر نیمه راست میوه
         isHalf = true,
         initialRotation = f.rotation
     ))
