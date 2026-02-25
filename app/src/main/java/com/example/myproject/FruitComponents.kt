@@ -1,6 +1,8 @@
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -17,6 +19,7 @@ import kotlin.random.Random
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.text.font.FontWeight
 import com.example.myproject.FruitState
 
 @Composable
@@ -82,6 +85,52 @@ fun SpeedControlSlider(
         }
     }
 }
+@Composable
+fun ScoreAndLivesDisplay(score: Int , lives : Int) {
+    Column(modifier = Modifier.padding(25.dp)) {
+        ScoreDisplay(score)
+        Text("Lives: ${"❤️".repeat(lives)}", fontSize = 24.sp, color = Color.Red)
+    }
+}
+
+@Composable
+fun GameOverOverlay(
+    score: Int,
+    onRestart: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            // ایجاد یک لایه‌ی نیمه‌شفاف مشکی روی محیط بازی
+            .background(Color.Black.copy(alpha = 0.7f)),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            // متن اصلی با استایل درشت و قرمز
+            Text(
+                text = "GAME OVER",
+                fontSize = 48.sp,
+                color = Color.Red,
+                fontWeight = FontWeight.Bold
+            )
+
+            // نمایش امتیاز نهایی کاربر
+            Text(
+                text = "Score: $score",
+                fontSize = 32.sp,
+                color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // دکمه شروع مجدد
+            Button(onClick = onRestart) {
+                Text("Try Again")
+            }
+        }
+    }
+}
+
 fun DrawScope.drawBladeTrail(points: List<Offset>) {
     if (points.size > 1) {
         val path = Path().apply {
