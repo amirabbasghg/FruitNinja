@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>گزارش تحلیلی جامع مفاهیم پایه، معماری و مفاهیم عملیاتی سیستم‌های عامل</title>
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Vazirmatn', 'Tahoma', 'Segoe UI', sans-serif;
+    direction: rtl;
+    line-height: 1.8;
+    background: #121212;
+    color: #e0e0e0;
+    padding: 40px 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    background: #1e1e1e;
+    padding: 50px 60px;
+    border-radius: 14px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.07);
+  }
+
+  /* ===== Headings ===== */
+  h1 {
+    border-right: 7px solid #82b1ff;
+    padding-right: 18px;
+    color: #82b1ff;
+    font-size: 26px;
+    font-weight: 800;
+    margin-top: 10px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  h2 {
+    border-right: 6px solid #67e8f9;
+    padding-right: 16px;
+    color: #67e8f9;
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 48px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  h3 {
+    border-right: 5px solid #a5b4fc;
+    padding-right: 14px;
+    color: #a5b4fc;
+    font-size: 19px;
+    font-weight: 700;
+    margin-top: 36px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  /* ===== Paragraphs ===== */
+  p {
+    margin: 14px 0;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  /* ===== Inline English badges ===== */
+  .en-badge {
+    display: inline-block;
+    background: #1f2937;
+    color: #82b1ff;
+    padding: 1px 9px;
+    border-radius: 999px;
+    font-size: 0.86em;
+    font-weight: 600;
+    border: 1px solid #374151;
+    white-space: nowrap;
+    direction: ltr;
+    unicode-bidi: embed;
+    margin: 0 2px;
+    vertical-align: baseline;
+    font-family: 'Vazirmatn', 'Segoe UI', sans-serif;
+  }
+
+  /* ===== Lists ===== */
+  ul, ol {
+    padding-right: 28px;
+    margin: 18px 0;
+  }
+
+  li {
+    margin: 10px 0;
+    text-align: justify;
+  }
+
+  ol li::marker {
+    font-weight: 800;
+    color: #82b1ff;
+  }
+
+  ul li::marker {
+    color: #67e8f9;
+  }
+
+  /* ===== Callout Boxes ===== */
+  .callout {
+    border-radius: 10px;
+    padding: 24px 26px 20px;
+    margin: 28px 0 24px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .callout-definition {
+    background: #1a365d;
+    border: 1px solid #1e40af;
+    border-right: 5px solid #82b1ff;
+  }
+
+  .callout-warning {
+    background: #4a2e2b;
+    border: 1px solid #991b1b;
+    border-right: 5px solid #ef4444;
+  }
+
+  .callout-example {
+    background: #4a3b1c;
+    border: 1px solid #854d0e;
+    border-right: 5px solid #eab308;
+  }
+
+  .callout-badge {
+    position: absolute;
+    top: -13px;
+    right: 22px;
+    padding: 4px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  .callout-definition .callout-badge {
+    background: #1e3a8a;
+  }
+
+  .callout-warning .callout-badge {
+    background: #dc2626;
+  }
+
+  .callout-example .callout-badge {
+    background: #ca8a04;
+  }
+
+  .callout p:first-child {
+    margin-top: 4px;
+  }
+
+  .callout p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* inner dashed box inside example callouts */
+  .inner-box {
+    border: 1px dashed #d4a72c;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 14px 0;
+  }
+
+  /* ===== Tables ===== */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1e1e1e;
+    font-size: 15px;
+  }
+
+  th {
+    background: #1e40af;
+    color: #ffffff;
+    padding: 13px 15px;
+    text-align: right;
+    font-weight: 700;
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  th:last-child {
+    border-left: none;
+  }
+
+  td {
+    padding: 13px 15px;
+    border-bottom: 1px solid #374151;
+    border-left: 1px solid #374151;
+    text-align: right;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+
+  td:last-child {
+    border-left: none;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:nth-child(even) td {
+    background: #1f2937;
+  }
+
+  td:first-child {
+    font-weight: 600;
+    background: #374151;
+    color: #f3f4f6;
+  }
+
+  /* ===== Code / Pre (ASCII diagram) ===== */
+  pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 22px 24px;
+    border-radius: 10px;
+    direction: ltr;
+    text-align: left;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 22px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    white-space: pre;
+  }
+
+  code {
+    font-family: 'Consolas', 'Courier New', monospace;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    .container {
+      padding: 28px 20px;
+    }
+    h1 { font-size: 22px; }
+    h2 { font-size: 19px; }
+    h3 { font-size: 17px; }
+    td, th { padding: 10px 11px; font-size: 14px; }
+  }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>گزارش تحلیلی جامع مفاهیم پایه، معماری و مفاهیم عملیاتی سیستم‌های عامل</h1>
+
+<h2>۱. تعریف سیستم‌عامل، هسته (<span class="en-badge">Kernel</span>) و تفکیک برنامه‌های سیستم و کاربردی</h2>
+
+<h3>۱.۱. تعریف جامع سیستم‌عامل و هسته (<span class="en-badge">Kernel</span>)</h3>
+
+<p>سیستم‌عامل به عنوان اصلی‌ترین لایه نرم‌افزاری سیستم کامپیوتری، نقش واسط مدیریت منابع میان سخت‌افزار و کاربر را بر عهده دارد. وظیفه اصلی این لایه، تخصیص بهینه، امن و عادلانه منابع سخت‌افزاری (نظیر پردازنده، حافظه اصلی و تجهیزات ورودی/خروجی) و ایجاد محیطی مجرد (<span class="en-badge">Abstracted</span>) برای اجرای بدون خطای پردازه‌ها است. در این ساختار، «هسته» (<span class="en-badge">Kernel</span>) بخش مرکزی و حیاتی سیستم‌عامل محسوب می‌شود که کنترل مستقیم و کامل سخت‌افزار را در دست دارد.</p>
+
+<div class="callout callout-definition">
+  <span class="callout-badge">تعریف</span>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>مفهوم</th>
+          <th>تعریف دقیق علمی</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>سیستم‌عامل (<span class="en-badge">Operating System</span>)</td>
+          <td>نرم‌افزار پایه‌ای و واسط مدیریت منابع سخت‌افزاری و نرم‌افزاری که با ایجاد یک لایه تجرید (<span class="en-badge">Abstraction</span>)، محیطی امن، قابل اعتماد و کارآمد برای اجرای پردازه‌ها فراهم می‌سازد.</td>
+        </tr>
+        <tr>
+          <td>هسته (<span class="en-badge">Kernel</span>)</td>
+          <td>بخش اصلی و همواره در حال اجرای سیستم‌عامل که از لحظه بارگذاری سیستم (<span class="en-badge">Bootstrapping</span>) تا خاموشی کامل در حافظه اصلی (<span class="en-badge">RAM</span>) مقیم بوده و در حالت هسته (<span class="en-badge">Kernel Mode</span>) با دسترسی کامل به سخت‌افزار اجرا می‌شود.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h3>۱.۲. تفاوت برنامه‌های سیستم (<span class="en-badge">System Programs</span>) و برنامه‌های کاربردی (<span class="en-badge">Application Programs</span>)</h3>
+
+<p>برای تحلیل ساختار نرم‌افزاری سیستم‌های کامپیوتری، تفکیک برنامه‌های مرتبط با مدیریت سیستم از نرم‌افزارهای متکی بر کاربر ضرورت دارد:</p>
+
+<ul>
+  <li><strong>برنامه‌های سیستم (<span class="en-badge">System Programs</span>):</strong> این برنامه‌ها محیطی مناسب برای توسعه، اجرا، دیباگ و مدیریت ابزارهای سیستم فراهم می‌آورند. مفسرهای خط فرمان (<span class="en-badge">Shells</span>)، کامپایلرها، اسمبلرها، ابزارهای مدیریت فایل و سرویس‌دهنده‌های سیستم (<span class="en-badge">System Daemons</span>) در این دسته جای می‌گیرند. این نرم‌افزارها همراه با مجموعه سیستم‌عامل عرضه می‌شوند اما بخشی از کدهای درون هسته (<span class="en-badge">Kernel</span>) به شمار نرفته و مستقیماً در حالت کاربر (<span class="en-badge">User Mode</span>) اجرا می‌گردند.</li>
+  <li><strong>برنامه‌های کاربردی (<span class="en-badge">Application Programs</span>):</strong> نرم‌افزارهایی هستند که مستقیماً توسط کاربران نهایی برای حل مسائل کاری، محاسباتی یا تفریحی خاص طراحی شده‌اند. مرورگرهای وب، پردازشگرهای متن، سیستم‌های مدیریت پایگاه داده و ابزارهای گرافیکی نمونه‌هایی از این دسته‌اند. این برنامه‌ها هیچ‌گونه دسترسی مستقیمی به سخت‌افزار نداشته و تمامی درخواستی‌های تخصیص حافظه یا ورودی/خروجی خود را از طریق فراخوان‌های سیستم (<span class="en-badge">System Calls</span>) به هسته منتقل می‌سازند.</li>
+</ul>
+
+<h2>۲. معماری سیستم‌های کامپیوتری و کارکرد مبتنی بر وقفه (<span class="en-badge">Interrupt-Driven OS</span>)</h2>
+
+<h3>۲.۱. مفهوم سیستم‌عامل مبتنی بر وقفه و انواع وقفه</h3>
+
+<p>سیستم‌های عامل مدرن ساختاری کاملاً رویدادمحور (<span class="en-badge">Event-Driven</span>) دارند؛ بدین معنا که در صورت عدم وجود رویداد یا پردازه آماده به‌کار، پردازنده مرکزی (<span class="en-badge">CPU</span>) در حالت انتظار (<span class="en-badge">Idle</span>) باقی می‌ماند. رویدادها از طریق «وقفه» (<span class="en-badge">Interrupt</span>) به پردازنده اعلام می‌شوند. وقفه‌ها بر اساس منشأ صدور به دو دسته اصلی وقفه‌های سخت‌افزاری و تله‌ها/استثناها (<span class="en-badge">Software Interrupts / Traps</span>) تقسیم می‌شوند:</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>ویژگی</th>
+        <th>وقفه سخت‌افزاری (<span class="en-badge">Hardware Interrupt</span>)</th>
+        <th>تله / استثنا (<span class="en-badge">Trap / Exception</span>)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>منشأ صدور</td>
+        <td>سیگنال‌های الکتریکی ارسال‌شده از سوی کنترل‌کننده‌های سخت‌افزاری (مانند گذرگاه دیسک، کارت شبکه یا کیبورد)</td>
+        <td>دستورات صریح نرم‌افزاری (<span class="en-badge">int</span> یا <span class="en-badge">syscall</span>)، خطاهای محاسباتی (مانند تقسیم بر صفر) یا خطاهای دسترسی به حافظه (<span class="en-badge">Page Fault</span>)</td>
+      </tr>
+      <tr>
+        <td>همزمانی (<span class="en-badge">Synchronicity</span>)</td>
+        <td>ناهمگام (<span class="en-badge">Asynchronous</span>)؛ وقوع آن کاملاً مستقل از دستور جاری در حال اجرای <span class="en-badge">CPU</span> است.</td>
+        <td>همگام (<span class="en-badge">Synchronous</span>)؛ به صورت مستقیم ناشی از اجرای دستورالعمل جاری پردازنده است.</td>
+      </tr>
+      <tr>
+        <td>هدف و کارکرد</td>
+        <td>اعلام اتمام عملیات ورودی/خروجی، ورود داده جدید یا تغییر وضعیت تجهیزات سخت‌افزاری</td>
+        <td>مدیریت خطاهای برنامه‌نویسی یا درخواست خدمات سطح هسته از طریق <span class="en-badge">System Call</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout callout-warning">
+  <span class="callout-badge">نکته</span>
+  <p><strong>نکته معماری و امنیتی:</strong> در ساختار سیستم‌عامل، وقفه‌های سخت‌افزاری و تله‌های نرم‌افزاری از یک جدول بردار وقفه (<span class="en-badge">Interrupt Vector Table - IVT</span> یا <span class="en-badge">Interrupt Descriptor Table - IDT</span>) مشترک استفاده می‌کنند. از آنجا که فراخوان‌های سیستم (<span class="en-badge">System Calls</span>) نوعی تله نرم‌افزاری هستند، آرگومان‌های خود را تعمداً از طریق ثبات‌های <span class="en-badge">CPU</span> منتقل می‌سازند؛ در حالی که وقفه‌های سخت‌افزاری به صورت ناهمگام رخ می‌دهند. اگر هسته سیستم‌عامل ثبات‌های عمومی را پیش از تحویل دادن کنترل به روال رسیدگی به وقفه به شکل امن پاکسازی (<span class="en-badge">Scrub</span>) نکند، مخاطرات امنیتی افشای داده یا حملات تزریق وقفه (مانند سناریوی حمله <span class="en-badge">Heckler</span>) ایجاد خواهد شد.</p>
+</div>
+
+<h3>۲.۲. روند و مکانیزم مدیریت وقفه (<span class="en-badge">Interrupt Handling</span>)</h3>
+
+<p>هنگام وقوع وقفه، سخت‌افزار و هسته سیستم‌عامل گام‌های دقیق و متوالی زیر را جهت حفظ یکپارچگی پردازه متوقف‌شده و مدیریت رویداد طی می‌کنند:</p>
+
+<ol>
+  <li><strong>ورود سیگنال وقفه یا صدور تله:</strong> خط وقفه سخت‌افزاری روی گذرگاه فعال شده یا دستور تله/استثنا توسط واحد اجرای <span class="en-badge">CPU</span> رمزگشایی می‌شود.</li>
+  <li><strong>توقف اجرا و ذخیره‌سازی وضعیت روی پشتهٔ هسته (<span class="en-badge">Kernel Stack</span>):</strong> <span class="en-badge">CPU</span> اجرای دستور جاری را تکمیل کرده و بلافاصله وضعیت اجرایی شامل اشاره‌گر دستور بعدی (<span class="en-badge">Program Counter - PC</span>)، ثبات وضعیت برنامه (<span class="en-badge">Program Status Word - PSW</span>) و ثبات‌های عمومی را مستقیماً روی پشتهٔ هسته (<span class="en-badge">Kernel Stack</span>) پردازه جاری (و نه پشته کاربر) ذخیره می‌کند تا از دستکاری آن توسط لایه کاربر جلوگیری شود.</li>
+  <li><strong>مراجعه به جدول بردار وقفه (<span class="en-badge">IVT / IDT</span>):</strong> <span class="en-badge">CPU</span> با استفاده از شناسه یا شماره وقفه (<span class="en-badge">Interrupt Vector</span>) به جدول بردار وقفه مراجعه کرده و آدرس پایه روال رسیدگی مربوطه را استخراج می‌نماید.</li>
+  <li><strong>تغییر حالت و فراخوانی روال رسیدگی (<span class="en-badge">Interrupt Handler</span>):</strong> سخت‌افزار بیت حالت (<span class="en-badge">Mode Bit</span>) را به حالت هسته (۰) تغییر داده و کنترل اجرا را به آدرس استخراج شده از روال رسیدگی به وقفه منتقل می‌کند.</li>
+  <li><strong>اتمام رسیدگی و بازیابی وضعیت (<span class="en-badge">Context Restoration</span>):</strong> پس از اجرای کامل کد رسیدگی در هسته، با اجرای دستورالعمل بازگشت از وقفه (مانند <span class="en-badge">IRET</span>)، وضعیت ثبات‌ها، <span class="en-badge">PSW</span> و <span class="en-badge">PC</span> از پشتهٔ هسته بازیابی شده، <span class="en-badge">Mode Bit</span> مجدداً برابر ۱ (<span class="en-badge">User Mode</span>) تنظیم و اجرای پردازه کاربر از همان نقطه توقف از سر گرفته می‌شود.</li>
+</ol>
+
+<h2>۳. چندبرنامگی (<span class="en-badge">Multiprogramming</span>) در برابر چندوظیفگی / اشتراک زمانی (<span class="en-badge">Timesharing / Multitasking</span>)</h2>
+
+<h3>۳.۱. چندبرنامگی (<span class="en-badge">Multiprogramming</span>) و ارتقای بهره‌وری <span class="en-badge">CPU</span></h3>
+
+<p>در سیستم‌های تک‌برنامه‌ای کلاسیک، هرگاه پردازنده در حال اجرای برنامه‌ای بود که نیاز به عملیات ورودی/خروجی (<span class="en-badge">I/O</span>) داشت، <span class="en-badge">CPU</span> تا زمان اتمام عملیات مکانیکی یا الکترونیکی <span class="en-badge">I/O</span> به حالت معطل (<span class="en-badge">Idle</span>) در می‌آمد که این امر موجب افت شدید بهره‌وری پردازنده (<span class="en-badge">CPU Utilization</span>) می‌شد.</p>
+
+<p>مفهوم چندبرنامگی (<span class="en-badge">Multiprogramming</span>) برای حل این مشکل طراحی شد. در این معماری، سیستم‌عامل چندین پردازه‌ آماده به‌کار را به طور همزمان در حافظه اصلی (<span class="en-badge">RAM</span>) نگه می‌دارد. به محض اینکه پردازه جاری برای انجام ورودی/خروجی متوقف شده یا در حالت انتظار (<span class="en-badge">Wait State</span>) قرار گیرد، سیستم‌عامل کنترل <span class="en-badge">CPU</span> را از آن پردازنده سلب کرده و به پردازنده دیگری در حافظه می‌سپارد. این مکانیزم سوئیچ پیاپی، زمان معطلی <span class="en-badge">CPU</span> را به حداقل ممکن رسانده و بهره‌وری سخت‌افزار را به شکل چشمگیری افزایش می‌دهد.</p>
+
+<h3>۳.۲. چندوظیفگی / اشتراک زمانی (<span class="en-badge">Timesharing / Multitasking</span>)</h3>
+
+<p>چندوظیفگی یا اشتراک زمانی، توسعه متزاید و تعاملی چندبرنامگی است. در این معماری، سوئیچ پردازنده میان پردازه‌ها صرفاً منتظر عملیات <span class="en-badge">I/O</span> نمی‌ماند، بلکه بر اساس برش‌های زمانی بسیار کوتاه (<span class="en-badge">Time Quantum / Time Slice</span>) و با فرمان وقفه تایمر سخت‌افزاری صورت می‌گیرد. سرعت سوئیچ به قدری بالا است که این حس را در کاربران ایجاد می‌کند که تمامی برنامه‌ها به صورت همزمان در حال اجرا هستند و امکان تعامل زنده (<span class="en-badge">Interactive</span>) را فراهم می‌سازد.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>عنوان پارامتر</th>
+        <th>چندبرنامگی (<span class="en-badge">Multiprogramming</span>)</th>
+        <th>چندوظیفگی / اشتراک زمانی (<span class="en-badge">Timesharing</span>)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>هدف اصلی</td>
+        <td>حداکثر ساختن بهره‌وری پردازنده (<span class="en-badge">CPU Utilization</span>)</td>
+        <td>حداقل ساختن زمان پاسخ‌دهی (<span class="en-badge">Response Time</span>) و تعامل زنده کاربر</td>
+      </tr>
+      <tr>
+        <td>مکانیزم سوئیچ پردازنده</td>
+        <td>سوئیچ غیرفعال؛ تنها هنگام ورود پردازنده به انتظار <span class="en-badge">I/O</span> یا اتمام اجرا</td>
+        <td>سوئیچ فعال؛ بر اساس پایان برش زمانی (<span class="en-badge">Quantum</span>) یا وقفه‌های دوره‌ای تایمر</td>
+      </tr>
+      <tr>
+        <td>میزان تعامل (<span class="en-badge">Interactivity</span>)</td>
+        <td>بسیار پایین یا فاقد تعامل در حین پردازش‌های دسته‌ای (<span class="en-badge">Batch</span>)</td>
+        <td>بسیار بالا؛ پاسخ‌دهی آنی به ورودی‌های کاربر در کسر کوچکی از ثانیه</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>۴. حالت دوگانه کارکرد (<span class="en-badge">Dual-Mode Operation</span>) و انتقال حالت</h2>
+
+<h3>۴.۱. ساختار حالت کاربر (<span class="en-badge">User Mode</span>) و حالت هسته (<span class="en-badge">Kernel Mode</span>)</h3>
+
+<p>برای تضمین امنیت و جلوگیری از اختلال در کارکرد سیستم‌عامل توسط پردازه‌های معیوب یا مخرب، سخت‌افزار پردازنده باید از حالت دوگانه کارکرد پشتیبانی کند. این ویژگی ساختاری به وسیله یک پایه یا ثبات سخت‌افزاری به نام بیت حالت (<span class="en-badge">Mode Bit</span>) پیاده‌سازی می‌شود:</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>پارامتر / سطح دسترسی</th>
+        <th>حالت کاربر (<span class="en-badge">User Mode</span>)</th>
+        <th>حالت هسته / سرپرست (<span class="en-badge">Kernel / Supervisor Mode</span>)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>مقدار بیت حالت (<span class="en-badge">Mode Bit</span>)</td>
+        <td>عدد ۱</td>
+        <td>عدد ۰</td>
+      </tr>
+      <tr>
+        <td>دسترسی به منابع سخت‌افزاری</td>
+        <td>محدود؛ عدم دسترسی مستقیم به ثبات‌های کنترلی، حافظه سیستم و <span class="en-badge">I/O</span></td>
+        <td>کامل؛ دسترسی نامحدود به تمامی فضای حافظه، ثبات‌ها و تجهیزات سخت‌افزاری</td>
+      </tr>
+      <tr>
+        <td>اجرای دستورات ممتاز (<span class="en-badge">Privileged</span>)</td>
+        <td>غیرمجاز؛ اجرا منجر به صدور خطای تله سخت‌افزاری (<span class="en-badge">Illegal Instruction Trap</span>) می‌شود.</td>
+        <td>مجاز؛ امکان اجرای تمامی دستورات کنترلی و ممتاز پردازنده</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>۴.۲. مکانیزم انتقال حالت (<span class="en-badge">Mode Transition</span>)</h3>
+
+<p>انتقال حالت از <span class="en-badge">User Mode</span> به <span class="en-badge">Kernel Mode</span> و بازگشت از آن، روندی سخت‌افزاری-نرم‌افزاری و کاملاً حفاظت‌شده است:</p>
+
+<ol>
+  <li><strong>درخواست سرویس یا وقوع رویداد:</strong> پردازه کاربر برای انجام کارهایی مانند خواندن فایل، یک دستور فراخوان سیستم (<span class="en-badge">syscall</span> یا <span class="en-badge">sysenter</span>) اجرا کرده یا یک وقفه سخت‌افزاری / استثنا رخ می‌دهد.</li>
+  <li><strong>ذخیره‌سازی وضعیت روی پشتهٔ هسته:</strong> سخت‌افزار به طور خودکار ثبات وضعیت (<span class="en-badge">PSW</span>)، اشاره‌گر دستور (<span class="en-badge">PC</span>) و ثبات‌های عمومی را روی پشتهٔ هسته (<span class="en-badge">Kernel Stack</span>) مربوط به همان پردازه ذخیره می‌کند.</li>
+  <li><strong>تغییر سخت‌افزاری <span class="en-badge">Mode Bit</span> به ۰:</strong> پردازنده <span class="en-badge">Mode Bit</span> را از ۱ به ۰ تغییر داده و حالت اجرا را به <span class="en-badge">Kernel / Supervisor Mode</span> ارتقا می‌دهد.</li>
+  <li><strong>انتقال کنترل به روال هسته:</strong> آدرس روال مربوط به <span class="en-badge">System Call</span> یا <span class="en-badge">Handler</span> از جدول <span class="en-badge">IDT</span> استخراج شده و کنترل به هسته سیستم‌عامل منتقل می‌شود.</li>
+  <li><strong>اجرای دستورات ممتاز (<span class="en-badge">Privileged Instructions</span>):</strong> هسته صحت درخواست را اعتبارسنجی کرده و دستورات ممتاز لازم (مانند دسترسی به ثبات‌های کنترلی دیسک) را اجرا می‌نماید.</li>
+  <li><strong>بازیابی وضعیت و بازگشت به حالت کاربر:</strong> هسته دستور بازگشت از وقفه را اجرا کرده، وضعیت ثبات‌ها را از پشتهٔ هسته بازیابی می‌کند، <span class="en-badge">Mode Bit</span> را مجدداً برابر ۱ قرار داده و اجرای پردازه کاربر را در <span class="en-badge">User Mode</span> ادامه می‌دهد.</li>
+</ol>
+
+<h2>۵. مخاطرات عدم وجود <span class="en-badge">Dual-Mode</span> و معماری‌های پیشرفته (<span class="en-badge">Multi-mode / Virtualization</span>)</h2>
+
+<h3>۵.۱. بررسی مخاطرات و عدم امنیت در سیستم‌های فاقد <span class="en-badge">Dual-Mode</span></h3>
+
+<p>در سیستم‌عامل‌های قدیمی فاقد پشتیبانی سخت‌افزاری <span class="en-badge">Dual-Mode</span> (مانند <span class="en-badge">MS-DOS</span> یا نسخه‌های اولیه مکینتاش)، برنامه‌های کاربردی در همان سطح دسترسی هسته اجرا می‌شدند. پیامدهای معماری این ساختار عبارت بودند از:</p>
+
+<ul>
+  <li><strong>دسترسی مستقیم پردازه‌ها به سخت‌افزار:</strong> یک پردازه کاربر می‌توانست بدون نظارت هسته، ثبات‌های کنترلی تجهیزات ورودی/خروجی و کل فضای آدرس‌دهی حافظه را تغییر دهد.</li>
+  <li><strong>تخریب کدهای هسته و فروپاشی سیستم:</strong> وجود یک اشاره‌گر اشتباه (<span class="en-badge">Wild Pointer</span>) در برنامه کاربر می‌توانست بخش‌های مقیم هسته <span class="en-badge">MS-DOS</span> در حافظه را بازنویسی کرده و منجر به فروپاشی کامل سیستم یا خروج غیرمنتظره گردد.</li>
+  <li><strong>عدم امکان ایجاد مرزهای حفاظتی (<span class="en-badge">Isolation Gap</span>):</strong> به دلیل عدم وجود دستورات ممتاز، هیچ‌گونه مکانیزمی برای جداسازی حریم داده‌ای پردازه‌ها وجود نداشت و یک برنامه مخرب می‌توانست داده‌های سایر برنامه‌ها را افشا یا تخریب کند.</li>
+</ul>
+
+<h3>۵.۲. قابلیت‌های جدید <span class="en-badge">Multi-mode</span> و پشتیبانی از ناظر ماشین مجازی (<span class="en-badge">VMM</span>)</h3>
+
+<p>در مجازی‌سازی کلاسیک، بر اساس قضیه پوپک-گلدبرگ (<span class="en-badge">Popek-Goldberg Virtualization Requirements</span>)، یک معماری پردازنده زمانی کاملاً مجازی‌پذیر است که تمامی دستورات حساس (<span class="en-badge">Sensitive Instructions</span>) آن جزو دستورات ممتاز (<span class="en-badge">Privileged Instructions</span>) باشند تا هنگام اجرا در حالت کاربر، تله ایجاد کنند (روش <span class="en-badge">Trap-and-Emulate</span>).</p>
+
+<p>اما معماری‌های کلاسیک <span class="en-badge">x86</span> دارای دستورات حساسی بودند که در حالت کاربر اجرا می‌شدند بدون آنکه تله ایجاد کنند (<span class="en-badge">Sensitive Non-Trappable Instructions</span>؛ مانند دستوراتی که ثبات‌های وضعیت ماشین را بدون ایجاد استثنا می‌خوانند). این مسئله باعث شکست روش سنتی <span class="en-badge">Trap-and-Emulate</span> در <span class="en-badge">x86</span> می‌شد.</p>
+
+<p>برای رفع این مشکل، پردازنده‌های مدرن حالت‌های کارکرد چندگانه (<span class="en-badge">Multi-mode Operation</span>) و فناوری‌های مجازی‌سازی سخت‌افزاری (نظیر <span class="en-badge">Intel VT-x</span> و <span class="en-badge">AMD-V</span>) را معرفی کردند. در این معماری، یک لایه جدید زیر لایه‌های کلاسیک به نام <span class="en-badge">Ring -1</span> یا حالت‌های کارکرد ریشه و غیرریشه (<span class="en-badge">VMX Root Operation</span> و <span class="en-badge">VMX Non-Root Operation</span>) اضافه شده است:</p>
+
+<pre>+-------------------------------------------------------+
+| User Applications          (User Mode / Ring 3)       |
++-------------------------------------------------------+
+| Guest Operating System     (Kernel Mode / Ring 0)     |  &lt;-- VMX Non-Root Operation
++-------------------------------------------------------+
+| Hypervisor / VMM           (Hypervisor / Ring -1)     |  &lt;-- VMX Root Operation
++-------------------------------------------------------+
+|                      HARDWARE                         |
++-------------------------------------------------------+</pre>
+
+<ol>
+  <li><strong>ناظر ماشین مجازی (<span class="en-badge">Hypervisor / VMM</span>):</strong> در حالت <span class="en-badge">VMX Root Operation</span> (معادل <span class="en-badge">Ring -1</span>) اجرا شده و کنترل کامل سخت‌افزار واقعی را در دست دارد.</li>
+  <li><strong>سیستم‌عامل مهمان (<span class="en-badge">Guest OS</span>):</strong> در حالت <span class="en-badge">VMX Non-Root Operation</span> اجرا می‌شود. حتی اگر <span class="en-badge">Guest OS</span> تصور کند در <span class="en-badge">Kernel Mode</span> (<span class="en-badge">Ring 0</span>) قرار دارد، هرگونه تلاش آن برای اجرای دستورات حساس یا تغییر وضعیت سیستم، باعث ایجاد یک خروج سخت‌افزاری (<span class="en-badge">VM-Exit</span>) شده و کنترل را مجدداً به <span class="en-badge">Hypervisor</span> صادر می‌کند. بدین ترتیب، مشکل دستورات حساس ناپذیرفتنی حل شده و مجازی‌سازی با کارایی بسیار بالا پیاده‌سازی می‌گردد.</li>
+</ol>
+
+<h2>۶. جلوگیری از انحصار پردازنده (<span class="en-badge">Process Hogging</span>) با استفاده از تایمر (<span class="en-badge">Timer</span>)</h2>
+
+<h3>۶.۱. نقش و کارکرد تایمر سخت‌افزاری</h3>
+
+<p>در سیستم‌های چندوظیفگی، سیستم‌عامل نیازمند مکانیزمی سخت‌افزاری است تا از انحصار پردازنده (<span class="en-badge">Process Hogging</span>) توسط پردازه‌های وارد شده به حلقه‌های بی‌نهایت یا برنامه‌های غیرهمکاری‌کننده جلوگیری کند. سیستم‌عامل این کنترل را به کمک تایمر سخت‌افزاری (<span class="en-badge">Hardware Timer</span>) و مکانیزم قبضه کردن (<span class="en-badge">Preemption</span>) اعمال می‌کند.</p>
+
+<p>طرز کار تایمر سخت‌افزاری بر اساس یک ثبات شمارنده معکوس (<span class="en-badge">Countdown Register</span>) یا یک تایمر دوره‌ای متغیر است که مراحل آن به شرح زیر است:</p>
+
+<ol>
+  <li><strong>مقداردهی اولیه ثبات تایمر:</strong> زمان‌بند سیستم‌عامل (<span class="en-badge">Scheduler</span>) پیش از سپردن کنترل <span class="en-badge">CPU</span> به یک پردازه کاربر، میزان برش زمانی مجاز (<span class="en-badge">Time Quantum</span>) را در ثبات شمارنده تایمر بارگذاری می‌کند.</li>
+  <li><strong>کاهش مقدار ثبات با نوسان ساعت:</strong> با هر نوسان ساعت سیستم (<span class="en-badge">Clock Tick</span>)، سخت‌افزار پردازنده مقدار ثبات تایمر را به صورت خودکار یک واحد کاهش می‌دهد.</li>
+  <li><strong>تولید وقفه تایمر (<span class="en-badge">Timer Interrupt</span>):</strong> به محض اینکه مقدار ثبات تایمر به صفر برسد، سخت‌افزار یک سیگنال وقفه تایمر صادر می‌کند.</li>
+  <li><strong>قبضه پردازنده و تغییر حالت به <span class="en-badge">Kernel Mode</span>:</strong> وقفه تایمر به صورت ناهمگام اجرای پردازه جاری را متوقف کرده، وضعیت آن را روی پشتهٔ هسته ذخیره نموده و حالت سیستم را به <span class="en-badge">Kernel Mode</span> تغییر می‌دهد.</li>
+  <li><strong>تدبیر زمان‌بند (<span class="en-badge">Scheduler Decision</span>):</strong> کنترل اجرا به روال زمان‌بندی هسته منتقل می‌شود. زمان‌بند، پردازه جاری را به انتهای صف پردازه‌های آماده (<span class="en-badge">Ready Queue</span>) منتقل کرده و پردازه دیگری را برای اجرا روی <span class="en-badge">CPU</span> انتخاب می‌نماید؛ بدین ترتیب امکان انحصار بی‌حد پردازنده سلب می‌گردد.</li>
+</ol>
+
+<h2>۷. روند پیشرفت پردازنده‌ها: چندپردازندگی متقارن (<span class="en-badge">SMP</span>) و چندهسته‌ای (<span class="en-badge">Multicore</span>)</h2>
+
+<h3>۷.۱. معماری چندپردازندگی متقارن (<span class="en-badge">Symmetric Multiprocessing - SMP</span>)</h3>
+
+<p>در معماری <span class="en-badge">SMP</span>، دو یا چند پردازنده فیزیکی مستقل (تراشه‌های <span class="en-badge">CPU</span> مجزا) به یک حافظه اصلی مشترک و گذرگاه‌های سیستم متصل هستند:</p>
+
+<ul>
+  <li><strong>ساختار دسترسی یکسان به حافظه:</strong> تمام پردازنده‌ها از طریق گذرگاه سیستم (<span class="en-badge">System Bus</span>) به فضای آدرس‌دهی یکسان دسترسی دارند. بر حسب توپولوژی دسترسی، این سیستم‌ها عموماً در دسته دسترسی یکنواخت به حافظه (<span class="en-badge">Uniform Memory Access - UMA</span>) قرار می‌گیرند؛ هرچند در سیستم‌های مقیاس‌بزرگتر از ساختار دسترسی غیریکنواخت به حافظه (<span class="en-badge">Non-Uniform Memory Access - NUMA</span>) استفاده می‌شود.</li>
+  <li><strong>اجرای نسخه واحد سیستم‌عامل:</strong> یک نسخه یگانه از هسته سیستم‌عامل روی همه پردازنده‌ها اجرا می‌شود و برنامه‌ریز می‌تواند هر نخ یا پردازه آماده‌ای را روی هر پردازنده آزاد زمان‌بندی کند.</li>
+  <li><strong>موازات حقیقی (<span class="en-badge">True Hardware Parallelism</span>):</strong> پردازه‌ها یا نخ‌ها (<span class="en-badge">Threads</span>) برخلاف سیستم‌های تک‌پردازنده‌ای، به صورت واقعاً همزمان و همگام روی پردازنده‌های مختلف فیزیکی اجرا می‌شوند.</li>
+</ul>
+
+<h3>۷.۲. پردازنده‌های چندهسته‌ای (<span class="en-badge">Multicore Processors</span>)</h3>
+
+<p>در معماری چندهسته‌ای مدرن، به جای قرار دادن چند تراشه مجزا روی برد اصلی (<span class="en-badge">Motherboard</span>)، چند هسته پردازشی کامل (<span class="en-badge">Computing Cores</span>) روی یک تراشه سیلیکونی یکپارچه (<span class="en-badge">Single Die / Chip</span>) قرار می‌گیرند.</p>
+
+<p>ارتقای فنی اصلی در این معماری، تحول در گذرگاه‌ها و سلسله‌مراتب حافظه نهان (<span class="en-badge">Cache Hierarchy</span>) است. در پردازنده‌های چندهسته‌ای، هر هسته معمولاً دارای حافظه نهان سطح اول و دوم (<span class="en-badge">L1/L2 Cache</span>) اختصاصی خود بوده، اما همگی از یک حافظه نهان سطح سوم (<span class="en-badge">Shared L3 Cache</span>) و گذرگاه‌های ارتباطی درون‌تراشه‌ای بسیار سریع (<span class="en-badge">On-Chip Interconnects</span>) استفاده می‌کنند.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>پارامتر مقایسه</th>
+        <th>سیستم‌های <span class="en-badge">SMP</span> کلاسیک (چندتراشه‌ای)</th>
+        <th>پردازنده‌های چندهسته‌ای مدرن (<span class="en-badge">Single Die</span>)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>موقعیت فیزیکی هسته‌ها</td>
+        <td>پردازنده‌های مجزا روی سوکت‌های جداگانه برد اصلی</td>
+        <td>هسته‌های یکپارچه‌شده روی یک تراشه سیلیکونی واحد</td>
+      </tr>
+      <tr>
+        <td>توپولوژی و گذرگاه ارتباطی</td>
+        <td>گذرگاه سیستم خارج از تراشه (<span class="en-badge">Off-Chip System Bus</span>)</td>
+        <td>گذرگاه‌های بسیار سریع درون‌تراشه‌ای (<span class="en-badge">On-Chip Interconnect</span>)</td>
+      </tr>
+      <tr>
+        <td>سلسله‌مراتب <span class="en-badge">Cache</span></td>
+        <td>حافظه نهان معمولاً محدود به داخل تراشه هر <span class="en-badge">CPU</span> است.</td>
+        <td>حافظه نهان <span class="en-badge">L1/L2 Cache</span> اختصاصی هر هسته + حافظه نهان <span class="en-badge">L3</span> مشترک بین همه هسته‌ها</td>
+      </tr>
+      <tr>
+        <td>تاخیر ارتباطی (<span class="en-badge">Interconnect Latency</span>)</td>
+        <td>بالا؛ به دلیل نیاز به ارسال سیگنال روی خطوط گذرگاه برد اصلی</td>
+        <td>بسیار پایین؛ به دلیل کوتاهی مسیرهای میکرومتری درون تراشه</td>
+      </tr>
+      <tr>
+        <td>مصرف انرژی و توان (<span class="en-badge">Power Efficiency</span>)</td>
+        <td>بالاتر؛ به دلیل پدهای <span class="en-badge">I/O</span> و درایورهای خطوط گذرگاه متعدد</td>
+        <td>کمتر و بهینه‌تر؛ کاهش چشمگیر افت توان و حرارت تولیدی</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+</body>
+</html>
