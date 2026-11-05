@@ -12,8 +12,8 @@
     --c-text:#e0e0e0;
     --c-muted:#a0a0a0;
     --c-primary:#82b1ff;
-    --c-primary-dark:#0a192f;
-    --c-primary-light:#1f2937;
+    --c-primary-dark:#93c5fd;
+    --c-primary-light:#1e3a8a;
     --c-accent:#ff8a65;
     --c-accent-light:#5d4037;
     --c-gold:#ffd54f;
@@ -47,7 +47,7 @@
   /* Sidebar */
   aside.toc{
     position:sticky;top:0;height:100vh;overflow-y:auto;
-    background:var(--c-primary-dark);color:#dbe7ef;
+    background:var(--c-primary-light);color:#dbe7ef;
     padding:24px 18px;font-size:14px;
     border-left:1px solid rgba(255,255,255,0.06);
   }
@@ -89,7 +89,7 @@
     border-bottom:3px solid var(--c-accent);color:var(--c-primary-dark);
   }
   h2.chapter-title .ch-num{
-    display:inline-block;background:var(--c-primary);color:#fff;
+    display:inline-block;background:#1e40af;color:#fff;
     padding:2px 14px;border-radius:6px 6px 6px 0;font-size:18px;margin-left:10px;vertical-align:middle;
   }
   h3{font-size:21px;margin:28px 0 10px;color:var(--c-primary)}
@@ -103,7 +103,7 @@
   em{color:var(--c-accent);font-style:normal;font-weight:600}
   code{
     font-family:'Consolas','Monaco',monospace;background:var(--c-code-bg);
-    padding:1px 6px;border-radius:4px;font-size:13.5px;color:#a14b1f;direction:ltr;display:inline-block;
+    padding:1px 6px;border-radius:4px;font-size:13.5px;color:#ffb74d;direction:ltr;display:inline-block;
   }
   pre{
     background:#1e2530;color:#e6e6e6;padding:16px 20px;border-radius:8px;overflow-x:auto;
@@ -115,7 +115,7 @@
 
   /* ===== Cover / Header ===== */
   header.cover{
-    background:linear-gradient(135deg,var(--c-primary-dark) 0%,var(--c-primary) 60%,#266a8c 100%);
+    background:linear-gradient(135deg,#1e3a8a 0%,#1e40af 60%,#1e3a8a 100%);
     color:#fff;padding:60px 48px 50px;border-radius:0 0 18px 18px;margin-bottom:36px;
     position:relative;overflow:hidden;
   }
@@ -145,7 +145,7 @@
   /* ===== Section blocks ===== */
   section.chapter{margin-bottom:54px;background:var(--c-surface);border-radius:var(--radius);padding:34px 38px;box-shadow:var(--shadow);border:1px solid var(--c-border)}
   section.part-intro{
-    background:linear-gradient(135deg,#fff 0%,var(--c-primary-light) 100%);
+    background:linear-gradient(135deg,#1e293b 0%,var(--c-primary-light) 100%);
     border-right:5px solid var(--c-primary);padding:26px 30px;border-radius:8px;margin-bottom:24px;
   }
   .chapter-intro{
@@ -153,17 +153,17 @@
     padding:16px 22px;border-radius:6px;margin:0 0 22px;font-size:14.5px;color:var(--c-primary-dark);
   }
   .chapter-outro{
-    background:#f0f5ed;border-right:4px solid var(--c-green);padding:16px 22px;border-radius:6px;margin-top:24px;font-size:14.5px;
+    background:#1b4332;border-right:4px solid var(--c-green);padding:16px 22px;border-radius:6px;margin-top:24px;font-size:14.5px;
   }
   .chapter-outro b{color:var(--c-green)}
 
   /* ===== Slide ref tag ===== */
   .slide-ref{
-    display:inline-block;background:var(--c-accent);color:#fff;font-size:11px;
+    display:inline-block;background:#7f1d1d;color:#fff;color:#fff;font-size:11px;
     padding:2px 8px;border-radius:10px;font-weight:600;direction:ltr;margin:0 4px;
     vertical-align:middle;
   }
-  .slide-ref.range{background:var(--c-primary)}
+  .slide-ref.range{background:#1e40af;color:#fff}
 
   /* ===== Callout boxes ===== */
   .callout{
@@ -180,26 +180,26 @@
   .callout.warn .ct-title{color:var(--c-warn-border)}
   .callout.example{background:var(--c-example-bg);border-color:var(--c-example-border)}
   .callout.example .ct-title{color:var(--c-example-border)}
-  .callout.extra{background:#f3eefc;border-color:#6b4ca6}
-  .callout.extra .ct-title{color:#6b4ca6}
+  .callout.extra{background:#4c1d95;border-color:#c4b5fd}
+  .callout.extra .ct-title{color:#c4b5fd}
 
   /* ===== Tables ===== */
   table.tbl{
-    width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;background:#fff;
+    width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;background:#1e293b;
     border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(20,30,50,0.05);
   }
   table.tbl th{
-    background:var(--c-primary);color:#fff;padding:10px 12px;text-align:right;font-weight:600;font-size:13.5px;
+    background:#1e40af;color:#fff;padding:10px 12px;text-align:right;font-weight:600;font-size:13.5px;
   }
   table.tbl td{padding:9px 12px;border-bottom:1px solid var(--c-border);vertical-align:top}
-  table.tbl tr:nth-child(even) td{background:#faf9f5}
+  table.tbl tr:nth-child(even) td{background:#1f2937}
   table.tbl tr:hover td{background:var(--c-primary-light)}
   table.tbl td:first-child{font-weight:600;color:var(--c-primary-dark)}
-  table.tbl.compare td:first-child{background:var(--c-primary-light);font-weight:700;color:var(--c-primary-dark)}
+  table.tbl.compare td:first-child{background:var(--c-primary-light);font-weight:700;color:var(--c-primary)}
 
   /* ===== Definition card ===== */
   .def-card{
-    background:linear-gradient(135deg,#fff 0%,#faf8f2 100%);
+    background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);
     border:1px solid var(--c-border);border-right:4px solid var(--c-gold);
     padding:16px 22px;border-radius:8px;margin:18px 0;
   }
@@ -209,7 +209,7 @@
 
   /* ===== Diagram container ===== */
   .diagram{
-    background:#fff;border:1px solid var(--c-border);border-radius:10px;
+    background:#1e293b;border:1px solid var(--c-border);border-radius:10px;
     padding:20px;margin:20px 0;text-align:center;box-shadow:var(--shadow);
   }
   .diagram .d-title{font-weight:700;color:var(--c-primary-dark);margin-bottom:10px;font-size:15px}
@@ -218,7 +218,7 @@
 
   /* ===== TOC list ===== */
   .toc-list{
-    background:#fff;border:1px solid var(--c-border);border-radius:8px;padding:20px 28px;margin:18px 0;
+    background:#1e293b;border:1px solid var(--c-border);border-radius:8px;padding:20px 28px;margin:18px 0;
   }
   .toc-list ol{padding-right:22px;margin:0}
   .toc-list li{margin:6px 0}
@@ -226,10 +226,10 @@
   .toc-list a:hover{color:var(--c-accent)}
 
   /* ===== Exam styles ===== */
-  .exam-section{background:#fff;border:2px solid var(--c-primary);border-radius:12px;padding:30px 34px;margin:30px 0}
-  .exam-q{margin:18px 0;padding:16px 20px;background:#faf9f5;border-radius:8px;border-right:3px solid var(--c-primary)}
+  .exam-section{background:#1e293b;border:2px solid var(--c-primary);border-radius:12px;padding:30px 34px;margin:30px 0}
+  .exam-q{margin:18px 0;padding:16px 20px;background:#1f2937;border-radius:8px;border-right:3px solid var(--c-primary)}
   .exam-q .q-num{
-    display:inline-block;background:var(--c-primary);color:#fff;font-weight:700;
+    display:inline-block;background:#1e40af;color:#fff;font-weight:700;
     width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:13px;margin-left:8px;
   }
   .exam-q .q-type{
@@ -238,7 +238,7 @@
   }
   .exam-q .q-text{font-weight:600;margin-bottom:8px}
   .exam-q .q-options{list-style:none;padding:0;margin:8px 0}
-  .exam-q .q-options li{padding:5px 10px;margin:3px 0;border-radius:5px;background:#fff;border:1px solid var(--c-border)}
+  .exam-q .q-options li{padding:5px 10px;margin:3px 0;border-radius:5px;background:#1e293b;border:1px solid var(--c-border)}
   details.answer{
     margin-top:12px;background:var(--c-tip-bg);border-right:3px solid var(--c-tip-border);
     border-radius:6px;padding:10px 16px;
@@ -250,14 +250,14 @@
   details.answer summary::before{content:"▶";font-size:10px;transition:transform .2s}
   details.answer[open] summary::before{transform:rotate(90deg)}
   details.answer summary::-webkit-details-marker{display:none}
-  details.answer .ans-body{margin-top:10px;font-size:14px;line-height:1.8;color:#1f3a2c}
+  details.answer .ans-body{margin-top:10px;font-size:14px;line-height:1.8;color:#81c784}
 
   /* ===== Misc ===== */
   .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:600}
   .badge.blue{background:var(--c-primary-light);color:var(--c-primary)}
   .badge.orange{background:var(--c-accent-light);color:var(--c-accent)}
-  .badge.green{background:#e1f1e8;color:var(--c-green)}
-  .badge.gold{background:#fbf2dd;color:var(--c-gold)}
+  .badge.green{background:#1b4332;color:var(--c-green)}
+  .badge.gold{background:#4a3b1c;color:var(--c-gold)}
   .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
   hr.sep{border:none;border-top:1px dashed var(--c-border);margin:28px 0}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
@@ -437,13 +437,13 @@
     <line x1="430" y1="160" x2="430" y2="178" stroke="#888" stroke-width="1.5"/>
     <line x1="525" y1="160" x2="525" y2="178" stroke="#888" stroke-width="1.5"/>
     <line x1="625" y1="160" x2="625" y2="178" stroke="#888" stroke-width="1.5"/>
-    <rect x="290" y="178" width="90" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <rect x="290" y="178" width="90" height="28" rx="5" fill="#1e3a8a" stroke="#1d4e6b"/>
     <text x="335" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">وقفه</text>
-    <rect x="385" y="178" width="95" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <rect x="385" y="178" width="95" height="28" rx="5" fill="#1e3a8a" stroke="#1d4e6b"/>
     <text x="432" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">حافظه/کش</text>
-    <rect x="485" y="178" width="80" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <rect x="485" y="178" width="80" height="28" rx="5" fill="#1e3a8a" stroke="#1d4e6b"/>
     <text x="525" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">DMA</text>
-    <rect x="580" y="178" width="100" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <rect x="580" y="178" width="100" height="28" rx="5" fill="#1e3a8a" stroke="#1d4e6b"/>
     <text x="630" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">چندپردازنده</text>
     <!-- Leaves for operation branch -->
     <line x1="660" y1="140" x2="660" y2="240" stroke="#888" stroke-width="1.5" stroke-dasharray="3,3"/>
@@ -451,20 +451,20 @@
     <line x1="580" y1="240" x2="580" y2="258" stroke="#888" stroke-width="1.5"/>
     <line x1="665" y1="240" x2="665" y2="258" stroke="#888" stroke-width="1.5"/>
     <line x1="745" y1="240" x2="745" y2="258" stroke="#888" stroke-width="1.5"/>
-    <rect x="540" y="258" width="80" height="28" rx="5" fill="#fdeee7" stroke="#c75b39"/>
+    <rect x="540" y="258" width="80" height="28" rx="5" fill="#9ca3af" stroke="#c75b39"/>
     <text x="580" y="277" fill="#c75b39" font-size="11" text-anchor="middle">چندبرنامه‌ای</text>
-    <rect x="625" y="258" width="80" height="28" rx="5" fill="#fdeee7" stroke="#c75b39"/>
+    <rect x="625" y="258" width="80" height="28" rx="5" fill="#9ca3af" stroke="#c75b39"/>
     <text x="665" y="277" fill="#c75b39" font-size="11" text-anchor="middle">حالت دوگانه</text>
-    <rect x="705" y="258" width="80" height="28" rx="5" fill="#fdeee7" stroke="#c75b39"/>
+    <rect x="705" y="258" width="80" height="28" rx="5" fill="#9ca3af" stroke="#c75b39"/>
     <text x="745" y="277" fill="#c75b39" font-size="11" text-anchor="middle">System Call</text>
     <!-- Leaves for definition branch -->
     <line x1="300" y1="140" x2="300" y2="160" stroke="#888" stroke-width="1.5"/>
     <line x1="225" y1="160" x2="375" y2="160" stroke="#888" stroke-width="1.5"/>
     <line x1="225" y1="160" x2="225" y2="178" stroke="#888" stroke-width="1.5"/>
     <line x1="375" y1="160" x2="375" y2="178" stroke="#888" stroke-width="1.5"/>
-    <rect x="185" y="178" width="80" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <rect x="185" y="178" width="80" height="28" rx="5" fill="#1e3a8a" stroke="#1d4e6b"/>
     <text x="225" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">Kernel</text>
-    <rect x="335" y="178" width="80" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <rect x="335" y="178" width="80" height="28" rx="5" fill="#1e3a8a" stroke="#1d4e6b"/>
     <text x="375" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">Boot/BMC</text>
     <!-- Components under operation -->
     <line x1="660" y1="290" x2="660" y2="310" stroke="#888" stroke-width="1.5" stroke-dasharray="3,3"/>
@@ -795,12 +795,12 @@
 
         <rect x="400" y="100" width="100" height="40" rx="6" fill="#c75b39"/>
         <text x="450" y="120" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Linux Kernel</text>
-        <text x="450" y="135" fill="#fdeee7" font-size="9" text-anchor="middle">بارگذاری در RAM</text>
+        <text x="450" y="135" fill="#9ca3af" font-size="9" text-anchor="middle">بارگذاری در RAM</text>
         <line x1="500" y1="120" x2="530" y2="120" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar2)"/>
 
         <rect x="530" y="100" width="100" height="40" rx="6" fill="#b8860b"/>
         <text x="580" y="120" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">init / systemd</text>
-        <text x="580" y="135" fill="#fbf2dd" font-size="9" text-anchor="middle">اولین فرایند</text>
+        <text x="580" y="135" fill="#4a3b1c" font-size="9" text-anchor="middle">اولین فرایند</text>
       </g>
       <text x="350" y="60" fill="#1d4e6b" font-size="13" text-anchor="middle" font-weight="700">روند بوت — جابه‌جایی کنترل از ROM به دیسک و سپس به RAM</text>
       <text x="350" y="180" fill="#5a6470" font-size="11" text-anchor="middle">ROM/EPROM (Firmware) ← Sector 0 دیسک ← فایل کرنل ← اجرای init</text>
@@ -877,9 +877,9 @@
       <!-- CPU -->
       <rect x="70" y="50" width="100" height="90" rx="8" fill="#c75b39"/>
       <text x="120" y="80" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">CPU</text>
-      <text x="120" y="100" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
-      <text x="120" y="115" fill="#fdeee7" font-size="10" text-anchor="middle">ALU</text>
-      <text x="120" y="130" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
+      <text x="120" y="100" fill="#9ca3af" font-size="10" text-anchor="middle">Registers</text>
+      <text x="120" y="115" fill="#9ca3af" font-size="10" text-anchor="middle">ALU</text>
+      <text x="120" y="130" fill="#9ca3af" font-size="10" text-anchor="middle">Cache</text>
       <line x1="120" y1="140" x2="120" y2="160" stroke="#1d4e6b" stroke-width="3"/>
       <!-- Memory -->
       <rect x="220" y="50" width="120" height="90" rx="8" fill="#133349"/>
@@ -989,7 +989,7 @@
       <text x="30" y="60" fill="#c75b39" font-size="12" font-weight="700">CPU</text>
       <rect x="40" y="50" width="120" height="30" rx="4" fill="#c75b39"/>
       <text x="100" y="69" fill="#fff" font-size="11" text-anchor="middle">اجرای فرایند A</text>
-      <rect x="160" y="50" width="80" height="30" rx="4" fill="#fbf2dd" stroke="#b8860b"/>
+      <rect x="160" y="50" width="80" height="30" rx="4" fill="#4a3b1c" stroke="#b8860b"/>
       <text x="200" y="69" fill="#b8860b" font-size="10" text-anchor="middle">I/O Request</text>
       <rect x="240" y="50" width="180" height="30" rx="4" fill="#133349"/>
       <text x="330" y="69" fill="#fff" font-size="11" text-anchor="middle">اجرای فرایند B (هم‌زمان با I/O)</text>
@@ -1045,7 +1045,7 @@
       <text x="330" y="98" fill="#c75b39" font-size="9" text-anchor="middle">Interrupt</text>
       <rect x="350" y="80" width="130" height="50" rx="6" fill="#c75b39"/>
       <text x="415" y="105" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Device Driver</text>
-      <text x="415" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">نرم‌افزاری، در Kernel</text>
+      <text x="415" y="120" fill="#9ca3af" font-size="10" text-anchor="middle">نرم‌افزاری، در Kernel</text>
       <line x1="480" y1="105" x2="520" y2="105" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar3)"/>
       <rect x="520" y="80" width="160" height="50" rx="6" fill="#133349"/>
       <text x="600" y="105" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Kernel</text>
@@ -1235,26 +1235,26 @@
       <!-- CPUs -->
       <rect x="80" y="60" width="90" height="100" rx="6" fill="#c75b39"/>
       <text x="125" y="100" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">CPU 1</text>
-      <text x="125" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
-      <text x="125" y="135" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <text x="125" y="120" fill="#9ca3af" font-size="10" text-anchor="middle">Cache</text>
+      <text x="125" y="135" fill="#9ca3af" font-size="10" text-anchor="middle">Registers</text>
       <line x1="125" y1="160" x2="125" y2="180" stroke="#1d4e6b" stroke-width="3"/>
 
       <rect x="200" y="60" width="90" height="100" rx="6" fill="#c75b39"/>
       <text x="245" y="100" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">CPU 2</text>
-      <text x="245" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
-      <text x="245" y="135" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <text x="245" y="120" fill="#9ca3af" font-size="10" text-anchor="middle">Cache</text>
+      <text x="245" y="135" fill="#9ca3af" font-size="10" text-anchor="middle">Registers</text>
       <line x1="245" y1="160" x2="245" y2="180" stroke="#1d4e6b" stroke-width="3"/>
 
       <rect x="320" y="60" width="90" height="100" rx="6" fill="#c75b39"/>
       <text x="365" y="100" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">CPU 3</text>
-      <text x="365" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
-      <text x="365" y="135" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <text x="365" y="120" fill="#9ca3af" font-size="10" text-anchor="middle">Cache</text>
+      <text x="365" y="135" fill="#9ca3af" font-size="10" text-anchor="middle">Registers</text>
       <line x1="365" y1="160" x2="365" y2="180" stroke="#1d4e6b" stroke-width="3"/>
 
       <rect x="440" y="60" width="90" height="100" rx="6" fill="#c75b39"/>
       <text x="485" y="100" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">CPU N</text>
-      <text x="485" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
-      <text x="485" y="135" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <text x="485" y="120" fill="#9ca3af" font-size="10" text-anchor="middle">Cache</text>
+      <text x="485" y="135" fill="#9ca3af" font-size="10" text-anchor="middle">Registers</text>
       <line x1="485" y1="160" x2="485" y2="180" stroke="#1d4e6b" stroke-width="3"/>
       <!-- Memory -->
       <rect x="240" y="210" width="120" height="40" rx="6" fill="#133349"/>
@@ -1280,12 +1280,12 @@
       <text x="250" y="22" fill="#1d4e6b" font-size="12" text-anchor="middle" font-weight="700">Single Chip (Multicore)</text>
       <rect x="70" y="50" width="170" height="100" rx="6" fill="#c75b39"/>
       <text x="155" y="85" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Core 1</text>
-      <text x="155" y="105" fill="#fdeee7" font-size="11" text-anchor="middle">L1 Cache</text>
-      <text x="155" y="125" fill="#fdeee7" font-size="11" text-anchor="middle">Registers / ALU</text>
+      <text x="155" y="105" fill="#9ca3af" font-size="11" text-anchor="middle">L1 Cache</text>
+      <text x="155" y="125" fill="#9ca3af" font-size="11" text-anchor="middle">Registers / ALU</text>
       <rect x="260" y="50" width="170" height="100" rx="6" fill="#c75b39"/>
       <text x="345" y="85" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Core 2</text>
-      <text x="345" y="105" fill="#fdeee7" font-size="11" text-anchor="middle">L1 Cache</text>
-      <text x="345" y="125" fill="#fdeee7" font-size="11" text-anchor="middle">Registers / ALU</text>
+      <text x="345" y="105" fill="#9ca3af" font-size="11" text-anchor="middle">L1 Cache</text>
+      <text x="345" y="125" fill="#9ca3af" font-size="11" text-anchor="middle">Registers / ALU</text>
       <!-- L2 shared -->
       <rect x="70" y="155" width="360" height="0" fill="none"/>
       <text x="250" y="180" fill="#b8860b" font-size="11" text-anchor="middle" font-weight="700">L2/L3 Cache مشترک (Shared)</text>
@@ -1464,14 +1464,14 @@
     <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
       <defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d4e6b"/></marker></defs>
       <!-- User mode -->
-      <rect x="40" y="80" width="240" height="120" rx="14" fill="#fbf2dd" stroke="#b8860b" stroke-width="2"/>
+      <rect x="40" y="80" width="240" height="120" rx="14" fill="#4a3b1c" stroke="#b8860b" stroke-width="2"/>
       <text x="160" y="110" fill="#b8860b" font-size="15" text-anchor="middle" font-weight="700">User Mode</text>
       <text x="160" y="135" fill="#5a6470" font-size="11" text-anchor="middle">دسترسی محدود به HW</text>
       <text x="160" y="155" fill="#5a6470" font-size="11" text-anchor="middle">Mode Bit = 1</text>
       <text x="160" y="180" fill="#5a6470" font-size="11" text-anchor="middle">برنامه‌های کاربر</text>
 
       <!-- Kernel mode -->
-      <rect x="420" y="80" width="240" height="120" rx="14" fill="#e8f1f6" stroke="#1d4e6b" stroke-width="2"/>
+      <rect x="420" y="80" width="240" height="120" rx="14" fill="#1e3a8a" stroke="#1d4e6b" stroke-width="2"/>
       <text x="540" y="110" fill="#1d4e6b" font-size="15" text-anchor="middle" font-weight="700">Kernel Mode</text>
       <text x="540" y="135" fill="#5a6470" font-size="11" text-anchor="middle">دسترسی کامل به HW</text>
       <text x="540" y="155" fill="#5a6470" font-size="11" text-anchor="middle">Mode Bit = 0</text>
@@ -1859,7 +1859,7 @@ int n = read(fd, buf, 100);</code></pre>
 <h2 style="font-size:24px;color:var(--c-primary-dark);margin:40px 0 12px;border-bottom:2px solid var(--c-accent);padding-bottom:8px">بخش سوم: مرور نهایی</h2>
 
 <section class="chapter" id="review">
-  <h2 class="chapter-title" style="border-bottom-color:var(--c-green)"><span class="ch-num" style="background:var(--c-green)">مرور</span> جمع‌بندی کلی درس</h2>
+  <h2 class="chapter-title" style="border-bottom-color:var(--c-green)"><span class="ch-num" style="background:#14532d;color:#fff">مرور</span> جمع‌بندی کلی درس</h2>
 
   <p>این جلسه، یک «نگاه کلی از بالا» به کل درس سیستم‌عامل بود. در طول ترم، هر یک از مفاهیمی که در این‌جا معرفی شدیم، به‌طور عمیق بررسی خواهد شد. در ادامه، مهم‌ترین مفاهیم این جلسه را در یک نگاه مرور می‌کنیم:</p>
 
@@ -2054,7 +2054,7 @@ int n = read(fd, buf, 100);</code></pre>
 <h2 style="font-size:24px;color:var(--c-primary-dark);margin:40px 0 12px;border-bottom:2px solid var(--c-accent);padding-bottom:8px">بخش چهارم: امتحان جامع</h2>
 
 <section class="exam-section" id="exam">
-  <h2 class="chapter-title" style="border-bottom-color:var(--c-primary)"><span class="ch-num" style="background:var(--c-accent)">آزمون</span> امتحان جامع فصل اول</h2>
+  <h2 class="chapter-title" style="border-bottom-color:var(--c-primary)"><span class="ch-num" style="background:#7f1d1d;color:#fff">آزمون</span> امتحان جامع فصل اول</h2>
   <p style="background:var(--c-primary-light);padding:14px 18px;border-radius:6px;font-size:14px">
   <strong>راهنمای آزمون:</strong> این آزمون شامل <strong>۲۲ سؤال</strong> در شش نوع مختلف است. مجموع نمره: <strong>۱۰۰</strong>. زمان پیشنهادی: <strong>۹۰ دقیقه</strong>. پس از تلاش برای حل، پاسخ‌نامه تشریحی را در بخش بعد ببینید.
   </p>
@@ -2264,8 +2264,8 @@ int n = read(fd, buf, 100);</code></pre>
 
 <!-- ============ ANSWER KEY ============ -->
 <section class="exam-section" id="answer-key" style="border-color:var(--c-green)">
-  <h2 class="chapter-title" style="border-bottom-color:var(--c-green)"><span class="ch-num" style="background:var(--c-green)">پاسخ</span> پاسخ‌نامه تشریحی</h2>
-  <p style="font-size:13px;color:var(--c-muted);background:#f0f5ed;padding:10px 14px;border-radius:6px">برای هر سؤال، پاسخ صحیح و دلیل آن آمده است. در سؤالات چهارگزینه‌ای، توضیح داده شده چرا گزینه‌های دیگر نادرست‌اند.</p>
+  <h2 class="chapter-title" style="border-bottom-color:var(--c-green)"><span class="ch-num" style="background:#14532d;color:#fff">پاسخ</span> پاسخ‌نامه تشریحی</h2>
+  <p style="font-size:13px;color:var(--c-muted);background:#1f2937;padding:10px 14px;border-radius:6px">برای هر سؤال، پاسخ صحیح و دلیل آن آمده است. در سؤالات چهارگزینه‌ای، توضیح داده شده چرا گزینه‌های دیگر نادرست‌اند.</p>
 
   <h3>پاسخ سؤالات چهارگزینه‌ای</h3>
 
