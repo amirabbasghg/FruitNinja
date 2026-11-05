@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جزوه آموزشی سیستم‌عامل — فصل اول: مقدمه‌ای بر سیستم‌عامل</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+  :root{
+    --c-bg:#121212;
+    --c-surface:#1e1e1e;
+    --c-text:#e0e0e0;
+    --c-muted:#a0a0a0;
+    --c-primary:#82b1ff;
+    --c-primary-dark:#0a192f;
+    --c-primary-light:#1f2937;
+    --c-accent:#ff8a65;
+    --c-accent-light:#5d4037;
+    --c-gold:#ffd54f;
+    --c-green:#81c784;
+    --c-border:#424242;
+    --c-code-bg:#2d2d2d;
+    --c-note-bg:#1a365d;
+    --c-note-border:#82b1ff;
+    --c-tip-bg:#1b4332;
+    --c-tip-border:#81c784;
+    --c-warn-bg:#4a2e2b;
+    --c-warn-border:#ff8a65;
+    --c-example-bg:#4a3b1c;
+    --c-example-border:#ffd54f;
+    --shadow:0 1px 3px rgba(0,0,0,0.5),0 4px 14px rgba(0,0,0,0.3);
+    --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:'Vazirmatn','Segoe UI',Tahoma,sans-serif;
+    background:var(--c-bg);
+    color:var(--c-text);
+    line-height:1.85;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ===== Layout ===== */
+  .layout{display:grid;grid-template-columns:300px 1fr;max-width:1280px;margin:0 auto;gap:0}
+  /* Sidebar */
+  aside.toc{
+    position:sticky;top:0;height:100vh;overflow-y:auto;
+    background:var(--c-primary-dark);color:#dbe7ef;
+    padding:24px 18px;font-size:14px;
+    border-left:1px solid rgba(255,255,255,0.06);
+  }
+  aside.toc::-webkit-scrollbar{width:8px}
+  aside.toc::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);border-radius:4px}
+  aside.toc .brand{
+    font-size:17px;font-weight:700;color:#fff;line-height:1.5;
+    border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:14px;margin-bottom:14px;
+  }
+  aside.toc .brand small{display:block;font-weight:400;color:#9bb4c4;font-size:11.5px;margin-top:4px}
+  aside.toc nav ol{list-style:none;padding:0;margin:0}
+  aside.toc nav > ol > li{margin:6px 0}
+  aside.toc nav a{
+    color:#cfe0ec;text-decoration:none;display:block;padding:6px 10px;border-radius:6px;
+    transition:all .15s ease;font-size:13.5px;line-height:1.5;
+  }
+  aside.toc nav a:hover{background:rgba(255,255,255,0.08);color:#fff}
+  aside.toc nav ol ol{padding-right:14px;margin:4px 0}
+  aside.toc nav ol ol a{font-size:12.5px;color:#aec4d4;padding:4px 8px}
+  aside.toc nav .part-label{
+    color:var(--c-accent);font-weight:700;font-size:11px;letter-spacing:1px;
+    margin:14px 0 4px;padding:0 10px;text-transform:uppercase;
+  }
+  /* Main */
+  main.content{padding:36px 48px 80px;min-width:0}
+  @media(max-width:980px){
+    .layout{grid-template-columns:1fr}
+    aside.toc{position:relative;height:auto;border-left:none;border-bottom:1px solid var(--c-border)}
+    main.content{padding:24px 18px 60px}
+  }
+
+  /* ===== Typography ===== */
+  h1,h2,h3,h4,h5{font-family:'Vazirmatn',sans-serif;line-height:1.35;color:var(--c-primary-dark);font-weight:700}
+  h1.part-title{
+    font-size:30px;margin:0 0 8px;color:#fff;
+  }
+  h2.chapter-title{
+    font-size:28px;margin:0 0 12px;padding-bottom:14px;
+    border-bottom:3px solid var(--c-accent);color:var(--c-primary-dark);
+  }
+  h2.chapter-title .ch-num{
+    display:inline-block;background:var(--c-primary);color:#fff;
+    padding:2px 14px;border-radius:6px 6px 6px 0;font-size:18px;margin-left:10px;vertical-align:middle;
+  }
+  h3{font-size:21px;margin:28px 0 10px;color:var(--c-primary)}
+  h4{font-size:17px;margin:22px 0 8px;color:var(--c-primary-dark)}
+  p{margin:0 0 12px}
+  a{color:var(--c-primary);text-decoration:underline;text-decoration-color:var(--c-accent);text-underline-offset:3px}
+  a:hover{color:var(--c-accent)}
+  ul,ol{padding-right:24px;margin:0 0 14px}
+  li{margin:4px 0}
+  strong{color:var(--c-primary-dark);font-weight:700}
+  em{color:var(--c-accent);font-style:normal;font-weight:600}
+  code{
+    font-family:'Consolas','Monaco',monospace;background:var(--c-code-bg);
+    padding:1px 6px;border-radius:4px;font-size:13.5px;color:#a14b1f;direction:ltr;display:inline-block;
+  }
+  pre{
+    background:#1e2530;color:#e6e6e6;padding:16px 20px;border-radius:8px;overflow-x:auto;
+    font-family:'Consolas','Monaco',monospace;font-size:13.5px;line-height:1.6;direction:ltr;
+    border-right:4px solid var(--c-accent);
+  }
+  pre code{background:none;color:inherit;padding:0;font-size:inherit}
+  .en{direction:ltr;display:inline-block;font-family:inherit}
+
+  /* ===== Cover / Header ===== */
+  header.cover{
+    background:linear-gradient(135deg,var(--c-primary-dark) 0%,var(--c-primary) 60%,#266a8c 100%);
+    color:#fff;padding:60px 48px 50px;border-radius:0 0 18px 18px;margin-bottom:36px;
+    position:relative;overflow:hidden;
+  }
+  header.cover::before{
+    content:"";position:absolute;top:-40px;left:-40px;width:260px;height:260px;
+    background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 70%);
+  }
+  header.cover::after{
+    content:"";position:absolute;bottom:-60px;right:-60px;width:300px;height:300px;
+    background:radial-gradient(circle,rgba(199,91,57,0.15) 0%,transparent 70%);
+  }
+  header.cover .eyebrow{
+    display:inline-block;background:rgba(255,255,255,0.12);padding:5px 14px;border-radius:20px;
+    font-size:12.5px;letter-spacing:1px;margin-bottom:18px;
+  }
+  header.cover h1{
+    font-size:36px;color:#fff;margin:0 0 12px;line-height:1.4;
+  }
+  header.cover .subtitle{font-size:18px;color:#cfe0ec;margin-bottom:24px;max-width:720px;line-height:1.7}
+  header.cover .meta{
+    display:flex;flex-wrap:wrap;gap:12px 24px;font-size:13.5px;color:#bcd0de;
+    border-top:1px solid rgba(255,255,255,0.18);padding-top:18px;position:relative;z-index:1;
+  }
+  header.cover .meta span{display:inline-flex;align-items:center;gap:6px}
+  header.cover .meta b{color:#fff;font-weight:600}
+
+  /* ===== Section blocks ===== */
+  section.chapter{margin-bottom:54px;background:var(--c-surface);border-radius:var(--radius);padding:34px 38px;box-shadow:var(--shadow);border:1px solid var(--c-border)}
+  section.part-intro{
+    background:linear-gradient(135deg,#fff 0%,var(--c-primary-light) 100%);
+    border-right:5px solid var(--c-primary);padding:26px 30px;border-radius:8px;margin-bottom:24px;
+  }
+  .chapter-intro{
+    background:var(--c-primary-light);border-right:4px solid var(--c-primary);
+    padding:16px 22px;border-radius:6px;margin:0 0 22px;font-size:14.5px;color:var(--c-primary-dark);
+  }
+  .chapter-outro{
+    background:#f0f5ed;border-right:4px solid var(--c-green);padding:16px 22px;border-radius:6px;margin-top:24px;font-size:14.5px;
+  }
+  .chapter-outro b{color:var(--c-green)}
+
+  /* ===== Slide ref tag ===== */
+  .slide-ref{
+    display:inline-block;background:var(--c-accent);color:#fff;font-size:11px;
+    padding:2px 8px;border-radius:10px;font-weight:600;direction:ltr;margin:0 4px;
+    vertical-align:middle;
+  }
+  .slide-ref.range{background:var(--c-primary)}
+
+  /* ===== Callout boxes ===== */
+  .callout{
+    padding:14px 18px 14px 16px;border-radius:8px;margin:18px 0;
+    border-right:4px solid;font-size:14.5px;line-height:1.75;
+  }
+  .callout .ct-title{font-weight:700;margin-bottom:6px;font-size:14px;display:flex;align-items:center;gap:6px}
+  .callout p:last-child{margin-bottom:0}
+  .callout.note{background:var(--c-note-bg);border-color:var(--c-note-border)}
+  .callout.note .ct-title{color:var(--c-note-border)}
+  .callout.tip{background:var(--c-tip-bg);border-color:var(--c-tip-border)}
+  .callout.tip .ct-title{color:var(--c-tip-border)}
+  .callout.warn{background:var(--c-warn-bg);border-color:var(--c-warn-border)}
+  .callout.warn .ct-title{color:var(--c-warn-border)}
+  .callout.example{background:var(--c-example-bg);border-color:var(--c-example-border)}
+  .callout.example .ct-title{color:var(--c-example-border)}
+  .callout.extra{background:#f3eefc;border-color:#6b4ca6}
+  .callout.extra .ct-title{color:#6b4ca6}
+
+  /* ===== Tables ===== */
+  table.tbl{
+    width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;background:#fff;
+    border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(20,30,50,0.05);
+  }
+  table.tbl th{
+    background:var(--c-primary);color:#fff;padding:10px 12px;text-align:right;font-weight:600;font-size:13.5px;
+  }
+  table.tbl td{padding:9px 12px;border-bottom:1px solid var(--c-border);vertical-align:top}
+  table.tbl tr:nth-child(even) td{background:#faf9f5}
+  table.tbl tr:hover td{background:var(--c-primary-light)}
+  table.tbl td:first-child{font-weight:600;color:var(--c-primary-dark)}
+  table.tbl.compare td:first-child{background:var(--c-primary-light);font-weight:700;color:var(--c-primary-dark)}
+
+  /* ===== Definition card ===== */
+  .def-card{
+    background:linear-gradient(135deg,#fff 0%,#faf8f2 100%);
+    border:1px solid var(--c-border);border-right:4px solid var(--c-gold);
+    padding:16px 22px;border-radius:8px;margin:18px 0;
+  }
+  .def-card .term{font-size:18px;font-weight:700;color:var(--c-primary-dark)}
+  .def-card .term .en-term{color:var(--c-accent);font-weight:600;direction:ltr;display:inline-block;margin-right:6px}
+  .def-card .def-body{margin-top:8px;font-size:14.5px;line-height:1.8}
+
+  /* ===== Diagram container ===== */
+  .diagram{
+    background:#fff;border:1px solid var(--c-border);border-radius:10px;
+    padding:20px;margin:20px 0;text-align:center;box-shadow:var(--shadow);
+  }
+  .diagram .d-title{font-weight:700;color:var(--c-primary-dark);margin-bottom:10px;font-size:15px}
+  .diagram .d-src{font-size:11.5px;color:var(--c-muted);margin-top:10px}
+  .diagram svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+  /* ===== TOC list ===== */
+  .toc-list{
+    background:#fff;border:1px solid var(--c-border);border-radius:8px;padding:20px 28px;margin:18px 0;
+  }
+  .toc-list ol{padding-right:22px;margin:0}
+  .toc-list li{margin:6px 0}
+  .toc-list a{text-decoration:none;color:var(--c-primary)}
+  .toc-list a:hover{color:var(--c-accent)}
+
+  /* ===== Exam styles ===== */
+  .exam-section{background:#fff;border:2px solid var(--c-primary);border-radius:12px;padding:30px 34px;margin:30px 0}
+  .exam-q{margin:18px 0;padding:16px 20px;background:#faf9f5;border-radius:8px;border-right:3px solid var(--c-primary)}
+  .exam-q .q-num{
+    display:inline-block;background:var(--c-primary);color:#fff;font-weight:700;
+    width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:13px;margin-left:8px;
+  }
+  .exam-q .q-type{
+    float:left;font-size:11px;background:var(--c-accent-light);color:var(--c-accent);
+    padding:2px 10px;border-radius:10px;font-weight:600;
+  }
+  .exam-q .q-text{font-weight:600;margin-bottom:8px}
+  .exam-q .q-options{list-style:none;padding:0;margin:8px 0}
+  .exam-q .q-options li{padding:5px 10px;margin:3px 0;border-radius:5px;background:#fff;border:1px solid var(--c-border)}
+  details.answer{
+    margin-top:12px;background:var(--c-tip-bg);border-right:3px solid var(--c-tip-border);
+    border-radius:6px;padding:10px 16px;
+  }
+  details.answer summary{
+    cursor:pointer;font-weight:700;color:var(--c-tip-border);font-size:13.5px;
+    list-style:none;display:flex;align-items:center;gap:6px;
+  }
+  details.answer summary::before{content:"▶";font-size:10px;transition:transform .2s}
+  details.answer[open] summary::before{transform:rotate(90deg)}
+  details.answer summary::-webkit-details-marker{display:none}
+  details.answer .ans-body{margin-top:10px;font-size:14px;line-height:1.8;color:#1f3a2c}
+
+  /* ===== Misc ===== */
+  .badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:600}
+  .badge.blue{background:var(--c-primary-light);color:var(--c-primary)}
+  .badge.orange{background:var(--c-accent-light);color:var(--c-accent)}
+  .badge.green{background:#e1f1e8;color:var(--c-green)}
+  .badge.gold{background:#fbf2dd;color:var(--c-gold)}
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  hr.sep{border:none;border-top:1px dashed var(--c-border);margin:28px 0}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
+  @media(max-width:760px){.two-col{grid-template-columns:1fr}}
+  .footer-note{
+    text-align:center;font-size:12.5px;color:var(--c-muted);margin-top:40px;padding-top:20px;
+    border-top:1px solid var(--c-border);
+  }
+  .glossary-item{padding:8px 0;border-bottom:1px dotted var(--c-border)}
+  .glossary-item .en-word{color:var(--c-accent);font-weight:700;direction:ltr;display:inline-block}
+  .glossary-item .fa-word{color:var(--c-primary-dark);font-weight:600;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ============ SIDEBAR TOC ============ -->
+<aside class="toc">
+  <div class="brand">
+    جزوه سیستم‌عامل — فصل ۱
+    <small>بر اساس Silberschatz, Operating System Concepts, 9th Ed.</small>
+  </div>
+  <nav>
+    <div class="part-label">بخش اول — راهنما</div>
+    <ol>
+      <li><a href="#study-guide">راهنمای مطالعه</a></li>
+      <li><a href="#topic-map">نقشه موضوعات</a></li>
+      <li><a href="#prereq">پیش‌نیازها</a></li>
+    </ol>
+
+    <div class="part-label">بخش دوم — آموزش</div>
+    <ol>
+      <li><a href="#ch1">فصل ۱: معرفی درس</a>
+        <ol>
+          <li><a href="#ch1-1">سرفصل‌ها و اهداف</a></li>
+          <li><a href="#ch1-2">سیاست کلاس و ارزشیابی</a></li>
+        </ol>
+      </li>
+      <li><a href="#ch2">فصل ۲: سیستم‌عامل چیست؟</a>
+        <ol>
+          <li><a href="#ch2-1">سطح انتزاع کامپیوتر</a></li>
+          <li><a href="#ch2-2">تعریف و اهداف OS</a></li>
+          <li><a href="#ch2-3">کرنل و برنامه‌های سیستمی</a></li>
+          <li><a href="#ch2-4">راه‌اندازی کامپیوتر (Boot)</a></li>
+          <li><a href="#ch2-5">BMC و BIOS</a></li>
+        </ol>
+      </li>
+      <li><a href="#ch3">فصل ۳: ساختار سیستم کامپیوتری</a>
+        <ol>
+          <li><a href="#ch3-1">سازمان سیستم: گذرگاه و کنترل‌کننده</a></li>
+          <li><a href="#ch3-2">وقفه (Interrupt)</a></li>
+          <li><a href="#ch3-3">درایور دستگاه</a></li>
+          <li><a href="#ch3-4">ساختار و سلسله‌مراتب حافظه</a></li>
+          <li><a href="#ch3-5">کش (Cache)</a></li>
+          <li><a href="#ch3-6">DMA</a></li>
+          <li><a href="#ch3-7">معماری چندپردازنده</a></li>
+        </ol>
+      </li>
+      <li><a href="#ch4">فصل ۴: ساختار و عملکرد OS</a>
+        <ol>
+          <li><a href="#ch4-1">چندبرنامه‌ای، چندوظیفه‌ای، چندپردازنده</a></li>
+          <li><a href="#ch4-2">OS مبتنی بر وقفه</a></li>
+          <li><a href="#ch4-3">حالت دوگانه (Dual-Mode)</a></li>
+          <li><a href="#ch4-4">System Call</a></li>
+          <li><a href="#ch4-5">Timer و Process Hogging</a></li>
+        </ol>
+      </li>
+      <li><a href="#ch5">فصل ۵: اجزای اصلی OS</a>
+        <ol>
+          <li><a href="#ch5-1">مدیریت فرایند</a></li>
+          <li><a href="#ch5-2">مدیریت حافظه</a></li>
+          <li><a href="#ch5-3">مدیریت ذخیره‌سازی</a></li>
+        </ol>
+      </li>
+      <li><a href="#ch6">فصل ۶: OSهای متن‌باز</a>
+        <ol>
+          <li><a href="#ch6-1">متن‌باز در برابر بسته</a></li>
+          <li><a href="#ch6-2">Linux، BSD، Solaris</a></li>
+        </ol>
+      </li>
+    </ol>
+
+    <div class="part-label">بخش سوم — مرور</div>
+    <ol>
+      <li><a href="#review">جمع‌بندی کلی</a></li>
+      <li><a href="#compare">جدول‌های مقایسه</a></li>
+      <li><a href="#glossary">واژه‌نامه</a></li>
+      <li><a href="#slide-map">نمایه تطبیق اسلایدها</a></li>
+      <li><a href="#references">منابع</a></li>
+    </ol>
+
+    <div class="part-label">بخش چهارم — آزمون</div>
+    <ol>
+      <li><a href="#exam">امتحان جامع</a></li>
+      <li><a href="#answer-key">پاسخ‌نامه تشریحی</a></li>
+    </ol>
+  </nav>
+</aside>
+
+<!-- ============ MAIN CONTENT ============ -->
+<main class="content">
+
+<!-- ===== Cover ===== -->
+<header class="cover">
+  <span class="eyebrow">دانشگاه صنعتی شریف · ترم پاییز ۱۴۰۵</span>
+  <h1>جزوه آموزشی درس سیستم‌عامل</h1>
+  <p class="subtitle">فصل اول: مقدمه‌ای بر سیستم‌عامل (Lecture 1: Introduction)<br>
+  راهنمای جامع خودآموز برای یادگیری عمیق مفاهیم بنیادین سیستم‌عامل، ساختار سیستم کامپیوتری، حالت دوگانه، چندبرنامه‌ای و اجزای مدیریت منابع</p>
+  <div class="meta">
+    <span>📘 <b>مرجع اصلی:</b> Operating System Concepts, 9th Ed. — Silberschatz, Galvin, Gagne</span>
+    <span>👨‍🏫 <b>مدرس:</b> Hossein Asadi</span>
+    <span>📑 <b>پوشش:</b> اسلایدهای ۱.۱ تا ۱.۸۸</span>
+    <span>🎯 <b>سطح:</b> دانشگاهی — کارشناسی مهندسی کامپیوتر</span>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- ============ PART 1: STUDY GUIDE ============ -->
+<!-- ============================================================ -->
+<section class="part-intro" id="study-guide">
+  <h1 class="part-title" style="color:var(--c-primary-dark)">بخش اول: راهنمای مطالعه</h1>
+  <p style="margin:0;color:var(--c-text);font-size:15px">
+  این جزوه بر اساس اسلایدهای <strong>جلسه اول درس سیستم‌عامل</strong> دانشگاه صنعتی شریف (به تدریس دکتر حسین اسدی) تهیه شده است. مرجع اصلی اسلایدها، کتاب مرجع <em>Operating System Concepts</em> نوشتهٔ سیلبرشاتز، گالوین و گاگن (ویراست ۹) است. هدف این جزوه صرفاً بازنویسی متن اسلایدها نیست؛ بلکه هر مفهوم به‌گونه‌ای آموزش داده می‌شود که دانشجو بدون نیاز به حضور در کلاس، آن را از پایه درک کند، منطق پشت آن را ببیند و برای امتحان آماده شود.</p>
+</section>
+
+<h3 style="margin-top:24px">چگونه از این جزوه استفاده کنیم؟</h3>
+<ol style="font-size:14.5px;line-height:2">
+  <li><strong>مسیر پیوسته بخوانید:</strong> فصل‌ها به‌ترتیب علمی طراحی شده‌اند و هر فصل پیش‌نیاز فصل بعدی است. پرش از فصل ۲ به فصل ۴ توصیه نمی‌شود.</li>
+  <li><strong>برچسب اسلاید:</strong> در کنار هر مبحث، شماره اسلاید مرجع با چیپسی رنگی مانند <span class="slide-ref">1.24</span> یا <span class="slide-ref range">1.30–1.33</span> نمایش داده شده است تا هنگام مراجعه به اسلاید استاد، محل توضیح مربوطه را بیابید.</li>
+  <li><strong>کادرهای آموزشی:</strong> چهار نوع کادر در جزوه به کار رفته است:
+    <ul>
+      <li><span class="badge blue">یادداشت</span> — توضیح تکمیلی برای روشن‌کردن یک نکته ظریف</li>
+      <li><span class="badge orange">هشدار</span> — خطاهای رایج یا مفاهیمی که اغلب اشتباه گرفته می‌شوند</li>
+      <li><span class="badge green">نکته امتحانی</span> — نکاتی که در سؤالات امتحانی پرتکرارند</li>
+      <li><span class="badge gold">مثال</span> — مثال آموزشی برای تثبیت مفهوم</li>
+    </ul>
+  </li>
+  <li><strong>نمودارها:</strong> نمودارهای اصلی اسلاید بازطراحی شده‌اند تا خوانایی بهتری داشته باشند. در کنار هر نمودار، شماره اسلاید مبدأ ذکر شده است.</li>
+  <li><strong>امتحان پایانی:</strong> پس از مطالعه تمام فصل‌ها، امتحان جامع (بخش چهارم) را حل کنید و سپس پاسخ‌نامه تشریحی را ببینید.</li>
+</ol>
+
+<h3 id="topic-map">نقشه کلی موضوعات</h3>
+<div class="diagram">
+  <div class="d-title">نقشه مفهومی فصل اول درس سیستم‌عامل</div>
+  <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="#1d4e6b"/><stop offset="1" stop-color="#133349"/>
+      </linearGradient>
+    </defs>
+    <!-- Root -->
+    <rect x="340" y="10" width="220" height="48" rx="8" fill="url(#g1)"/>
+    <text x="450" y="40" fill="#fff" font-size="15" text-anchor="middle" font-weight="700">مقدمه‌ای بر سیستم‌عامل</text>
+    <!-- Branches -->
+    <line x1="450" y1="58" x2="450" y2="80" stroke="#1d4e6b" stroke-width="2"/>
+    <line x1="120" y1="80" x2="780" y2="80" stroke="#1d4e6b" stroke-width="2"/>
+    <line x1="120" y1="80" x2="120" y2="100" stroke="#1d4e6b" stroke-width="2"/>
+    <line x1="300" y1="80" x2="300" y2="100" stroke="#1d4e6b" stroke-width="2"/>
+    <line x1="480" y1="80" x2="480" y2="100" stroke="#1d4e6b" stroke-width="2"/>
+    <line x1="660" y1="80" x2="660" y2="100" stroke="#1d4e6b" stroke-width="2"/>
+    <line x1="780" y1="80" x2="780" y2="100" stroke="#1d4e6b" stroke-width="2"/>
+    <!-- Branch boxes -->
+    <rect x="50" y="100" width="140" height="40" rx="6" fill="#c75b39"/>
+    <text x="120" y="125" fill="#fff" font-size="12.5" text-anchor="middle" font-weight="700">معرفی درس</text>
+    <rect x="230" y="100" width="140" height="40" rx="6" fill="#1d4e6b"/>
+    <text x="300" y="125" fill="#fff" font-size="12.5" text-anchor="middle" font-weight="700">تعریف و بوت OS</text>
+    <rect x="410" y="100" width="140" height="40" rx="6" fill="#1d4e6b"/>
+    <text x="480" y="125" fill="#fff" font-size="12.5" text-anchor="middle" font-weight="700">ساختار سیستم</text>
+    <rect x="590" y="100" width="140" height="40" rx="6" fill="#1d4e6b"/>
+    <text x="660" y="125" fill="#fff" font-size="12.5" text-anchor="middle" font-weight="700">عملکرد OS</text>
+    <rect x="710" y="100" width="140" height="40" rx="6" fill="#c75b39"/>
+    <text x="780" y="125" fill="#fff" font-size="12.5" text-anchor="middle" font-weight="700">OS متن‌باز</text>
+    <!-- Leaves for structure branch -->
+    <line x1="480" y1="140" x2="480" y2="160" stroke="#888" stroke-width="1.5"/>
+    <line x1="335" y1="160" x2="625" y2="160" stroke="#888" stroke-width="1.5"/>
+    <line x1="335" y1="160" x2="335" y2="178" stroke="#888" stroke-width="1.5"/>
+    <line x1="430" y1="160" x2="430" y2="178" stroke="#888" stroke-width="1.5"/>
+    <line x1="525" y1="160" x2="525" y2="178" stroke="#888" stroke-width="1.5"/>
+    <line x1="625" y1="160" x2="625" y2="178" stroke="#888" stroke-width="1.5"/>
+    <rect x="290" y="178" width="90" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <text x="335" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">وقفه</text>
+    <rect x="385" y="178" width="95" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <text x="432" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">حافظه/کش</text>
+    <rect x="485" y="178" width="80" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <text x="525" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">DMA</text>
+    <rect x="580" y="178" width="100" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <text x="630" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">چندپردازنده</text>
+    <!-- Leaves for operation branch -->
+    <line x1="660" y1="140" x2="660" y2="240" stroke="#888" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <line x1="580" y1="240" x2="745" y2="240" stroke="#888" stroke-width="1.5"/>
+    <line x1="580" y1="240" x2="580" y2="258" stroke="#888" stroke-width="1.5"/>
+    <line x1="665" y1="240" x2="665" y2="258" stroke="#888" stroke-width="1.5"/>
+    <line x1="745" y1="240" x2="745" y2="258" stroke="#888" stroke-width="1.5"/>
+    <rect x="540" y="258" width="80" height="28" rx="5" fill="#fdeee7" stroke="#c75b39"/>
+    <text x="580" y="277" fill="#c75b39" font-size="11" text-anchor="middle">چندبرنامه‌ای</text>
+    <rect x="625" y="258" width="80" height="28" rx="5" fill="#fdeee7" stroke="#c75b39"/>
+    <text x="665" y="277" fill="#c75b39" font-size="11" text-anchor="middle">حالت دوگانه</text>
+    <rect x="705" y="258" width="80" height="28" rx="5" fill="#fdeee7" stroke="#c75b39"/>
+    <text x="745" y="277" fill="#c75b39" font-size="11" text-anchor="middle">System Call</text>
+    <!-- Leaves for definition branch -->
+    <line x1="300" y1="140" x2="300" y2="160" stroke="#888" stroke-width="1.5"/>
+    <line x1="225" y1="160" x2="375" y2="160" stroke="#888" stroke-width="1.5"/>
+    <line x1="225" y1="160" x2="225" y2="178" stroke="#888" stroke-width="1.5"/>
+    <line x1="375" y1="160" x2="375" y2="178" stroke="#888" stroke-width="1.5"/>
+    <rect x="185" y="178" width="80" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <text x="225" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">Kernel</text>
+    <rect x="335" y="178" width="80" height="28" rx="5" fill="#e8f1f6" stroke="#1d4e6b"/>
+    <text x="375" y="197" fill="#1d4e6b" font-size="11" text-anchor="middle">Boot/BMC</text>
+    <!-- Components under operation -->
+    <line x1="660" y1="290" x2="660" y2="310" stroke="#888" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <rect x="540" y="310" width="240" height="30" rx="6" fill="#26303d"/>
+    <text x="660" y="330" fill="#fff" font-size="12" text-anchor="middle">اجزای OS: فرایند، حافظه، ذخیره‌سازی</text>
+  </svg>
+</div>
+
+<h3 id="prereq">پیش‌نیازهای ضروری</h3>
+<p>پیش از مطالعه این جزوه، دانشجو بهتر است با مفاهیم زیر آشنا باشد. اگر با یکی از این موارد آشنایی ندارید، نگران نباشید؛ زیرا در طول جزوه، هر مفهوم در اولین کاربردش معرفی می‌شود:</p>
+<table class="tbl">
+  <thead><tr><th style="width:30%">مفهوم پیش‌نیاز</th><th>توضیح کوتاه</th></tr></thead>
+  <tbody>
+    <tr><td>ساختار کامپیوتر (Computer Architecture)</td><td>آشنایی با CPU، ثبات‌ها (Registers)، حافظه اصلی، دیسک و دستگاه‌های ورودی/خروجی</td></tr>
+    <tr><td>زبان ماشین و اسمبلی (پایه)</td><td>درک این که دستورالعمل‌ها در سطح پایه به‌صورت باینری اجرا می‌شوند</td></tr>
+    <tr><td>مفهوم برنامه (Program)</td><td>یک فایل ذخیره‌شده روی دیسک که شامل دستورالعمل‌ها و داده‌هاست</td></tr>
+    <tr><td>مدیریت حافظه (پایه)</td><td>آشنایی با آدرس‌دهی حافظه و تفاوت حافظه فرّار و غیرفرّار</td></tr>
+    <tr><td>مفاهیم پایه برنامه‌نویسی C</td><td>برای درک بهتر System Callها و مثال‌های عملی در فصل‌های بعدی</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ -->
+<!-- ============ PART 2: EDUCATIONAL CONTENT ============ -->
+<!-- ============================================================ -->
+<h2 style="font-size:24px;color:var(--c-primary-dark);margin:40px 0 12px;border-bottom:2px solid var(--c-accent);padding-bottom:8px">بخش دوم: محتوای آموزشی موضوعی</h2>
+
+<!-- ============ CHAPTER 1 ============ -->
+<section class="chapter" id="ch1">
+  <h2 class="chapter-title"><span class="ch-num">۱</span> فصل اول: معرفی درس، سرفصل‌ها و سیاست کلاس</h2>
+  <div class="chapter-intro">
+  <strong>در این فصل می‌آموزیم:</strong> هدف کلی درس سیستم‌عامل چیست، چه موضوعاتی در طول ترم بررسی می‌شوند، ارزشیابی چگونه انجام می‌شود و استاد چه انتظاری از دانشجو دارد. این فصل به‌خودی خود محتوای فنی ندارد، اما برای این که بدانیم «جهت حرکت درس کجاست» حیاتی است. <span class="slide-ref range">1.2–1.20</span>
+  </div>
+
+  <h3 id="ch1-1">۱-۱ معرفی کلی درس و سرفصل‌ها <span class="slide-ref range">1.2–1.13</span></h3>
+
+  <h4>مشخصات درس</h4>
+  <p>این درس توسط <strong>دکتر حسین اسادی (Hossein Asadi)</strong> در دانشگاه صنعتی شریف ارائه می‌شود. کلاس‌ها روزهای <strong>یکشنبه و سه‌شنبه، ساعت ۱۶:۳۰ تا ۱۸:۰۰</strong> برگزار می‌گردند و ممکن است از سیستم کلاس مجازی (vclass) نیز استفاده شود. ساعات ملاقات استاد از شنبه تا چهارشنبه، ۹ صبح تا ۶ بعدازظهر از طریق ایمیل یا مراجعه حضوری ممکن است.</p>
+
+  <div class="callout note">
+    <div class="ct-title">📖 کتاب مرجع</div>
+    <p>کتاب اصلی درس <em>Operating System Concepts</em>، ویراست ۸ یا ۹، انتشارات Wiley، نوشتهٔ <strong>Silberschatz, Galvin, Gagne</strong> است. منابع تکمیلی پیشنهادی:</p>
+    <ul>
+      <li><em>Operating Systems: Design & Implementation</em> — Tanenbaum & Woodhull, 3rd Ed., 2006</li>
+      <li><em>Operating Systems: Internals and Design Principles</em> — William Stallings, 5th Ed., 2005</li>
+    </ul>
+  </div>
+
+  <h4>ساختار سرفصل درس</h4>
+  <p>درس سیستم‌عامل در این ترم به چهار محور اصلی تقسیم می‌شود. هر محور چندین جلسه را به خود اختصاص می‌دهد و در نهایت تمام آن‌ها به‌هم متصل می‌شوند تا تصویری کامل از یک سیستم‌عامل مدرن ارائه دهند. <span class="slide-ref range">1.8–1.13</span></p>
+
+  <table class="tbl">
+    <thead><tr><th style="width:25%">محور اصلی</th><th style="width:50%">زیرموضوع‌ها</th><th>اهمیت</th></tr></thead>
+    <tbody>
+      <tr><td>مقدمه و ساختار OS</td><td>مفاهیم پایه، چندبرنامه‌ای، وقفه، حالت دوگانه، سرویس‌های OS، System Call، ماشین مجازی</td><td>پایه درس</td></tr>
+      <tr><td>مدیریت فرایند (Process Management)</td><td>مفهوم فرایند، IPC، نخ‌ها (Threads)، زمان‌بندی، همگام‌سازی، سمافورها، بن‌بست</td><td>بزرگ‌ترین محور</td></tr>
+      <tr><td>مدیریت حافظه (Memory Management)</td><td>Swapping، تخصیص حافظه، Paging، Page Table، Segmentation</td><td>متوسط</td></tr>
+      <tr><td>حافظه مجازی (Virtual Memory)</td><td>Demand Paging، Copy-on-Write، جایگزینی صفحه، تخصیص فریم، Thrashing</td><td>متوسط</td></tr>
+      <tr><td>مدیریت ذخیره‌سازی</td><td>ساختار SSD/HDD، سیستم فایل، پیاده‌سازی سیستم فایل، I/O</td><td>متوسط</td></tr>
+      <tr><td>سیستم‌عامل‌های زمان‌واقعی</td><td>Real-time Scheduling، Real-time Kernels، حفاظت و امنیت</td><td>تکمیلی</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip">
+    <div class="ct-title">🎯 نکته امتحانی</div>
+    <p>از آنجا که جلسه اول یک «نگاه کلی» به تمام ترم است، مفاهیمی که در این جلسه معرفی می‌شوند (مانند چندبرنامه‌ای، حالت دوگانه، وقفه) در جلسات بعدی به‌طور عمیق بررسی می‌شوند و در امتحان قطعاً سؤال خواهند داشت. این جزوه روی همین مفاهیم کلیدی تمرکز می‌کند و آن‌ها را به‌اندازه کافی توضیح می‌دهد تا دانشجو برای جلسات بعدی آماده شود.</p>
+  </div>
+
+  <h3 id="ch1-2">۱-۲ اهداف آموزشی و سیاست کلاس <span class="slide-ref range">1.14–1.19</span></h3>
+
+  <h4>اهداف یادگیری درس</h4>
+  <p>پس از پایان ترم، دانشجو باید بتواند: <span class="slide-ref range">1.16–1.17</span></p>
+  <ul>
+    <li>اجزای اصلی یک سیستم‌عامل را توصیف کند و روش‌های مختلف ساختاردهی OS را بشناسد.</li>
+    <li>ویژگی‌ها و عملیات فرایندها (ایجاد، خاتمه، زمان‌بندی، ارتباط) را شرح دهد.</li>
+    <li>مفهوم Thread و مسائل مرتبط با آن را درک کند.</li>
+    <li>الگوریتم‌های زمان‌بندی CPU را بشناسد و معیارهای ارزیابی آن‌ها را به‌کار ببرد.</li>
+    <li>مفهوم تراکنش اتمی (Atomic Transaction) و تضمین یکپارچگی داده‌های مشترک را بداند.</li>
+    <li>روش‌های جلوگیری از بن‌بست (Deadlock) را توضیح دهد.</li>
+    <li>تکنیک‌های مدیریت حافظه و حافظه مجازی را بشناسد.</li>
+    <li>رابط و کارکرد سیستم فایل و ساختار زیرسیستم I/O را شرح دهد.</li>
+  </ul>
+
+  <h4>سیاست ارزشیابی</h4>
+  <table class="tbl">
+    <thead><tr><th>مؤلفه</th><th>درصد</th><th>توضیح</th></tr></thead>
+    <tbody>
+      <tr><td>امتحان میان‌ترم</td><td>۲۵٪</td><td>تاریخ: ۸ آذر</td></tr>
+      <tr><td>امتحان پایان‌ترم</td><td>۳۰٪</td><td>طبق تقویم آموزشی</td></tr>
+      <tr><td>کوییزهای تصادفی</td><td>۱۰٪</td><td>بدون اطلاع قبلی</td></tr>
+      <tr><td>تکالیف و پروژه</td><td>۴۰٪</td><td>پروژه‌های برتر، امتیاز اضافی دریافت می‌کنند</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <div class="ct-title">⚠️ سیاست تأخیر و تقلب</div>
+    <p><strong>تأخیر تکالیف:</strong> تنها سه تکلیف با تأخیر پذیرفته می‌شود (نهایتاً دو روز). تکلیف چهارمِ تأخیری با ۵۰٪ نمره ارزیابی می‌شود و تکلیف پنجم به‌بعد اصلاً پذیرفته نمی‌شود.</p>
+    <p><strong>تقلب:</strong> نمره صفر برای تکلیف کپی‌شده؛ در بار دوم، نمره صفر حتی با ۳۰٪ مشارکت. همچنین تنها سه جلسه غیبت مجاز است.</p>
+  </div>
+
+  <div class="chapter-outro">
+    <strong>پس از مطالعه این فصل، دانشجو باید بتواند:</strong>
+    <ul style="margin:8px 0 0">
+      <li>سرفصل کامل درس را به‌صورت یک نقشه ذهنی تصویر کند.</li>
+      <li>بداند کدام منابع برای مطالعه مرجع هستند.</li>
+      <li>سیاست‌های ارزشیابی و قوانین کلاس را بداند.</li>
+      <li>توقع استاد از سطح یادگیری مفاهیم را درک کند.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 2: WHAT IS OS ============ -->
+<section class="chapter" id="ch2">
+  <h2 class="chapter-title"><span class="ch-num">۲</span> فصل دوم: سیستم‌عامل چیست؟ — تعریف، نقش و راه‌اندازی</h2>
+  <div class="chapter-intro">
+  <strong>در این فصل می‌آموزیم:</strong> سیستم‌عامل (Operating System) دقیقاً چیست، چه اهدافی دنبال می‌کند، چرا به آن نیاز داریم، تفاوت آن با سخت‌افزار و برنامه‌های کاربردی در چیست، هسته (Kernel) چیست و کامپیوتر چگونه از خاموشی تا اجرای اولین فرایند بوت می‌شود. این فصل بنیادی‌ترین فصل جزوه است و تمام فصل‌های بعدی بر آن استوارند. <span class="slide-ref range">1.21–1.38</span>
+  </div>
+
+  <h3 id="ch2-1">۲-۱ سطوح انتزاع در کامپیوتر <span class="slide-ref">1.22</span></h3>
+
+  <p>پیش از تعریف سیستم‌عامل، باید جایگاه آن در معماری چندلایه‌ای کامپیوتر را درک کنیم. یک سیستم کامپیوتری مدرن از چند لایه‌ی انتزاعی (Abstraction Layer) تشکیل شده است که هر لایه، لایه‌ی زیرین خود را پوشش می‌دهد و به لایه بالایی سرویس ساده‌تری ارائه می‌کند.</p>
+
+  <div class="diagram">
+    <div class="d-title">سطوح انتزاع کامپیوتر — جایگاه سیستم‌عامل <span class="slide-ref">1.22</span></div>
+    <svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <!-- Layers from top to bottom -->
+      <rect x="80" y="20" width="440" height="38" rx="5" fill="#c75b39"/>
+      <text x="300" y="44" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">Applications — برنامه‌های کاربردی</text>
+      <rect x="80" y="62" width="440" height="38" rx="5" fill="#b8860b"/>
+      <text x="300" y="86" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">Compilers — کامپایلرها و ابزار توسعه</text>
+      <!-- OS highlighted -->
+      <rect x="80" y="104" width="440" height="42" rx="5" fill="#1d4e6b" stroke="#c75b39" stroke-width="3"/>
+      <text x="300" y="130" fill="#fff" font-size="15" text-anchor="middle" font-weight="700">Operating System — سیستم‌عامل</text>
+      <rect x="80" y="150" width="440" height="38" rx="5" fill="#266a8c"/>
+      <text x="300" y="174" fill="#fff" font-size="14" text-anchor="middle">Computer Architecture (ISA) — معماری کامپیوتر</text>
+      <rect x="80" y="192" width="440" height="38" rx="5" fill="#4a7a96"/>
+      <text x="300" y="216" fill="#fff" font-size="14" text-anchor="middle">Microarchitecture — میکرومعماری</text>
+      <rect x="80" y="234" width="440" height="38" rx="5" fill="#6a92aa"/>
+      <text x="300" y="258" fill="#fff" font-size="14" text-anchor="middle">Digital Design — طراحی دیجیتال</text>
+      <rect x="80" y="276" width="440" height="38" rx="5" fill="#8aa8be"/>
+      <text x="300" y="300" fill="#fff" font-size="14" text-anchor="middle">Circuit — مدار</text>
+      <rect x="80" y="318" width="440" height="38" rx="5" fill="#aabdc9"/>
+      <text x="300" y="342" fill="#133349" font-size="14" text-anchor="middle">Device — افزاره</text>
+      <!-- Arrow indicating HW/SW boundary -->
+      <line x1="40" y1="146" x2="540" y2="146" stroke="#c75b39" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="300" y="382" fill="#c75b39" font-size="12" text-anchor="middle" font-weight="700">مرز نرم‌افزار / سخت‌افزار ↑↑↑</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۲۲ — Silberschatz, Galvin, Gagne ©2013</div>
+  </div>
+
+  <div class="callout note">
+    <div class="ct-title">📖 تحلیل نمودار</div>
+    <p>از پایین به بالا حرکت می‌کنیم: <strong>افزاره‌ها (Device)</strong> به مدار (Circuit) متصل‌اند، مدارها طراحی دیجیتال را می‌سازند، طراحی دیجیتال به میکرومعماری تبدیل می‌شود، میکرومعماری <em>ISA</em> (مجموعه دستورالعمل‌ها) را پیاده می‌کند. <strong>سیستم‌عامل نزدیک‌ترین لایه نرم‌افزاری به ISA است</strong> — یعنی OS مستقیماً روی سخت‌افزار می‌نشیند و سرویس‌های سطح بالاتر را به کامپایلرها و برنامه‌های کاربردی ارائه می‌دهد.</p>
+  </div>
+
+  <h4>چرا از انتزاع (Abstraction) استفاده می‌کنیم؟</h4>
+  <p>اگر هر برنامه‌نویس مجبور بود برای نوشتن یک برنامه، مستقیماً با ترانزیستورها، مدارها یا حتی ثبات‌های CPU کار کند، توسعه نرم‌افزار عملاً غیرممکن می‌شد. <strong>انتزاع</strong> به این معناست که هر لایه، پیچیدگی لایه‌ی زیرین خود را پنهان می‌کند و تنها یک «رابط ساده‌شده» ارائه می‌دهد. مثلاً برنامه‌نویس وقتی <code>printf("Hello")</code> می‌نویسد، نیازی ندارد بداند چه ثبات‌هایی در CPU تغییر می‌کنند یا کدام قطعه روی دیسک می‌چرخد.</p>
+
+  <h3 id="ch2-2">۲-۲ تعریف و اهداف سیستم‌عامل <span class="slide-ref range">1.23–1.31</span></h3>
+
+  <h4>تعریف شهودی</h4>
+  <p>تصور کنید یک کاربر می‌خواهد یک برنامه را اجرا کند، فایلی را روی دیسک ذخیره کند، تصویری را چاپ کند و هم‌زمان به موسیقی گوش دهد. اگر سخت‌افزار تنها توسط خود برنامه‌ها مدیریت می‌شد، هر برنامه باید می‌دانست چطور با دیسک، چاپگر، کارت صدا و سایر برنامه‌ها هم‌کاری کند — این یعنی آشوب. <strong>سیستم‌عامل</strong> برنامۀ میانجی‌ای است که این مدیریت را به‌عهده می‌گیرد.</p>
+
+  <div class="def-card">
+    <div class="term">سیستم‌عامل <span class="en-term">(Operating System — OS)</span></div>
+    <div class="def-body">
+    برنامه‌ای که به‌عنوان <strong>میانجی</strong> بین کاربر (یا برنامه‌های کاربردی) و سخت‌افزار کامپیوتر عمل می‌کند. سیستم‌عامل نقش یک <em>مدیر</em> (Governor) را بازی می‌کند: تصمیم می‌گیرد چه زمانی، کدام برنامه به کدام منبع سخت‌افزاری دسترسی داشته باشد، تا هم عدالت بین برنامه‌ها رعایت شود و هم کارایی سیستم حفظ گردد.
+    </div>
+  </div>
+
+  <h4>چهار هدف اصلی سیستم‌عامل</h4>
+  <p>سیلبرشاتز در اسلاید ۱.۲۳ چهار هدف بنیادین را برای OS برمی‌شمارد:</p>
+  <div class="two-col">
+    <div class="callout tip" style="margin:0">
+      <div class="ct-title">🎯 ۱. اجرای برنامه‌های کاربر</div>
+      <p>Execute user programs and make solving user problems easier — OS باید محیطی فراهم کند که برنامه‌های کاربر بتوانند اجرا شوند و حل مسئله برای کاربر آسان‌تر شود.</p>
+    </div>
+    <div class="callout tip" style="margin:0">
+      <div class="ct-title">🎯 ۲. آسانی استفاده</div>
+      <p>Make computer system convenient to use — رابط کاربری، ابزار فایل، دستورات و سرویس‌ها باید ساده و قابل فهم باشند.</p>
+    </div>
+    <div class="callout tip" style="margin:0">
+      <div class="ct-title">🎯 ۳. کارایی سخت‌افزار</div>
+      <p>Use computer HW in an efficient manner — استفاده بهینه از CPU، حافظه، دیسک و I/O، به‌گونه‌ای که منابع بیکار نمانند.</p>
+    </div>
+    <div class="callout tip" style="margin:0">
+      <div class="ct-title">🎯 ۴. اجرای هم‌زمان چند برنامه</div>
+      <p>Allow multiple programs to simultaneously be executed in a shared HW — امکان اجرای هم‌زمان چند برنامه روی یک سخت‌افزار مشترک.</p>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ct-title">⚠️ تناقض ذاتی اهداف</div>
+    <p>دقت کنید که هدف «آسانی استفاده» گاهی با هدف «کارایی» در تضاد است. مثلاً یک رابط گرافیکی زیبا (GUI) کاربر را خوشحال می‌کند اما CPU و حافظه را مصرف می‌کند. طراحی OS همیشه یک <strong>مصالحه (Trade-off)</strong> بین این اهداف است.</p>
+  </div>
+
+  <h4>آیا سیستم‌عامل الزامی است؟ <span class="slide-ref">1.24</span></h4>
+  <p>سؤال مهم: آیا یک کامپیوتر بدون سیستم‌عامل می‌تواند کار کند؟ <strong>پاسخ: بله.</strong> اولین کامپیوترها (مانند ENIAC) سیستم‌عامل نداشتند. در آن دوران:</p>
+  <ul>
+    <li>کامپیوتر در هر لحظه فقط <strong>یک برنامه</strong> اجرا می‌کرد.</li>
+    <li>امکان اجرای هم‌زمان دو کار (مثلاً باز کردن یک سند و در عین حال نگه‌داشتن ساعت روی صفحه) وجود نداشت.</li>
+    <li>هر برنامه باید خودش کارهای فراوانی را انجام می‌داد: بارگذاری خود، دسترسی به I/O، مدیریت خطاها و غیره.</li>
+  </ul>
+  <p>این محدودیت‌ها انگیزهٔ اصلی پیدایش سیستم‌عامل بودند: «بیاییم کارهای مشترک همه برنامه‌ها (مانند کنترل I/O، تخصیص حافظه، زمان‌بندی CPU) را در یک برنامهٔ مرکزی جمع کنیم.»</p>
+
+  <h4>نقش OS از دو زاویه <span class="slide-ref range">1.28–1.31</span></h4>
+  <p>نگاه به سیستم‌عامل بستگی به نقطه‌نظری دارد که از کجا می‌نگریم:</p>
+
+  <table class="tbl compare">
+    <thead><tr><th style="width:18%">معیار</th><th>نگاه کاربر (User View)</th><th>نگاه سیستم (System View)</th></tr></thead>
+    <tbody>
+      <tr><td>هدف اصلی</td><td>راحتی و آسانی استفاده</td><td>تخصیص منابع و کنترل اجرا</td></tr>
+      <tr><td>نکته مهم</td><td>Latency (تأخیر پاسخ) مهم است، نه Throughput</td><td>Utilization (بهره‌وری منابع) مهم است</td></tr>
+      <tr><td>نمونه</td><td>کاربر لپ‌تاپ می‌خواهد برنامه سریع باز شود</td><td>سرور باید به‌طور عادلانه بین ۱۰۰ کاربر تقسیم وقت کند</td></tr>
+      <tr><td>تعریف OS</td><td>وسیله‌ای برای آسان‌کردن کار با کامپیوتر</td><td><strong>تخصیص‌دهنده منابع</strong> (Resource Allocator) و <strong>برنامه کنترل</strong> (Control Program)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout extra">
+    <div class="ct-title">📚 توضیح تکمیلی — انواع سیستم‌ها و انتظارات متفاوت</div>
+    <p>سیستم‌عامل بر اساس نوع سیستم نیز متفاوت عمل می‌کند <span class="slide-ref">1.29</span>:</p>
+    <ul>
+      <li><strong>Embedded (تعبیه‌شده):</strong> در ماشین، یخچال، دوربین — هدف: زمان‌واقعی، قابلیت اطمینان، مصرف کم.</li>
+      <li><strong>Desktop (رومیزی):</strong> تعادل بین آسانی و کارایی.</li>
+      <li><strong>HPC (رایانش باکارایی بالا):</strong> هدف اصلی، بیشترین Throughput.</li>
+      <li><strong>Handheld (دستی/موبایل):</strong> منابع فقیر — هدف: آسانی و عمر باتری.</li>
+      <li><strong>بدون رابط کاربر:</strong> برخی سیستم‌عامل‌ها (مثل خودرو) رابط کاربری قابل‌مشاهده ندارند.</li>
+    </ul>
+  </div>
+
+  <h4>تعریف رسمی — Kernel چیست؟ <span class="slide-ref range">1.31–1.33</span></h4>
+  <p>یکی از چالش‌های کلاسیک در درس سیستم‌عامل این است که <strong>تعریف دقیق و جهان‌پذیری از OS وجود ندارد</strong>. دو تقریب رایج عبارت‌اند از:</p>
+  <ul>
+    <li>«هر آنچه یک فروشنده هنگام سفارش OS ارسال می‌کند» — اما این تعریب از ۱ مگابایت تا چند گیگابایت متغیر است.</li>
+    <li>«آن <strong>یک برنامه‌ای که همیشه در حال اجراست</strong>» — این تعریف دقیق‌تر است.</li>
+  </ul>
+
+  <div class="def-card">
+    <div class="term">هسته <span class="en-term">(Kernel)</span></div>
+    <div class="def-body">
+    آن <strong>یک برنامه‌ای که همیشه روی کامپیوتر در حال اجراست</strong>. کرنل قلب سیستم‌عامل است و تماماً در حافظه مقیم (Resident) می‌ماند. هر چیز خارج از کرنل یا <strong>برنامه سیستمی</strong> است (مانند مدیریت فایل، Loader، Linker، Compiler که همراه OS ارسال می‌شوند) یا <strong>برنامه کاربردی</strong> (Word، مرورگر، بازی).
+    </div>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">ساختار منابع کامپیوتری — کاربر، برنامه‌ها، OS و سخت‌افزار <span class="slide-ref">1.26</span></div>
+    <svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <!-- Users -->
+      <rect x="40" y="20" width="120" height="40" rx="6" fill="#b8860b"/>
+      <text x="100" y="45" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Users</text>
+      <rect x="180" y="20" width="120" height="40" rx="6" fill="#b8860b"/>
+      <text x="240" y="45" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Users (Machines)</text>
+      <rect x="320" y="20" width="120" height="40" rx="6" fill="#b8860b"/>
+      <text x="380" y="45" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Users (Others)</text>
+      <!-- Application layer -->
+      <rect x="40" y="100" width="500" height="50" rx="8" fill="#c75b39"/>
+      <text x="290" y="130" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">Application &amp; System Programs (Word, Compiler, Browser, ...)</text>
+      <!-- OS -->
+      <rect x="40" y="170" width="500" height="50" rx="8" fill="#1d4e6b" stroke="#c75b39" stroke-width="3"/>
+      <text x="290" y="200" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">Operating System (Kernel)</text>
+      <!-- HW -->
+      <rect x="40" y="250" width="500" height="50" rx="8" fill="#26303d"/>
+      <text x="290" y="280" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">Hardware (CPU, Memory, I/O Devices, Storage)</text>
+      <!-- Arrows -->
+      <line x1="100" y1="62" x2="100" y2="98" stroke="#888" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="240" y1="62" x2="240" y2="98" stroke="#888" stroke-width="2"/>
+      <line x1="380" y1="62" x2="380" y2="98" stroke="#888" stroke-width="2"/>
+      <line x1="290" y1="152" x2="290" y2="168" stroke="#888" stroke-width="2"/>
+      <line x1="290" y1="222" x2="290" y2="248" stroke="#888" stroke-width="2"/>
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker></defs>
+      <text x="290" y="335" fill="#5a6470" font-size="11" text-anchor="middle">کاربران از طریق برنامه‌ها، از سرویس‌های OS استفاده می‌کنند؛ OS سخت‌افزار را مدیریت می‌کند.</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۲۶ — Components of a Computer System</div>
+  </div>
+
+  <h3 id="ch2-3">۲-۳ داستان پیدایش سیستم‌عامل <span class="slide-ref">1.32</span></h3>
+  <p>برای درک بهتر، روند تاریخی-منطقی پیدایش OS را مرور می‌کنیم:</p>
+  <ol>
+    <li><strong>هدف بنیادین:</strong> اجرای برنامه‌های کاربر و آسان‌کردن حل مسئله.</li>
+    <li><strong>ساخت سخت‌افزار:</strong> اما سخت‌افزار به‌تنهایی آسان استفاده نیست (نیاز به دانستن جزئیات ثبات‌ها، آدرس‌ها و...).</li>
+    <li><strong>توسعه برنامه‌های کاربردی:</strong> برای پوشش پیچیدگی سخت‌افزار، برنامه‌هایی نوشته شد.</li>
+    <li><strong>نیاز به عملیات مشترک:</strong> همه برنامه‌ها به کارهای تکراری نیاز داشتند — کنترل I/O، مدیریت خطا، تخصیص حافظه.</li>
+    <li><strong>تجمع توابع مشترک در یک قطعه:</strong> این کارهای مشترک در یک برنامه متمرکز شدند — <em>این شد OS.</em></li>
+  </ol>
+  <p>پس سیستم‌عامل در اصل <strong>«لایه‌ی تجمیع‌شدهٔ توابع مشترک»</strong> است که رفته‌رفته شکل گرفت.</p>
+
+  <h3 id="ch2-4">۲-۴ راه‌اندازی کامپیوتر (Boot Process) <span class="slide-ref range">1.33–1.35</span></h3>
+
+  <h4>مسئله</h4>
+  <p>سیستم‌عامل روی دیسک ذخیره شده. اما برای اجرا باید در حافظه اصلی (RAM) باشد. وقتی کامپیوتر خاموش است، RAM خالی است و CPU هیچ برنامه‌ای برای اجرا ندارد. <strong>چگونه سیستم‌عامل اصلاً شروع به اجرا می‌کند؟</strong></p>
+
+  <div class="callout note">
+    <div class="ct-title">📖 مفهوم Stored Program</div>
+    <p>یادآوری از معماری فون‌نویمان: برنامه‌ها به‌صورت داده روی حافظه ذخیره می‌شوند و CPU آن‌ها را یکی‌یکی fetch و اجرا می‌کند. اما برای fetch اولین دستور، CPU باید بداند از کدام آدرس شروع کند — و این آدرس در یک حافظه-only-read (ROM) از پیش تعیین شده است.</p>
+  </div>
+
+  <div class="def-card">
+    <div class="term">برنامه بوت‌استرپ <span class="en-term">(Bootstrap Program)</span></div>
+    <div class="def-body">
+    برنامه‌ی کوچکی که در زمان روشن‌شدن یا Restart بارگذاری می‌شود. این برنامه معمولاً در <strong>ROM یا EPROM</strong> ذخیره شده و به‌طور کلی به آن <em>Firmware</em> می‌گویند. وظایف بوت‌استرپ:
+    <ol style="margin:8px 0 0">
+      <li>مقداردهی اولیه همه جنبه‌های سیستم (ثبات‌های CPU، کنترل‌کننده‌های دستگاه).</li>
+      <li>بارگذاری Kernel سیستم‌عامل از دیسک به RAM.</li>
+      <li>آغاز اجرای Kernel.</li>
+      <li>Kernel سپس اولین فرایند (مانند <code>init</code> در Linux) را آغاز می‌کند.</li>
+    </ol>
+    </div>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">روند بوت در Linux — از Power-Up تا اجرای اولین فرایند <span class="slide-ref">1.35</span></div>
+    <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d4e6b"/></marker></defs>
+      <!-- Steps -->
+      <g>
+        <rect x="10" y="100" width="100" height="40" rx="6" fill="#133349"/>
+        <text x="60" y="124" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Power-On</text>
+        <line x1="110" y1="120" x2="140" y2="120" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar2)"/>
+
+        <rect x="140" y="100" width="100" height="40" rx="6" fill="#1d4e6b"/>
+        <text x="190" y="120" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">BIOS/UEFI</text>
+        <text x="190" y="135" fill="#cfe0ec" font-size="9" text-anchor="middle">(Firmware)</text>
+        <line x1="240" y1="120" x2="270" y2="120" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar2)"/>
+
+        <rect x="270" y="100" width="100" height="40" rx="6" fill="#266a8c"/>
+        <text x="320" y="120" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Bootloader</text>
+        <text x="320" y="135" fill="#cfe0ec" font-size="9" text-anchor="middle">GRUB</text>
+        <line x1="370" y1="120" x2="400" y2="120" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar2)"/>
+
+        <rect x="400" y="100" width="100" height="40" rx="6" fill="#c75b39"/>
+        <text x="450" y="120" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Linux Kernel</text>
+        <text x="450" y="135" fill="#fdeee7" font-size="9" text-anchor="middle">بارگذاری در RAM</text>
+        <line x1="500" y1="120" x2="530" y2="120" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar2)"/>
+
+        <rect x="530" y="100" width="100" height="40" rx="6" fill="#b8860b"/>
+        <text x="580" y="120" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">init / systemd</text>
+        <text x="580" y="135" fill="#fbf2dd" font-size="9" text-anchor="middle">اولین فرایند</text>
+      </g>
+      <text x="350" y="60" fill="#1d4e6b" font-size="13" text-anchor="middle" font-weight="700">روند بوت — جابه‌جایی کنترل از ROM به دیسک و سپس به RAM</text>
+      <text x="350" y="180" fill="#5a6470" font-size="11" text-anchor="middle">ROM/EPROM (Firmware) ← Sector 0 دیسک ← فایل کرنل ← اجرای init</text>
+      <text x="350" y="200" fill="#c75b39" font-size="11" text-anchor="middle">هر مرحله مرحله بعد را بارگذاری می‌کند — Chain Loading</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۳۵ — بر اساس geeksforgeeks.org</div>
+  </div>
+
+  <div class="callout tip">
+    <div class="ct-title">🎯 نکته امتحانی</div>
+    <p>بوت‌استرپ در ROM ذخیره می‌شود زیرا RAM فرّار است و هنگام خاموشی محتوا را از دست می‌دهد.ROM غیرفرّار است و همیشه قابل دسترس است. بوت‌استرپ <strong>اولین کدی است که CPU اجرا می‌کند</strong>.</p>
+  </div>
+
+  <h3 id="ch2-5">۲-۵ کنترل‌کننده مدیریت پایه‌برد (BMC) و مقداردهی BIOS <span class="slide-ref range">1.36–1.39</span></h3>
+
+  <h4>BMC چیست؟</h4>
+  <div class="def-card">
+    <div class="term">کنترل‌کننده مدیریت پایه‌برد <span class="en-term">(Baseboard Management Controller — BMC)</span></div>
+    <div class="def-body">
+    یک کامپیوتر کوچک (معمولاً مبتنی بر ARM SoC) که روی مادربرد هر سرور قرار دارد. BMC مستقل از CPU اصلی و سیستم‌عامل اصلی عمل می‌کند و یک رابط گرافیکی (GUI) همراه منطق داخلی برای مدیریت از راه دور دارد. با استفاده از BMC می‌توان سرور را حتی اگر OS هنگ کرده باشد، از راه دور مدیریت، ری‌استارت یا عیب‌یابی کرد.
+    </div>
+  </div>
+
+  <div class="callout note">
+    <div class="ct-title">📖 چرا BMC مهم است؟</div>
+    <p>در دیتاسنترها، مدیر سیستم نمی‌تواند به‌طور فیزیکی به هر سرور دسترسی داشته باشد. اگر کرنل Linux هنگ کند، مدیر از طریق BMC (که از کارت شبکه اختصاصی خود استفاده می‌کند) می‌تواند سرور را ری‌استارت دهد، دمای CPU را ببیند، یا حتی کنسول سریال را از راه دور ببیند. نمونه‌های شناخته‌شده: <em>IPMI, Dell iDRAC, HP iLO, Supermicro IPMI</em>.</p>
+  </div>
+
+  <h4>از BIOS تا راه‌اندازی OS</h4>
+  <p>روند کامل از فشار دادن دکمه Power تا اجرای OS به این ترتیب است <span class="slide-ref">1.38</span>:</p>
+  <ol>
+    <li><strong>Power-On:</strong> منبع تغذیه پایدار می‌شود.</li>
+    <li><strong>BMC آماده می‌شود:</strong> سنسورها، فن‌ها و ولتاژها چک می‌شوند.</li>
+    <li><strong>BIOS/UEFI اجرا می‌شود:</strong> POST (Power-On Self Test) انجام می‌شود؛ حافظه و دستگاه‌ها چک می‌شوند.</li>
+    <li><strong>انتخاب دستگاه بوت:</strong> BIOS طبق ترتیب بوت، اولین دستگاه بوت‌شونده را پیدا می‌کند.</li>
+    <li><strong>بارگذاری Boot Sector:</strong> سکتور صفر دیسک (شامل Bootloader کوچک) به RAM خوانده می‌شود.</li>
+    <li><strong>اجرای Bootloader:</strong> Bootloader کامل (مانند GRUB) بارگذاری می‌شود و منوی انتخاب OS را نمایش می‌دهد.</li>
+    <li><strong>بارگذاری Kernel:</strong> Bootloader، فایل Kernel را از سیستم فایل به RAM می‌خواند.</li>
+    <li><strong>اجرای Kernel:</strong> کرنل مقداردهی اولیه می‌کند (درایورها، سیستم فایل، شبکه).</li>
+    <li><strong>اجرای init:</strong> اولین فرایند کاربر اجرا می‌شود و سیستم آماده می‌گردد.</li>
+  </ol>
+
+  <div class="chapter-outro">
+    <strong>پس از مطالعه این فصل، دانشجو باید بتواند:</strong>
+    <ul style="margin:8px 0 0">
+      <li>سیستم‌عامل را با تعریف دقیق و بدون ابهام توضیح دهد و تفاوت آن با سخت‌افزار و برنامه‌های کاربردی را بشناسد.</li>
+      <li>چهار هدف اصلی OS را برشمارد و تناقض‌های میان آن‌ها را تحلیل کند.</li>
+      <li>تفاوت نگاه کاربر و نگاه سیستم به OS را بیان کند.</li>
+      <li>تعریف Kernel و تفاوت آن با برنامه‌های سیستمی و کاربردی را بداند.</li>
+      <li>روند بوت کامپیوتر را مرحله‌به‌مرحله شرح دهد و نقش ROM، BIOS، Bootloader، Kernel و init را توضیح دهد.</li>
+      <li>نقش BMC در سرورها را بداند.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 3: COMPUTER SYSTEM STRUCTURE ============ -->
+<section class="chapter" id="ch3">
+  <h2 class="chapter-title"><span class="ch-num">۳</span> فصل سوم: ساختار سیستم کامپیوتری</h2>
+  <div class="chapter-intro">
+  <strong>در این فصل می‌آموزیم:</strong> یک سیستم کامپیوتری از چه اجزای سخت‌افزاری تشکیل شده، CPU و دستگاه‌های I/O چگونه از طریق گذرگاه (Bus) با حافظه ارتباط برقرار می‌کنند، مکانیزم وقفه (Interrupt) چیست و چرا قلب OS مبتنی بر وقفه است، درایور دستگاه چه نقشی دارد، سلسله‌مراتب حافظه و کش چگونه کار می‌کنند، DMA چگونه انتقال داده را بدون دخالت CPU انجام می‌دهد و معماری چندپردازنده (SMP, Multicore) چه تفاوتی با تک‌پردازنده دارد. <span class="slide-ref range">1.39–1.56</span>
+  </div>
+
+  <h3 id="ch3-1">۳-۱ سازمان سیستم: گذرگاه، کنترل‌کننده و حافظه <span class="slide-ref range">1.40–1.42</span></h3>
+
+  <h4>مدل کلی یک سیستم کامپیوتری</h4>
+  <p>یک کامپیوتر مدرن شامل یک یا چند CPU و مجموعه‌ای از کنترل‌کننده‌های دستگاه (Device Controllers) است که همگی از طریق یک <strong>گذرگاه مشترک (Common Bus)</strong> به حافظه اصلی دسترسی دارند. <span class="slide-ref">1.40</span></p>
+
+  <div class="diagram">
+    <div class="d-title">سازمان سیستم کامپیوتری — گذراغ مشترک و دسترسی به حافظه <span class="slide-ref">1.40</span></div>
+    <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <!-- Bus line -->
+      <rect x="40" y="160" width="620" height="14" fill="#1d4e6b"/>
+      <text x="350" y="155" fill="#1d4e6b" font-size="12" text-anchor="middle" font-weight="700">Common Bus (گذرگاه مشترک — آدرس، داده، کنترل)</text>
+      <!-- CPU -->
+      <rect x="70" y="50" width="100" height="90" rx="8" fill="#c75b39"/>
+      <text x="120" y="80" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">CPU</text>
+      <text x="120" y="100" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <text x="120" y="115" fill="#fdeee7" font-size="10" text-anchor="middle">ALU</text>
+      <text x="120" y="130" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
+      <line x1="120" y1="140" x2="120" y2="160" stroke="#1d4e6b" stroke-width="3"/>
+      <!-- Memory -->
+      <rect x="220" y="50" width="120" height="90" rx="8" fill="#133349"/>
+      <text x="280" y="80" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Memory</text>
+      <text x="280" y="100" fill="#cfe0ec" font-size="11" text-anchor="middle">(RAM)</text>
+      <text x="280" y="125" fill="#cfe0ec" font-size="10" text-anchor="middle">Shared</text>
+      <line x1="280" y1="140" x2="280" y2="160" stroke="#1d4e6b" stroke-width="3"/>
+      <!-- Disk controller -->
+      <rect x="380" y="50" width="130" height="90" rx="8" fill="#266a8c"/>
+      <text x="445" y="80" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Disk Controller</text>
+      <text x="445" y="100" fill="#cfe0ec" font-size="10" text-anchor="middle">+ Local Buffer</text>
+      <line x1="445" y1="140" x2="445" y2="160" stroke="#1d4e6b" stroke-width="3"/>
+      <rect x="400" y="200" width="90" height="50" rx="6" fill="#6a92aa"/>
+      <text x="445" y="225" fill="#fff" font-size="11" text-anchor="middle">Disk Drive</text>
+      <text x="445" y="240" fill="#fff" font-size="10" text-anchor="middle">(HDD/SSD)</text>
+      <line x1="445" y1="200" x2="445" y2="174" stroke="#1d4e6b" stroke-width="2"/>
+      <!-- USB / NIC controller -->
+      <rect x="540" y="50" width="120" height="90" rx="8" fill="#266a8c"/>
+      <text x="600" y="80" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">USB/NIC Ctrl</text>
+      <text x="600" y="100" fill="#cfe0ec" font-size="10" text-anchor="middle">+ Local Buffer</text>
+      <line x1="600" y1="140" x2="600" y2="160" stroke="#1d4e6b" stroke-width="3"/>
+      <rect x="555" y="200" width="90" height="50" rx="6" fill="#6a92aa"/>
+      <text x="600" y="225" fill="#fff" font-size="11" text-anchor="middle">I/O Device</text>
+      <text x="600" y="240" fill="#fff" font-size="10" text-anchor="middle">(Kbd/Net)</text>
+      <line x1="600" y1="200" x2="600" y2="174" stroke="#1d4e6b" stroke-width="2"/>
+      <text x="350" y="290" fill="#5a6470" font-size="11" text-anchor="middle">CPU و دستگاه‌ها به‌صورت هم‌زمان برای چرخه‌های حافظه رقابت می‌کنند.</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۴۰ — Computer-System Organization</div>
+  </div>
+
+  <h4>کنترل‌کننده دستگاه (Device Controller) چیست؟</h4>
+  <p>هر نوع دستگاه I/O (دیسک، صدا، شبکه، USB) یک <strong>کنترل‌کننده اختصاصی</strong> دارد. کنترل‌کننده:</p>
+  <ul>
+    <li>مسئول نوع خاصی از دستگاه است (مثلاً کنترل‌کننده دیسک، کنترل‌کننده صدا).</li>
+    <li>یک <strong>حافظه محلی (Local Buffer)</strong> دارد — داده‌ها ابتدا در اینجا قرار می‌گیرند.</li>
+    <li>عملیات I/O را به‌صورت مستقل از CPU انجام می‌دهد.</li>
+    <li>پس از پایان عملیات، با صدور یک <strong>وقفه (Interrupt)</strong> به CPU اطلاع می‌دهد.</li>
+  </ul>
+
+  <p>CPU سپس داده را از <em>Local Buffer کنترل‌کننده</em> به <em>حافظه اصلی</em> منتقل می‌کند. <span class="slide-ref">1.41</span></p>
+
+  <div class="callout example">
+    <div class="ct-title">💡 مثال آموزشی — خواندن یک فایل از دیسک</div>
+    <p>فرض کنید کاربر روی «Open» در Word کلیک می‌کند:</p>
+    <ol>
+      <li>Word از OS می‌خواهد فایل <code>report.doc</code> را از دیسک بخواند.</li>
+      <li>OS دستور خواندن را به <strong>کنترل‌کننده دیسک</strong> می‌دهد.</li>
+      <li>کنترل‌کننده دیسک به‌صورت مستقل، سرعت دیسک را می‌چرخاند و داده‌های فایل را در <strong>Local Buffer خودش</strong> می‌ریزد.</li>
+      <li>در این مدت CPU آزاد است و می‌تواند فرایند دیگری را اجرا کند (این اصل چندبرنامه‌ای است).</li>
+      <li>وقتی داده‌ها آماده شد، کنترل‌کننده یک <strong>وقفه</strong> به CPU می‌فرستد.</li>
+      <li>CPU وقفه را می‌پذیرد، داده را از Local Buffer به RAM منتقل می‌کند و به Word تحویل می‌دهد.</li>
+    </ol>
+  </div>
+
+  <h3 id="ch3-2">۳-۲ وقفه (Interrupt) — قلب سیستم‌عامل <span class="slide-ref range">1.43–1.45</span></h3>
+
+  <h4>مسئله</h4>
+  <p>CPU با سرعت بسیار بالایی (چند گیگاهرتز) دستورات را اجرا می‌کند، در حالی که دستگاه‌های I/O بسیار کندترند (دیسک چند میلی‌ثانیه، چاپگر چند ثانیه طول می‌کشد). اگر CPU مجبور بود منتظر پایان هر I/O بماند، میلیون‌ها چرخه CPU هدر می‌رفت. <strong>وقفه</strong> سازوکاری است که به CPU اجازه می‌دهد به کار دیگری بپردازد و وقتی دستگاه کارش تمام شد، به CPU «اخطار» بدهد.</p>
+
+  <div class="def-card">
+    <div class="term">وقفه <span class="en-term">(Interrupt)</span></div>
+    <div class="def-body">
+    سیگنالی که از سخت‌افزار یا نرم‌افزار به CPU ارسال می‌شود و نشان می‌دهد رویدادی رخ داده که نیاز به توجه فوری دارد. وقتی وقفه می‌رسد، CPU اجرای دستور جاری را متوقف می‌کند، وضعیت خود (ثبات‌ها و PC) را ذخیره می‌کند و کنترل را به یک <strong>روتین خدمت‌رسانی وقفه (Interrupt Service Routine — ISR)</strong> منتقل می‌کند. پس از پایان ISR، اجرای برنامه اصلی از همان نقطه از سر گرفته می‌شود.
+    </div>
+  </div>
+
+  <h4>وقفه سخت‌افزاری در برابر وقفه نرم‌افزاری</h4>
+  <table class="tbl compare">
+    <thead><tr><th style="width:22%">معیار</th><th>وقفه سخت‌افزاری (HW Interrupt)</th><th>وقفه نرم‌افزاری (Trap / Exception)</th></tr></thead>
+    <tbody>
+      <tr><td>منبع</td><td>از سمت دستگاه‌های فیزیکی (دیسک، NIC، تایمر، کیبورد)</td><td>از سمت کد در حال اجرا</td></tr>
+      <tr><td>علل</td><td>پایان عملیات I/O، تمام‌شدن زمان تایمر، فشار کلید</td><td>خطای نرم‌افزاری (تقسیم بر صفر، دسترسی نامعتبر به حافظه) یا <strong>درخواست سرویس از OS (System Call)</strong></td></tr>
+      <tr><td>نام دیگر</td><td>Interrupt</td><td>Trap یا Exception</td></tr>
+      <tr><td>غیرهم‌زمان؟</td><td>بله — هر لحظه ممکن است رخ دهد</td><td>هم‌زمان با دستور خاصی است که اجرا می‌شود</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <div class="ct-title">⚠️ اشتباه رایج</div>
+    <p>بسیاری از دانشجویان «Trap» و «Exception» را مترادف می‌پندارند. درست است که هر دو وقفه نرم‌افزاری‌اند، اما در بسیاری از متون:</p>
+    <ul>
+      <li><strong>Exception:</strong> معمولاً به خطاهای ناخواسته (تقسیم بر صفر، دسترسی غیرمجاز) اشاره دارد.</li>
+      <li><strong>Trap:</strong> شامل Exception می‌شود، اما همچنین درخواست عمدی برنامه برای سرویس OS (یعنی System Call) را نیز پوشش می‌دهد.</li>
+    </ul>
+    <p>در اسلاید ۱.۴۳ سیلبرشاتز این دو را یکسان فرض کرده است: «A Trap or Exception: A SW-generated interrupt caused either by an error or a User Request (aka, system call).»</p>
+  </div>
+
+  <h4>بردار وقفه (Interrupt Vector)</h4>
+  <p>چگونه CPU می‌داند برای هر وقفه، کدام تابع را اجرا کند؟ پاسخ: جدولی به‌نام <strong>Interrupt Vector</strong> در حافظه وجود دارد که شامل آدرس تمام روتین‌های خدمت‌رسانی وقفه (ISR) است. وقتی وقفه‌ای با شماره <code>k</code> می‌رسد، CPU به آدرس موجود در خانه <code>k</code> این جدول پرش می‌کند. <span class="slide-ref">1.43</span></p>
+
+  <h4>مراحل مدیریت وقفه <span class="slide-ref">1.44</span></h4>
+  <ol>
+    <li><strong>ذخیره وضعیت:</strong> OS حالت CPU را با ذخیره‌سازی ثبات‌ها و Program Counter (PC) حفظ می‌کند.</li>
+    <li><strong>تشخیص نوع وقفه:</strong> CPU تعیین می‌کند چه نوع وقفه‌ای رخ داده است.</li>
+    <li><strong>اجرای ISR متناظر:</strong> قطعه کد مخصوص آن نوع وقفه اجرا می‌شود و اقدام مناسب را انجام می‌دهد.</li>
+    <li><strong>بازیابی وضعیت:</strong> پس از پایان ISR، ثبات‌ها و PC بازیابی می‌شوند و دستور متوقف‌شده از سر گرفته می‌شود.</li>
+  </ol>
+
+  <div class="diagram">
+    <div class="d-title">خط زمانی وقفه — تعامل CPU و کنترل‌کننده دستگاه <span class="slide-ref">1.45</span></div>
+    <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <!-- Time axis -->
+      <line x1="40" y1="240" x2="720" y2="240" stroke="#26303d" stroke-width="2"/>
+      <polygon points="720,240 712,236 712,244" fill="#26303d"/>
+      <text x="720" y="260" fill="#26303d" font-size="11" text-anchor="middle">Time →</text>
+      <!-- CPU lane -->
+      <text x="30" y="60" fill="#c75b39" font-size="12" font-weight="700">CPU</text>
+      <rect x="40" y="50" width="120" height="30" rx="4" fill="#c75b39"/>
+      <text x="100" y="69" fill="#fff" font-size="11" text-anchor="middle">اجرای فرایند A</text>
+      <rect x="160" y="50" width="80" height="30" rx="4" fill="#fbf2dd" stroke="#b8860b"/>
+      <text x="200" y="69" fill="#b8860b" font-size="10" text-anchor="middle">I/O Request</text>
+      <rect x="240" y="50" width="180" height="30" rx="4" fill="#133349"/>
+      <text x="330" y="69" fill="#fff" font-size="11" text-anchor="middle">اجرای فرایند B (هم‌زمان با I/O)</text>
+      <rect x="420" y="50" width="100" height="30" rx="4" fill="#e1f1e8" stroke="#2f7d5b"/>
+      <text x="470" y="69" fill="#2f7d5b" font-size="10" text-anchor="middle">Save State</text>
+      <rect x="520" y="50" width="80" height="30" rx="4" fill="#2f7d5b"/>
+      <text x="560" y="69" fill="#fff" font-size="11" text-anchor="middle">ISR</text>
+      <rect x="600" y="50" width="120" height="30" rx="4" fill="#c75b39"/>
+      <text x="660" y="69" fill="#fff" font-size="11" text-anchor="middle">Resume A</text>
+      <!-- Device lane -->
+      <text x="30" y="160" fill="#1d4e6b" font-size="12" font-weight="700">Device</text>
+      <rect x="160" y="150" width="260" height="30" rx="4" fill="#266a8c"/>
+      <text x="290" y="169" fill="#fff" font-size="11" text-anchor="middle">انجام عملیات I/O (مستقل از CPU)</text>
+      <polygon points="420,165 430,155 430,175" fill="#c75b39"/>
+      <text x="450" y="172" fill="#c75b39" font-size="11" font-weight="700">↑ Interrupt</text>
+      <!-- Event markers -->
+      <line x1="200" y1="40" x2="200" y2="200" stroke="#b8860b" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="200" y="220" fill="#b8860b" font-size="10" text-anchor="middle">۱) درخواست I/O</text>
+      <line x1="420" y1="40" x2="420" y2="200" stroke="#c75b39" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="470" y="220" fill="#c75b39" font-size="10" text-anchor="middle">۲) وقفه از دستگاه</text>
+      <line x1="600" y1="40" x2="600" y2="200" stroke="#2f7d5b" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="630" y="220" fill="#2f7d5b" font-size="10" text-anchor="middle">۳) اتمام ISR</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۴۵ — Interrupt Timeline</div>
+  </div>
+
+  <div class="callout tip">
+    <div class="ct-title">🎯 نکته امتحانی</div>
+    <p>دقت کنید که در حین انجام I/O، CPU اصلاً منتظر نمی‌ماند — به فرایند دیگری می‌رود. این ویژگی، اصل اصلی <strong>چندبرنامه‌ای (Multiprogramming)</strong> است که در فصل ۴ به‌طور کامل بررسی می‌شود.</p>
+  </div>
+
+  <h3 id="ch3-3">۳-۳ درایور دستگاه (Device Driver) <span class="slide-ref">1.42</span></h3>
+
+  <div class="def-card">
+    <div class="term">درایور دستگاه <span class="en-term">(Device Driver)</span></div>
+    <div class="def-body">
+    یک ماژول نرم‌افزاری در Kernel که پیچیدگی دستگاه I/O را از Kernel پنهان می‌کند و یک <strong>رابط یکنواخت (Uniform Interface)</strong> بین کنترل‌کننده دستگاه و Kernel فراهم می‌سازد. درایور برای هر نوع کنترل‌کننده، عملیات I/O را مدیریت می‌کند و از طریق وقفه از رویدادها مطلع می‌شود.
+    </div>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">سلسله ارتباط: دستگاه → کنترل‌کننده → درایور → Kernel <span class="slide-ref">1.42</span></div>
+    <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d4e6b"/></marker></defs>
+      <rect x="20" y="80" width="120" height="50" rx="6" fill="#6a92aa"/>
+      <text x="80" y="105" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Device</text>
+      <text x="80" y="120" fill="#fff" font-size="10" text-anchor="middle">دستگاه فیزیکی</text>
+      <line x1="140" y1="105" x2="180" y2="105" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar3)"/>
+      <rect x="180" y="80" width="130" height="50" rx="6" fill="#266a8c"/>
+      <text x="245" y="105" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Device Controller</text>
+      <text x="245" y="120" fill="#cfe0ec" font-size="10" text-anchor="middle">سخت‌افزاری + Local Buffer</text>
+      <line x1="310" y1="105" x2="350" y2="105" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar3)"/>
+      <text x="330" y="98" fill="#c75b39" font-size="9" text-anchor="middle">Interrupt</text>
+      <rect x="350" y="80" width="130" height="50" rx="6" fill="#c75b39"/>
+      <text x="415" y="105" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Device Driver</text>
+      <text x="415" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">نرم‌افزاری، در Kernel</text>
+      <line x1="480" y1="105" x2="520" y2="105" stroke="#1d4e6b" stroke-width="2" marker-end="url(#ar3)"/>
+      <rect x="520" y="80" width="160" height="50" rx="6" fill="#133349"/>
+      <text x="600" y="105" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Kernel</text>
+      <text x="600" y="120" fill="#cfe0ec" font-size="10" text-anchor="middle">هسته سیستم‌عامل</text>
+      <text x="350" y="170" fill="#5a6470" font-size="11" text-anchor="middle">داده از دستگاه به کنترل‌کننده؛ کنترل‌کننده به درایور (توسط وقفه)؛ درایور به Kernel</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۴۲</div>
+  </div>
+
+  <div class="callout note">
+    <div class="ct-title">📖 چرا درایورها اهمیت دارند؟</div>
+    <p>بدون درایور، Kernel مجبور بود برای هر مدل از هر دستگاه (مثلاً صد مدل دیسک سخت) کد جداگانه بنویسد. درایور این پیچیدگی را در یک ماژول جداگانه نگه می‌دارد؛ به این ترتیب Kernel می‌تواند با رابط یکنواخت با انواع دستگاه‌ها کار کند. به همین دلیل، هنگام نصب یک دستگاه جدید (مثل کارت گرافیک)، باید درایور اختصاصی آن را نیز نصب کنید.</p>
+  </div>
+
+  <h3 id="ch3-4">۳-۴ ساختار و سلسله‌مراتب حافظه <span class="slide-ref range">1.46–1.49</span></h3>
+
+  <h4>سه سطح اصلی حافظه</h4>
+  <table class="tbl">
+    <thead><tr><th>سطح</th><th>ویژگی</th><th>سرعت</th><th>فرّار؟</th><th>ظرفیت</th></tr></thead>
+    <tbody>
+      <tr><td>حافظه اصلی <span class="en">(Main Memory / RAM)</span></td><td>تنها حافظه‌ای که CPU می‌تواند مستقیماً آدرس‌دهی و دسترسی کند. تصادفی (Random Access).</td><td>سریع</td><td>بله (معمولاً)</td><td>متوسط (GB)</td></tr>
+      <tr><td>حافظه ثانویه <span class="en">(Secondary Storage)</span></td><td>گسترش حافظه اصلی، ظرفیت بزرگ غیرفرّار</td><td>کندتر</td><td>خیر</td><td>بزرگ (TB)</td></tr>
+      <tr><td>حافظه ثالثیه <span class="en">(Tertiary Storage)</span></td><td>دیسک نوری، نوار مغناطیسی</td><td>کندترین</td><td>خیر</td><td>بسیار بزرگ</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout note">
+    <div class="ct-title">📖 استثنای حافظه اصلی فرّار</div>
+    <p>سیلبرشاتز در اسلاید ۱.۴۶ یادآور می‌شود که حافظه اصلی «معمولاً فرّار» است، اما استثنایی وجود دارد: <strong>Intel Optane DIMMs</strong> (که به آن <em>NVDIMMs</em> نیز می‌گویند) — نوعی حافظه اصلی که غیرفرّار است و پس از قطع برق، داده را نگه می‌دارد. این فناوری امروزه منسوخ شده است اما از نظر مفهومی مهم بود.</p>
+  </div>
+
+  <p>دو نوع اصلی حافظه ثانویه:</p>
+  <ul>
+    <li><strong>HDD (Hard Disk Drive):</strong> دیسک چرخان مغناطیسی — ارزان، کندتر.</li>
+    <li><strong>SSD (Solid-State Drive):</strong> بدون قطعه متحرک، مبتنی بر Flash — سریع‌تر از HDD، غیرفرّار، گران‌تر.</li>
+  </ul>
+
+  <h4>سلسله‌مراتب ذخیره‌سازی <span class="slide-ref">1.49</span></h4>
+  <p>هیچ حافظه‌ای همزمان <strong>ارزان، سریع و غیرفرّار</strong> نیست. به همین دلیل، حافظه‌ها در یک <strong>سلسله‌مراتب (Hierarchy)</strong> طراحی می‌شوند: از کوچک و سریع (و گران) در بالا تا بزرگ و کند (و ارزان) در پایین.</p>
+
+  <div class="diagram">
+    <div class="d-title">سلسله‌مراتب ذخیره‌سازی — از ثبات تا نوار <span class="slide-ref">1.49</span></div>
+    <svg viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <polygon points="100,20 500,20 480,80 120,80" fill="#c75b39"/>
+      <text x="300" y="55" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">Registers</text>
+      <text x="510" y="55" fill="#5a6470" font-size="10" text-anchor="start">سریع‌ترین، کوچک‌ترین</text>
+      <polygon points="120,80 480,80 460,140 140,140" fill="#b8860b"/>
+      <text x="300" y="115" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">Cache</text>
+      <text x="490" y="115" fill="#5a6470" font-size="10" text-anchor="start">L1 / L2 / L3</text>
+      <polygon points="140,140 460,140 440,200 160,200" fill="#2f7d5b"/>
+      <text x="300" y="175" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">Main Memory (RAM)</text>
+      <text x="470" y="175" fill="#5a6470" font-size="10" text-anchor="start">DRAM</text>
+      <polygon points="160,200 440,200 420,260 180,260" fill="#1d4e6b"/>
+      <text x="300" y="235" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">SSD</text>
+      <text x="450" y="235" fill="#5a6470" font-size="10" text-anchor="start">Flash</text>
+      <polygon points="180,260 420,260 400,320 200,320" fill="#266a8c"/>
+      <text x="300" y="295" fill="#fff" font-size="14" text-anchor="middle" font-weight="700">HDD</text>
+      <text x="430" y="295" fill="#5a6470" font-size="10" text-anchor="start">مغناطیسی</text>
+      <polygon points="200,320 400,320 380,380 220,380" fill="#4a7a96"/>
+      <text x="300" y="355" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Optical Disk</text>
+      <polygon points="220,380 380,380 360,440 240,440" fill="#6a92aa"/>
+      <text x="300" y="415" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Magnetic Tape</text>
+      <text x="350" y="415" fill="#26303d" font-size="10" text-anchor="start"> ← کندترین، بزرگ‌ترین</text>
+      <!-- Side labels -->
+      <text x="80" y="240" fill="#c75b39" font-size="11" text-anchor="middle" font-weight="700" transform="rotate(-90 80 240)">سرعت، هزینه ↑</text>
+      <text x="540" y="240" fill="#2f7d5b" font-size="11" text-anchor="middle" font-weight="700" transform="rotate(90 540 240)">ظرفیت ↑</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۴۹ — Storage-Device Hierarchy</div>
+  </div>
+
+  <h3 id="ch3-5">۳-۵ کش (Cache) <span class="slide-ref range">1.47–1.48</span></h3>
+
+  <div class="def-card">
+    <div class="term">کش <span class="en-term">(Cache)</span></div>
+    <div class="def-body">
+    حافظه‌ای کوچک و سریع که اطلاعات در حال استفاده را از حافظه کندتر به حافظه سریع‌تر <strong>به‌طور موقت</strong> کپی می‌کند. کش می‌تواند در سطوح مختلف (سخت‌افزاری، OS، برنامه) پیاده‌سازی شود. مثلاً <em>حافظه اصلی به‌عنوان کش برای حافظه ثانویه</em> عمل می‌کند.
+    </div>
+  </div>
+
+  <h4>مکانیزم کار کش</h4>
+  <ol>
+    <li>قبل از دسترسی به داده، ابتدا <strong>کش سریع‌تر بررسی می‌شود</strong>.</li>
+    <li>اگر داده در کش بود (<strong>Cache Hit</strong>)، مستقیماً از کش استفاده می‌شود — بسیار سریع.</li>
+    <li>اگر نبود (<strong>Cache Miss</strong>)، داده از حافظه کندتر به کش کپی می‌شود و سپس استفاده می‌گردد.</li>
+  </ol>
+
+  <div class="callout warn">
+    <div class="ct-title">⚠️ مسئله طراحی — کش همیشه کوچک‌تر است</div>
+    <p>چون کش کوچک‌تر از حافظه‌ای است که کش می‌شود، نمی‌توان همه داده‌ها را در کش نگه داشت. تصمیم‌گیری درباره <strong>کدام داده‌ها در کش بمانند</strong> و <strong>هنگام پر شدن، کدام داده حذف شود</strong>، یک مسئله طراحی مهم است. این تصمیم‌گیری توسط <em>Cache Replacement Policy</em> (مانند LRU، LFU، Random) انجام می‌شود.</p>
+  </div>
+
+  <div class="callout note">
+    <div class="ct-title">📖 مهاجرت داده از دیسک به ثبات <span class="slide-ref">1.82</span></div>
+    <p>برای درک کامل کش، تصور کنید می‌خواهیم یک داده <code>A</code> را از دیسک به ثبات CPU بیاوریم. مسیر:</p>
+    <ol>
+      <li>داده <code>A</code> در دیسک است.</li>
+      <li>OS آن را به حافظه اصلی (RAM) می‌آورد (I/O).</li>
+      <li>سپس به کش L3، L2 و L1 منتقل می‌شود.</li>
+      <li>نهایتاً به ثبات CPU بارگذاری می‌شود.</li>
+    </ol>
+    <p>اگر <code>A</code> در حافظه اصلی به‌روز شده باشد، نسخه‌های قدیمی در کش‌ها و دیسک باید هماهنگ شوند — این مفهوم <strong>Cache Coherency</strong> است که در سیستم‌های چندپردازنده‌ای و توزیع‌شده حیاتی می‌شود.</p>
+  </div>
+
+  <h3 id="ch3-6">۳-۶ دسترسی مستقیم به حافظه (DMA) <span class="slide-ref">1.50</span></h3>
+
+  <h4>مسئله</h4>
+  <p>بدون DMA، هر بایت انتقال I/O نیازمند دخالت CPU بود: CPU باید داده را از Local Buffer کنترل‌کننده می‌خواند و در حافظه می‌نوشت. برای دستگاه‌های پرسرعت (مانند NIC، SSD)، این کار CPU را کاملاً مشغول می‌کرد و فرایندهای دیگر متوقف می‌شدند.</p>
+
+  <div class="def-card">
+    <div class="term">دسترسی مستقیم به حافظه <span class="en-term">(Direct Memory Access — DMA)</span></div>
+    <div class="def-body">
+    مکانیزمی برای دستگاه‌های I/O پرسرعت که اجازه می‌دهد <strong>کنترل‌کننده دستگاه، بلوک‌های داده را مستقیماً از Local Buffer خود به حافظه اصلی منتقل کند — بدون دخالت CPU</strong>. در این حالت، CPU تنها در ابتدای انتقال تنظیمات اولیه را به DMA Controller می‌دهد و در پایان کل بلوک، یک وقفه واحد دریافت می‌کند (به‌جای یک وقفه به ازای هر بایت).
+    </div>
+  </div>
+
+  <div class="diagram">
+    <div class="d-title">مقایسه انتقال با و بدون DMA <span class="slide-ref">1.50</span></div>
+    <svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d4e6b"/></marker></defs>
+      <!-- Without DMA -->
+      <text x="170" y="20" fill="#c75b39" font-size="13" text-anchor="middle" font-weight="700">بدون DMA</text>
+      <rect x="40" y="40" width="80" height="35" rx="5" fill="#266a8c"/>
+      <text x="80" y="62" fill="#fff" font-size="11" text-anchor="middle">Dev. Buf</text>
+      <rect x="220" y="40" width="80" height="35" rx="5" fill="#1d4e6b"/>
+      <text x="260" y="62" fill="#fff" font-size="11" text-anchor="middle">Memory</text>
+      <rect x="130" y="95" width="80" height="35" rx="5" fill="#c75b39"/>
+      <text x="170" y="117" fill="#fff" font-size="11" text-anchor="middle">CPU</text>
+      <!-- arrows via CPU -->
+      <line x1="80" y1="75" x2="155" y2="95" stroke="#c75b39" stroke-width="2" marker-end="url(#ar4)"/>
+      <text x="100" y="92" fill="#c75b39" font-size="9">byte</text>
+      <line x1="185" y1="95" x2="260" y2="75" stroke="#c75b39" stroke-width="2" marker-end="url(#ar4)"/>
+      <text x="225" y="92" fill="#c75b39" font-size="9">byte</text>
+      <text x="170" y="155" fill="#5a6470" font-size="11" text-anchor="middle">هر بایت ← یک وقفه، CPU مشغول</text>
+      <text x="170" y="172" fill="#c75b39" font-size="11" text-anchor="middle" font-weight="700">N وقفه برای N بایت</text>
+
+      <!-- With DMA -->
+      <text x="540" y="20" fill="#2f7d5b" font-size="13" text-anchor="middle" font-weight="700">با DMA</text>
+      <rect x="410" y="40" width="80" height="35" rx="5" fill="#266a8c"/>
+      <text x="450" y="62" fill="#fff" font-size="11" text-anchor="middle">Dev. Buf</text>
+      <rect x="590" y="40" width="80" height="35" rx="5" fill="#1d4e6b"/>
+      <text x="630" y="62" fill="#fff" font-size="11" text-anchor="middle">Memory</text>
+      <rect x="500" y="95" width="80" height="35" rx="5" fill="#2f7d5b"/>
+      <text x="540" y="117" fill="#fff" font-size="11" text-anchor="middle">DMA Ctrl</text>
+      <rect x="500" y="155" width="80" height="35" rx="5" fill="#c75b39" opacity="0.4"/>
+      <text x="540" y="177" fill="#c75b39" font-size="11" text-anchor="middle">CPU (آزاد)</text>
+      <!-- DMA direct arrow -->
+      <line x1="490" y1="75" x2="525" y2="95" stroke="#2f7d5b" stroke-width="2" marker-end="url(#ar4)"/>
+      <line x1="555" y1="95" x2="590" y2="75" stroke="#2f7d5b" stroke-width="2" marker-end="url(#ar4)"/>
+      <text x="540" y="240" fill="#5a6470" font-size="11" text-anchor="middle">DMA مستقیماً انتقال می‌دهد</text>
+      <text x="540" y="258" fill="#2f7d5b" font-size="11" text-anchor="middle" font-weight="700">یک وقفه برای کل بلوک</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۵۰ — DMA Structure</div>
+  </div>
+
+  <div class="callout tip">
+    <div class="ct-title">🎯 نکته امتحانی</div>
+    <p>تفاوت کلیدی: بدون DMA، <strong>یک وقفه به ازای هر بایت</strong>؛ با DMA، <strong>یک وقفه به ازای هر بلوک</strong>. این یعنی CPU می‌تواند در طول انتقال یک فایل ۴ گیگابایتی، تقریباً هیچ وقفه‌ای دریافت نکند و کاملاً به فرایندهای دیگر بپردازد.</p>
+  </div>
+
+  <h3 id="ch3-7">۳-۷ معماری چندپردازنده (Multiprocessor & Multicore) <span class="slide-ref range">1.52–1.56</span></h3>
+
+  <h4>چرا چندپردازنده؟</h4>
+  <p>یک سیستم تک‌پردازنده، فقط در صورتی که بسیار سریع باشد می‌تواند همه کارها را انجام دهد. اما با رشد نیاز به پردازش هم‌زمان (server، هوش مصنوعی، دیتاسنتر)، <strong>چندپردازنده‌ای</strong> ضروری شد. سه مزیت اصلی: <span class="slide-ref">1.52</span></p>
+  <ol>
+    <li><strong>Increased Throughput:</strong> با N پردازنده، N برابر کار انجام می‌شود (البته نه کاملاً، چون سربار هماهنگی وجود دارد).</li>
+    <li><strong>Economy of Scale:</strong> یک سیستم چندپردازنده ارزان‌تر از N کامپیوتر مجزا با همان توان کلی است (منابع مشترک: تغذیه، فن، دیسک).</li>
+    <li><strong>Increased Reliability:</strong> اگر یک پردازنده خراب شود، سیستم متوقف نمی‌شود — به آن <em>Graceful Degradation</em> یا <em>Fault Tolerance</em> می‌گویند.</li>
+  </ol>
+
+  <h4>دو نوع چندپردازنده</h4>
+  <table class="tbl compare">
+    <thead><tr><th style="width:22%">معیار</th><th>چندپردازنده نامتقارن (Asymmetric)</th><th>چندپردازنده متقارن (Symmetric — SMP)</th></tr></thead>
+    <tbody>
+      <tr><td>مدل</td><td>Master/Slave — یک پردازنده «استاد»، بقیه «برده»</td><td>همه پردازنده‌ها هم‌تراز (Peer)</td></tr>
+      <tr><td>تخصیص کار</td><td>استاد کار را به برده‌ها اختصاص می‌دهد</td><td>هر پردازنده همه وظایف را می‌تواند انجام دهد</td></tr>
+      <tr><td>پیچیدگی</td><td>ساده‌تر، اما گلوگاه در Master</td><td>پیچیده‌تر (هماهنگی لازم)، اما مقیاس‌پذیر</td></tr>
+      <tr><td>رواج</td><td>قدیمی‌تر</td><td>رواج امروزی — اکثر سرورها و لپ‌تاپ‌های مدرن SMP</td></tr>
+    </tbody>
+  </table>
+
+  <div class="diagram">
+    <div class="d-title">معماری چندپردازنده متقارن (SMP) <span class="slide-ref">1.54</span></div>
+    <svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <!-- Bus -->
+      <rect x="60" y="180" width="480" height="12" fill="#1d4e6b"/>
+      <text x="300" y="172" fill="#1d4e6b" font-size="11" text-anchor="middle" font-weight="700">Bus</text>
+      <!-- CPUs -->
+      <rect x="80" y="60" width="90" height="100" rx="6" fill="#c75b39"/>
+      <text x="125" y="100" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">CPU 1</text>
+      <text x="125" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
+      <text x="125" y="135" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <line x1="125" y1="160" x2="125" y2="180" stroke="#1d4e6b" stroke-width="3"/>
+
+      <rect x="200" y="60" width="90" height="100" rx="6" fill="#c75b39"/>
+      <text x="245" y="100" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">CPU 2</text>
+      <text x="245" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
+      <text x="245" y="135" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <line x1="245" y1="160" x2="245" y2="180" stroke="#1d4e6b" stroke-width="3"/>
+
+      <rect x="320" y="60" width="90" height="100" rx="6" fill="#c75b39"/>
+      <text x="365" y="100" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">CPU 3</text>
+      <text x="365" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
+      <text x="365" y="135" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <line x1="365" y1="160" x2="365" y2="180" stroke="#1d4e6b" stroke-width="3"/>
+
+      <rect x="440" y="60" width="90" height="100" rx="6" fill="#c75b39"/>
+      <text x="485" y="100" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">CPU N</text>
+      <text x="485" y="120" fill="#fdeee7" font-size="10" text-anchor="middle">Cache</text>
+      <text x="485" y="135" fill="#fdeee7" font-size="10" text-anchor="middle">Registers</text>
+      <line x1="485" y1="160" x2="485" y2="180" stroke="#1d4e6b" stroke-width="3"/>
+      <!-- Memory -->
+      <rect x="240" y="210" width="120" height="40" rx="6" fill="#133349"/>
+      <text x="300" y="235" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Shared Memory</text>
+      <line x1="300" y1="192" x2="300" y2="210" stroke="#1d4e6b" stroke-width="2"/>
+      <text x="300" y="40" fill="#5a6470" font-size="11" text-anchor="middle">N CPU هم‌تراز، حافظه مشترک — همه به یک RAM دسترسی دارند</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۵۴ — Symmetric Multiprocessing Architecture</div>
+  </div>
+
+  <h4>چند‌هسته‌ای (Multicore) در برابر چند‌تراشه‌ای (Multi-chip) <span class="slide-ref">1.55</span></h4>
+  <p>روند اولیه: چند پردازنده روی مادربرد، هرکدام یک تراشه جدا (Multi-chip). روند فعلی: <strong>چند هسته در یک تراشه (Multicore)</strong>. مزایای Multicore:</p>
+  <ul>
+    <li>ارتباط سریع‌تر بین هسته‌ها (همه روی یک تراشه).</li>
+    <li>بهره‌وری انرژی بیشتر.</li>
+    <li>از دید OS تفاوتی با Multi-chip ندارد — هر هسته به‌عنوان یک CPU جداگانه دیده می‌شود.</li>
+  </ul>
+
+  <div class="diagram">
+    <div class="d-title">طراحی دو‌هسته‌ای (Dual-Core) <span class="slide-ref">1.55</span></div>
+    <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <rect x="40" y="30" width="420" height="140" rx="10" fill="#26303d" stroke="#1d4e6b" stroke-width="3"/>
+      <text x="250" y="22" fill="#1d4e6b" font-size="12" text-anchor="middle" font-weight="700">Single Chip (Multicore)</text>
+      <rect x="70" y="50" width="170" height="100" rx="6" fill="#c75b39"/>
+      <text x="155" y="85" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Core 1</text>
+      <text x="155" y="105" fill="#fdeee7" font-size="11" text-anchor="middle">L1 Cache</text>
+      <text x="155" y="125" fill="#fdeee7" font-size="11" text-anchor="middle">Registers / ALU</text>
+      <rect x="260" y="50" width="170" height="100" rx="6" fill="#c75b39"/>
+      <text x="345" y="85" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">Core 2</text>
+      <text x="345" y="105" fill="#fdeee7" font-size="11" text-anchor="middle">L1 Cache</text>
+      <text x="345" y="125" fill="#fdeee7" font-size="11" text-anchor="middle">Registers / ALU</text>
+      <!-- L2 shared -->
+      <rect x="70" y="155" width="360" height="0" fill="none"/>
+      <text x="250" y="180" fill="#b8860b" font-size="11" text-anchor="middle" font-weight="700">L2/L3 Cache مشترک (Shared)</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۵۵ — A Dual-Core Design</div>
+  </div>
+
+  <div class="callout note">
+    <div class="ct-title">📖 معماری فون‌نویمن <span class="slide-ref">1.51</span></div>
+    <p>سیلبرشاتز در اسلاید ۱.۵۱ به «A von Neumann architecture» اشاره می‌کند. در معماری فون‌نویمن، <strong>داده و دستورالعمل‌ها در همان حافظه اصلی ذخیره می‌شوند</strong> و CPU هر دو را به‌یک‌سان fetch می‌کند. این در تضاد با معماری هاروارد (Harvard) است که داده و دستورالعمل در حافظه‌های جداگانه قرار دارند. اکثر سیستم‌های امروزی ترکیبی از این دو هستند.</p>
+  </div>
+
+  <div class="chapter-outro">
+    <strong>پس از مطالعه این فصل، دانشجو باید بتواند:</strong>
+    <ul style="margin:8px 0 0">
+      <li>مدل کلی سیستم کامپیوتری (CPU، Bus، Device Controller، حافظه) را رسم کند.</li>
+      <li>تفاوت وقفه سخت‌افزاری و نرم‌افزاری (Trap/Exception) را شرح دهد.</li>
+      <li>مراحل مدیریت وقفه (ذخیره، تشخیص، ISR، بازیابی) را به‌ترتیب بیان کند.</li>
+      <li>نقش Interrupt Vector و درایور دستگاه را توضیح دهد.</li>
+      <li>سلسله‌مراتب حافظه (ثبات، کش، RAM، SSD، HDD، نوار) را با ترتیب سرعت و ظرفیت برشمارد.</li>
+      <li>مکانیزم کش (Hit/Miss) و اهمیت Replacement Policy را شرح دهد.</li>
+      <li>DMA را توضیح دهد و تفاوت انتقال با/بدون DMA را در تعداد وقفه‌ها بیان کند.</li>
+      <li>تفاوت Asymmetric و Symmetric Multiprocessing و Multicore را بداند.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 4: OS STRUCTURE & OPERATIONS ============ -->
+<section class="chapter" id="ch4">
+  <h2 class="chapter-title"><span class="ch-num">۴</span> فصل چهارم: ساختار و عملکرد سیستم‌عامل</h2>
+  <div class="chapter-intro">
+  <strong>در این فصل می‌آموزیم:</strong> چندبرنامه‌ای (Multiprogramming)، چندوظیفه‌ای (Multitasking) و چندپردازنده‌ای (Multiprocessing) چه تفاوت‌هایی دارند، چرا OS مدرن «مبتنی بر وقفه» است، حالت دوگانه (Dual-Mode) چیست و چرا سخت‌افزار باید آن را پشتیبانی کند، System Call چیست و چگونه کار می‌کند، چه دستوراتی «دستور ممتاز» (Privileged) نامیده می‌شوند و چرا تایمر (Timer) برای جلوگیری از فرایندهای بی‌پایان ضروری است. این فصل، پل ارتباطی میان سخت‌افزار (فصل ۳) و اجزای OS (فصل ۵) است. <span class="slide-ref range">1.57–1.73</span>
+  </div>
+
+  <h3 id="ch4-1">۴-۱ چندبرنامه‌ای، چندوظیفه‌ای، چندپردازنده‌ای <span class="slide-ref range">1.57–1.61</span></h3>
+
+  <h4>مسئله: چرا نمی‌توان یک برنامه را تا آخر اجرا کرد؟</h4>
+  <p>تصور کنید در یک سیستم تک‌برنامه‌ای (Non-Multiprogrammed)، تنها یک برنامه در حال اجراست. این برنامه در میانه اجرا، برای خواندن از دیسک منتظر می‌ماند (چند میلی‌ثانیه). در این مدت، CPU کاملاً بیکار است؛ چون هیچ برنامه دیگری وجود ندارد که اجرا شود. این یعنی <strong>هزاران چرخه CPU هدر می‌رود</strong>.</p>
+
+  <div class="def-card">
+    <div class="term">چندبرنامه‌ای <span class="en-term">(Multiprogramming)</span></div>
+    <div class="def-body">
+    روشی که در آن OS چند «شغل» (Job) را در حافظه نگه می‌دارد و وقتی یکی از آن‌ها برای I/O منتظر می‌ماند، CPU را به شغل دیگری می‌سپارد. هدف Multiprogramming، <strong>بهبود کارایی سیستم</strong> (System Efficiency) از طریق نگه‌داشتن CPU مشغول است. در این حالت، کاربر با سیستم تعامل مستقیم ندارد (Batch System).
+    </div>
+  </div>
+
+  <p><strong>Job Pool:</strong> مجموعه‌ی همه شغل‌هایی که در انتظار اجرا هستند (روی دیسک یا حافظه). فقط یک زیرمجموعه از کل شغل‌ها در حافظه نگه داشته می‌شود. <span class="slide-ref">1.57</span></p>
+
+  <div class="diagram">
+    <div class="d-title">چیدمان حافظه در سیستم چندبرنامه‌ای <span class="slide-ref">1.62</span></div>
+    <svg viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <rect x="50" y="20" width="400" height="40" rx="6" fill="#26303d"/>
+      <text x="250" y="45" fill="#fff" font-size="13" text-anchor="middle" font-weight="700">OS (Kernel)</text>
+      <rect x="50" y="65" width="400" height="8" fill="#1d4e6b"/>
+
+      <rect x="50" y="80" width="400" height="50" rx="5" fill="#c75b39"/>
+      <text x="250" y="110" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Process A (در حال اجرا روی CPU)</text>
+
+      <rect x="50" y="135" width="400" height="50" rx="5" fill="#1d4e6b"/>
+      <text x="250" y="165" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Process B (منتظر I/O)</text>
+
+      <rect x="50" y="190" width="400" height="50" rx="5" fill="#1d4e6b"/>
+      <text x="250" y="220" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Process C (آماده اجرا — Ready)</text>
+
+      <rect x="50" y="245" width="400" height="50" rx="5" fill="#266a8c"/>
+      <text x="250" y="275" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Process D (آماده اجرا — Ready)</text>
+
+      <rect x="50" y="300" width="400" height="50" rx="5" fill="#6a92aa"/>
+      <text x="250" y="330" fill="#fff" font-size="12" text-anchor="middle">free space (حافظه آزاد)</text>
+      <text x="250" y="368" fill="#5a6470" font-size="11" text-anchor="middle">چند فرایند هم‌زمان در حافظه — CPU میان آن‌ها جابه‌جا می‌شود</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۶۲ — Memory Layout for Multiprogrammed System</div>
+  </div>
+
+  <h4>چندوظیفه‌ای (Multitasking / Time-Sharing) <span class="slide-ref">1.58</span></h4>
+  <div class="def-card">
+    <div class="term">چندوظیفه‌ای <span class="en-term">(Multitasking / Time-Sharing)</span></div>
+    <div class="def-body">
+    توسعه منطقی Multiprogramming که در آن CPU آن‌قدر سریع میان شغل‌ها جابه‌جا می‌شود که <strong>کاربر می‌تواند با هر شغل تعامل مستقیم داشته باشد</strong>. در Multitasking، زمان پاسخ (Response Time) باید کمتر از ۱ ثانیه باشد، تا هر کاربر این توهم را داشته باشد که کل کامپیوتر فقط در اختیار اوست. Multitasking محیط <strong>Interactive Computing</strong> را فراهم می‌کند.
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ct-title">⚠️ اشتباه رایج</div>
+    <p>بسیاری از دانشجویان Multiprogramming و Multitasking را یکی می‌پندارند. تفاوت کلیدی:</p>
+    <ul>
+      <li><strong>Multiprogramming:</strong> هدف = کارایی (CPU نباید بیکار بماند). تعامل کاربر وجود ندارد (Batch).</li>
+      <li><strong>Multitasking:</strong> هدف = تعامل کاربر (Response Time کوتاه). کاربری این توهم را دارد که کامپیوتر فقط مال اوست.</li>
+    </ul>
+    <p>در واقع، Multitasking یک <strong>«افزونه منطقی»</strong> روی Multiprogramming است — یعنی همهٔ ابزارهای Multiprogramming را دارد، اما با سرعت جابه‌جایی بسیار بیشتر.</p>
+  </div>
+
+  <h4>تعریف «فرایند» در Multitasking <span class="slide-ref">1.59</span></h4>
+  <div class="def-card">
+    <div class="term">فرایند <span class="en-term">(Process)</span></div>
+    <div class="def-body">
+    <strong>یک برنامه بارگذاری‌شده در حافظه و در حال اجرا.</strong> فرایند برای مدت کوتاهی اجرا می‌شود، سپس یا پایان می‌یابد یا نیاز به I/O پیدا می‌کند. در Multitasking، چند فرایند هم‌زمان در حافظه نگه داشته می‌شوند و CPU به‌سرعت میان آن‌ها جابه‌جا می‌شود.
+    </div>
+  </div>
+
+  <p>دو مفهوم مهم که در فصل ۵ و فصل‌های بعدی به‌طور عمیق بررسی می‌شوند:</p>
+  <ul>
+    <li><strong>Job Scheduling:</strong> تصمیم می‌گیرد کدام شغل از دیسک به حافظه آورده شود (جلسه ۶).</li>
+    <li><strong>CPU Scheduling:</strong> تصمیم می‌گیرد کدام فرایند در حافظه، روی CPU اجرا شود (جلسه ۵).</li>
+  </ul>
+
+  <h4>Swapping و Virtual Memory <span class="slide-ref">1.60</span></h4>
+  <p>اگر فرایندها در حافظه جا نمی‌شوند چه می‌شود؟</p>
+  <ul>
+    <li><strong>Swapping:</strong> OS فرایندها را به‌طور کامل از حافظه به دیسک و برعکس جابه‌جا می‌کند.</li>
+    <li><strong>Virtual Memory:</strong> اجازه می‌دهد فرایندی که کاملاً در حافظه نیست اجرا شود — حافظه منطقی (از دید کاربر) را از حافظه فیزیکی جدا می‌کند.</li>
+  </ul>
+
+  <h4>مقایسه سه مفهوم <span class="slide-ref">1.61</span></h4>
+  <p>سیلبرشاتز در اسلاید ۱.۶۱ چهار پیکربندی را به‌صورت گرافیکی مقایسه می‌کند:</p>
+
+  <table class="tbl compare">
+    <thead><tr><th>پیکربندی</th><th>تعداد CPU</th><th>تعداد برنامه در حافظه</th><th>تعامل کاربر</th><th>توضیح</th></tr></thead>
+    <tbody>
+      <tr><td>Single Processing, Non-Multiprogrammed</td><td>۱</td><td>۱</td><td>خیر</td><td>قدیمی‌ترین حالت — یک برنامه تا پایان، سپس برنامه بعدی.</td></tr>
+      <tr><td>Single Processing, Multiprogramming</td><td>۱</td><td>چند</td><td>خیر</td><td>CPU میان چند شغل جابه‌جا می‌شود، اما کاربر تعامل ندارد (Batch).</td></tr>
+      <tr><td>Single Processing, Multitasking</td><td>۱</td><td>چند</td><td>بله</td><td>همان Multiprogramming اما با سرعت جابه‌جایی بالا برای تعامل کاربر.</td></tr>
+      <tr><td>Multi-Processing, Multitasking</td><td>چند</td><td>چند</td><td>بله</td><td>چند CPU هم‌زمان چند فرایند را اجرا می‌کنند — حالت مدرن.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout note">
+    <div class="ct-title">📖 تحلیل نمودار اسلاید ۱.۶۱</div>
+    <p>در این نمودار سه نوار زمانی A، B، C دیده می‌شوند که نشان‌دهنده سه فرایند‌اند. در حالت Non-Multiprogrammed، فقط یک نوار در هر لحظه فعال است. در Multiprogramming، نوارها در میانه اجرا قطع و یکی دیگر جایگزین می‌شود (اما تعاملی نیست). در Multitasking، جابه‌جالی به‌قدری سریع است که همه نوارها «به‌صورت هم‌زمان» پیش می‌روند. در Multiprocessing، چند CPU هم‌زمان چند نوار را اجرا می‌کنند.</p>
+  </div>
+
+  <h3 id="ch4-2">۴-۲ سیستم‌عامل مبتنی بر وقفه (Interrupt-Driven OS) <span class="slide-ref range">1.63–1.65</span></h3>
+
+  <p>OS مدرن اساساً <strong>«منتظر»</strong> می‌ماند تا اتفاقی بیفتد و سپس واکنش نشان می‌دهد. اگر هیچ فرایندی برای اجرا، هیچ دستگاه I/O برای سرویس و هیچ کاربری برای پاسخ‌گویی نباشد، OS بیکار می‌نشیند و منتظر یک وقفه می‌ماند. به همین دلیل می‌گوییم OS <strong>Interrupt-Driven</strong> است. <span class="slide-ref">1.63</span></p>
+
+  <p>دو منبع وقفه برای OS: <span class="slide-ref range">1.64–1.65</span></p>
+  <ol>
+    <li><strong>وقفه سخت‌افزاری:</strong> از دستگاه‌ها (دیسک، NIC، چاپگر) یا تایمر.</li>
+    <li><strong>وقفه نرم‌افزاری (Trap/Exception):</strong>
+      <ul>
+        <li>خطای نرم‌افزاری: تقسیم بر صفر، دسترسی نامعتبر به حافظه، دسترسی به فضای آدرس Kernel.</li>
+        <li>درخواست سرویس از OS (System Call).</li>
+        <li>مشکلات فرایند: حلقه بی‌نهایت، فرایندهایی که به یکدیگر یا OS آسیب می‌زنند.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h3 id="ch4-3">۴-۳ حالت دوگانه (Dual-Mode Operation) <span class="slide-ref range">1.66–1.71</span></h3>
+
+  <h4>مسئله: چگونه OS خود را محافظت کند؟</h4>
+  <p>تصور کنید چند فرایند هم‌زمان در حال اجرا هستند. اگر هر فرایند بتواند مستقیماً به هر منبع سخت‌افزاری دسترسی داشته باشد، یک فرایند مخرب یا دارای خطا می‌تواند:</p>
+  <ul>
+    <li>داده فرایند دیگر را بازنویسی کند.</li>
+    <li>دستگاه I/O را مستقیماً کنترل کند و باعث تداخل شود.</li>
+    <li>حافظه OS را پاک کند.</li>
+    <li>تایمر را غیرفعال کند و CPU را برای همیشه در اختیار بگیرد.</li>
+  </ul>
+  <p>برای جلوگیری از این، OS باید بتواند برخی دستورات را «ممنوع» کند برای برنامه‌های کاربر. این‌ها <strong>دستورات ممتاز (Privileged Instructions)</strong> نامیده می‌شوند.</p>
+
+  <div class="def-card">
+    <div class="term">حالت دوگانه <span class="en-term">(Dual-Mode Operation)</span></div>
+    <div class="def-body">
+    مکانیزمی که به OS اجازه می‌دهد خود و سایر اجزای سیستم را از کاربران خطاکار محافظت کند. در این حالت، CPU در یکی از دو حالت اجرا می‌کند:
+    <ul style="margin:6px 0 0">
+      <li><strong>User Mode (حالت کاربر):</strong> دسترسی محدود به سخت‌افزار — دستورات ممتاز قابل اجرا نیستند.</li>
+      <li><strong>Kernel Mode (حالت هسته):</strong> به‌هم چنین <em>Supervisor</em>، <em>System</em> یا <em>Privileged Mode</em> نیز می‌گویند. دسترسی کامل به سخت‌افزار — تمام دستورات قابل اجرا.</li>
+    </ul>
+    </div>
+  </div>
+
+  <h4>بیت حالت (Mode Bit) <span class="slide-ref">1.66</span></h4>
+  <p>سخت‌افزار یک بیت به‌نام <strong>Mode Bit</strong> فراهم می‌کند که نشان می‌دهد کد در حال اجرا در User Mode (۱) است یا Kernel Mode (۰). هنگام بوت، سخت‌افزار در Kernel Mode شروع می‌کند.</p>
+
+  <div class="diagram">
+    <div class="d-title">انتقال بین User Mode و Kernel Mode <span class="slide-ref">1.71</span></div>
+    <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d4e6b"/></marker></defs>
+      <!-- User mode -->
+      <rect x="40" y="80" width="240" height="120" rx="14" fill="#fbf2dd" stroke="#b8860b" stroke-width="2"/>
+      <text x="160" y="110" fill="#b8860b" font-size="15" text-anchor="middle" font-weight="700">User Mode</text>
+      <text x="160" y="135" fill="#5a6470" font-size="11" text-anchor="middle">دسترسی محدود به HW</text>
+      <text x="160" y="155" fill="#5a6470" font-size="11" text-anchor="middle">Mode Bit = 1</text>
+      <text x="160" y="180" fill="#5a6470" font-size="11" text-anchor="middle">برنامه‌های کاربر</text>
+
+      <!-- Kernel mode -->
+      <rect x="420" y="80" width="240" height="120" rx="14" fill="#e8f1f6" stroke="#1d4e6b" stroke-width="2"/>
+      <text x="540" y="110" fill="#1d4e6b" font-size="15" text-anchor="middle" font-weight="700">Kernel Mode</text>
+      <text x="540" y="135" fill="#5a6470" font-size="11" text-anchor="middle">دسترسی کامل به HW</text>
+      <text x="540" y="155" fill="#5a6470" font-size="11" text-anchor="middle">Mode Bit = 0</text>
+      <text x="540" y="180" fill="#5a6470" font-size="11" text-anchor="middle">OS / Kernel</text>
+
+      <!-- User -> Kernel -->
+      <line x1="280" y1="120" x2="420" y2="120" stroke="#c75b39" stroke-width="2.5" marker-end="url(#ar5)"/>
+      <text x="350" y="115" fill="#c75b39" font-size="11" text-anchor="middle" font-weight="700">System Call</text>
+      <text x="350" y="135" fill="#c75b39" font-size="10" text-anchor="middle">Exception</text>
+      <text x="350" y="148" fill="#c75b39" font-size="10" text-anchor="middle">HW Interrupt</text>
+
+      <!-- Kernel -> User -->
+      <line x1="420" y1="170" x2="280" y2="170" stroke="#2f7d5b" stroke-width="2.5" marker-end="url(#ar5)"/>
+      <text x="350" y="195" fill="#2f7d5b" font-size="11" text-anchor="middle" font-weight="700">Return (rtn / rfi / iret)</text>
+
+      <!-- exec/syscall label below -->
+      <text x="160" y="230" fill="#b8860b" font-size="10" text-anchor="middle">exec(), fork(), open(), read()...</text>
+      <text x="540" y="230" fill="#1d4e6b" font-size="10" text-anchor="middle">run kernel code</text>
+      <text x="350" y="265" fill="#5a6470" font-size="11" text-anchor="middle">سه رویداد باعث User→Kernel می‌شوند: System Call، Exception، HW Interrupt</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۷۱ — بر اساس Kubiatowicz CS162@UCB</div>
+  </div>
+
+  <h4>سه رویداد انتقال از User به Kernel <span class="slide-ref">1.66</span></h4>
+  <ol>
+    <li><strong>System Call:</strong> درخواست عمدی برنامه برای سرویس OS (مثل خواندن فایل).</li>
+    <li><strong>Exception:</strong> خطایی در اجرای دستور (تقسیم بر صفر، دسترسی نامعتبر).</li>
+    <li><strong>HW Interrupt:</strong> وقفه از دستگاه (پایان I/O) یا تایمر.</li>
+  </ol>
+
+  <h4>دستورات ممتاز (Privileged Instructions) <span class="slide-ref">1.67</span></h4>
+  <p>برخی دستورات می‌توانند به سیستم آسیب بزنند، بنابراین به‌عنوان <strong>Privileged</strong> تعیین می‌شوند و فقط در Kernel Mode قابل اجرا هستند. اگر در User Mode اجرا شوند، CPU آن‌ها را به‌عنوان <em>illegal</em> تلقی کرده و یک trap به OS ایجاد می‌کند. نمونه‌ها:</p>
+  <div class="pill-row">
+    <span class="badge orange">Switching to kernel mode</span>
+    <span class="badge orange">I/O control</span>
+    <span class="badge orange">Setting the timer</span>
+    <span class="badge orange">Interrupt management</span>
+    <span class="badge orange">Clearing memory</span>
+    <span class="badge orange">Remove process from memory</span>
+  </div>
+
+  <div class="callout warn">
+    <div class="ct-title">⚠️ سؤال ظریف از اسلاید ۱.۶۹</div>
+    <p>سیلبرشاتز دو سؤال کلیدی مطرح می‌کند:</p>
+    <ol>
+      <li><em>آیا دستور System Call برای رفتن به Kernel Mode، دستور ممتاز است یا غیرممتاز؟</em></li>
+      <li><em>آیا دستور مستقیم برای رفتن به Kernel Mode، ممتاز است یا غیرممتاز؟</em></li>
+    </ol>
+    <p><strong>پاسخ کلیدی:</strong></p>
+    <ul>
+      <li><strong>System Call:</strong> یک دستور <em>غیرممتاز</em> است — هر برنامه‌ای می‌تواند آن را صدا بزند. اما خود دستور System Call، به‌صورت کنترل‌شده به Kernel Mode منتقل می‌کند و کنترل به آدرس ازپیشتعیین‌شده‌ای در Kernel می‌رود. این یعنی برنامه نمی‌تواند خودسرانه هر کدی در Kernel Mode اجرا کند؛ فقط کدی که Kernel از قبل تعریف کرده.</li>
+      <li><strong>دستور مستقیم برای تغییر به Kernel Mode:</strong> اگر چنین دستوری وجود داشته باشد (که نباید باشد)، <em>ممتاز</em> است — زیرا اگر هر برنامه‌ای بتواند مستقیماً به Kernel Mode برود، هیچ حفاظتی باقی نمی‌ماند.</li>
+    </ul>
+    <p>این تمایز، اساس امنیت OS است.</p>
+  </div>
+
+  <h4>عواقب نبود حالت دوگانه <span class="slide-ref">1.70</span></h4>
+  <p>اگر سخت‌افزار بیت حالت نداشته باشد (مانند MS-DOS روی 8088):</p>
+  <ul>
+    <li>برنامه کاربر می‌تواند کل OS را پاک کند.</li>
+    <li>چند برنامه می‌توانند هم‌زمان به یک دستگاه بنویسند.</li>
+  </ul>
+  <p>امروزه اکثر CPUها و OSها از Dual-Mode پشتیبانی می‌کنند (Linux, Unix, Solaris, Win-XP/Vista). برخی CPUها حتی از <strong>Multi-Mode</strong> پشتیبانی می‌کنند — مثلاً <em>VMM (Virtual Machine Manager) Mode</em> برای ماشین‌های مجازی مهمان.</p>
+
+  <h3 id="ch4-4">۴-۴ System Call — جاده کاربر به Kernel <span class="slide-ref">1.68</span></h3>
+
+  <p>وقتی برنامه کاربر به سرویسی از OS نیاز دارد (مانند خواندن فایل، ایجاد فرایند، ارسال شبکه)، نمی‌تواند مستقیماً دستور ممتاز اجرا کند. در عوض، یک <strong>System Call</strong> صدا می‌زند.</p>
+
+  <h4>روند اجرای System Call <span class="slide-ref">1.68</span></h4>
+  <ol>
+    <li><strong>System Call به‌عنوان SW Interrupt اجرا می‌شود.</strong> برنامه دستور خاصی (مثل <code>int 0x80</code> در x86 یا <code>syscall</code> در x86-64) را اجرا می‌کند.</li>
+    <li><strong>کنترل از طریق Interrupt Vector</strong> به یک روتین خدمت‌رسانی در OS منتقل می‌شود.</li>
+    <li><strong>Mode Bit به ۰ (Kernel) تغییر می‌کند.</strong></li>
+    <li><strong>Kernel دستور interrupt کننده را بررسی می‌کند</strong> تا نوع interrupt را تعیین کند.</li>
+    <li><strong>اطلاعات اضافی</strong> ممکن است در ثبات‌ها یا پشته یافت شود (پارامترهای System Call).</li>
+    <li><strong>Kernel پارامترها را راستی‌آزمایی می‌کند</strong> (مثلاً آیا اشاره‌گر به حافظه مجاز است؟).</li>
+    <li><strong>System Call اجرا می‌شود.</strong></li>
+    <li><strong>کنترل به دستور بعد از System Call بازمی‌گردد.</strong></li>
+    <li><strong>Mode Bit به ۱ (User) بازمی‌گردد.</strong></li>
+  </ol>
+
+  <div class="callout example">
+    <div class="ct-title">💡 مثال آموزشی — صدا زدن <code>read()</code></div>
+    <p>یک برنامه C می‌خواهد از فایل بخواند:</p>
+    <pre><code>char buf[100];
+int fd = open("test.txt", O_RDONLY);
+int n = read(fd, buf, 100);</code></pre>
+    <p>هنگام اجرای <code>read</code>:</p>
+    <ol>
+      <li>کتابخانه C (<code>libc</code>) تابع wrapper را فراخوانی می‌کند که ثبات‌ها را برای System Call شماره <code>read</code> تنظیم می‌کند.</li>
+      <li>دستور <code>syscall</code> اجرا می‌شود — این یک وقفه نرم‌افزاری است.</li>
+      <li>CPU به Kernel Mode منتقل می‌شود و به آدرس مشخص‌شده در Interrupt Vector پرش می‌کند.</li>
+      <li>Kernel پارامترها (fd, buf, 100) را راستی‌آزمایی می‌کند: آیا <code>fd</code> معتبر است؟ آیا <code>buf</code> در فضای آدرس کاربر قرار دارد؟</li>
+      <li>Kernel داده را از دیسک به <code>buf</code> می‌خواند.</li>
+      <li>Kernel تعداد بایت‌های خوانده‌شده را در ثبات بازگشت قرار می‌دهد و به User Mode برمی‌گردد.</li>
+      <li>برنامه C ادامه اجرا می‌دهد.</li>
+    </ol>
+  </div>
+
+  <h3 id="ch4-5">۴-۵ تایمر (Timer) و جلوگیری از Process Hogging <span class="slide-ref range">1.72–1.73</span></h3>
+
+  <h4>مسئله: فرایند بی‌پایان</h4>
+  <p>تصور کنید یک برنامه کاربر به‌اشتباه در یک حلقه بی‌نهایت افتاده است:</p>
+  <pre><code>while(1) { /* هیچ کاری نمی‌کند */ }</code></pre>
+  <p>اگر OS نتواند کنترل را پس بگیرد، این فرایند برای همیشه CPU را اشغال می‌کند و هیچ فرایند دیگری اجرا نمی‌شود — حتی خود OS نمی‌تواند کار کند. به این حالت <strong>Process Hogging</strong> می‌گویند.</p>
+
+  <div class="def-card">
+    <div class="term">تایمر <span class="en-term">(Timer)</span></div>
+    <div class="def-body">
+    مکانیزم سخت‌افزاری که از کامپیوتر در برابر فرایندهای بی‌پایان یا فرایندهایی که منابع را اشغال می‌کنند، محافظت می‌کند. تایمر به‌گونه‌ای تنظیم می‌شود که پس از یک دوره زمانی مشخص، وقفه تولید کند. یک شمارنده وجود دارد که توسط ساعت فیزیکی کاهش می‌یابد. وقتی شمارنده به صفر برسد، یک وقفه تولید می‌شود.
+    </div>
+  </div>
+
+  <h4>مکانیزم کار تایمر</h4>
+  <ol>
+    <li>OS یک مقدار اولیه به شمارنده تایمر می‌نویسد (این یک <strong>دستور ممتاز</strong> است — فقط Kernel می‌تواند آن را تنظیم کند).</li>
+    <li>ساعت فیزیکی، شمارنده را در هر تیک کاهش می‌دهد.</li>
+    <li>وقتی شمارنده به صفر رسید، یک <strong>وقفه سخت‌افزاری</strong> تولید می‌شود.</li>
+    <li>این وقفه، CPU را از User Mode به Kernel Mode منتقل می‌کند.</li>
+    <li>Kernel می‌تواند تصمیم بگیرد: به همان فرایند ادامه دهد (و تایمر را دوباره تنظیم کند) یا فرایند دیگری را اجرا کند (CPU Scheduling).</li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="ct-title">🎯 نکته امتحانی</div>
+    <p>تایمر قبل از <strong>Scheduling</strong> یک فرایند تنظیم می‌شود، تا OS بتواند کنترل را پس از مدت زمان مشخصی پس بگیرد یا برنامه‌ای که از زمان اختصاص‌یافته فراتر می‌رود را خاتمه دهد. این تضمین می‌کند که <strong>هیچ فرایندی نمی‌تواند CPU را برای همیشه در اختیار بگیرد</strong>.</p>
+  </div>
+
+  <div class="callout note">
+    <div class="ct-title">📖 چرا تنظیم تایمر یک دستور ممتاز است؟</div>
+    <p>اگر هر برنامه کاربر بتوانست تایمر را تنظیم کند، می‌توانست تایمر را غیرفعال کند یا آن‌قدر بزرگ تنظیم کند که خودش برای همیشه CPU را در اختیار داشته باشد. به همین دلیل، تنظیم تایمر فقط در Kernel Mode مجاز است.</p>
+  </div>
+
+  <div class="chapter-outro">
+    <strong>پس از مطالعه این فصل، دانشجو باید بتواند:</strong>
+    <ul style="margin:8px 0 0">
+      <li>تفاوت Multiprogramming، Multitasking و Multiprocessing را با ذکر مثال روشن شرح دهد.</li>
+      <li>دلیل اینکه OS مدرن Interrupt-Driven است را توضیح دهد.</li>
+      <li>تعریف Dual-Mode و دو حالت User/Kernel را بیان کند.</li>
+      <li>سه رویداد انتقال از User به Kernel را برشمارد.</li>
+      <li>دستورات ممتاز را تعریف کند و چند مثال بزند.</li>
+      <li>روند اجرای System Call را مرحله‌به‌مرحله شرح دهد.</li>
+      <li>نقش Timer در جلوگیری از Process Hogging را توضیح دهد.</li>
+      <li>دلیل اینکه تنظیم Timer یک دستور ممتاز است را بداند.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 5: OS COMPONENTS ============ -->
+<section class="chapter" id="ch5">
+  <h2 class="chapter-title"><span class="ch-num">۵</span> فصل پنجم: اجزای اصلی سیستم‌عامل</h2>
+  <div class="chapter-intro">
+  <strong>در این فصل می‌آموزیم:</strong> سیستم‌عامل از چه اجزای اصلی تشکیل شده — مدیریت فرایند (Process Management)، مدیریت حافظه (Memory Management) و مدیریت ذخیره‌سازی (Storage Management). هر جزء چه وظیفه‌ای دارد، چه فعالیت‌هایی انجام می‌دهد و چرا بدون آن سیستم کار نمی‌کند. این فصل یک «پیش‌نمایش» از مباحث عمیق جلسات بعدی است. <span class="slide-ref range">1.73–1.82</span>
+  </div>
+
+  <h3 id="ch5-1">۵-۱ مدیریت فرایند (Process Management) <span class="slide-ref range">1.74–1.76</span></h3>
+
+  <h4>تعریف فرایند</h4>
+  <div class="def-card">
+    <div class="term">فرایند <span class="en-term">(Process)</span></div>
+    <div class="def-body">
+    <strong>یک برنامه در حال اجرا.</strong> فرایند <em>موجودیت فعال</em> (Active Entity) است، در حالی که برنامه <em>موجودیت منفعل</em> (Passive Entity) روی دیسک است. فرایند واحد کار (Unit of Work) در یک سیستم است. هر فرایند برای انجام وظیفه‌اش به منابعی نیاز دارد: CPU، حافظه، I/O، فایل‌ها، داده‌ی مقداردهی اولیه. هنگام خاتمه فرایند، منابع قابل استفاده مجدد باید پس گرفته شوند.
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ct-title">⚠️ تفاوت Program و Process — یک مفهوم کلیدی</div>
+    <p>این تمایز، یکی از مهم‌ترین مفاهیم درس است و در امتحان قطعاً سؤال می‌شود:</p>
+    <table class="tbl compare">
+      <thead><tr><th style="width:22%">معیار</th><th>Program (برنامه)</th><th>Process (فرایند)</th></tr></thead>
+      <tbody>
+        <tr><td>ماهیت</td><td>منفعل (Passive)</td><td>فعال (Active)</td></tr>
+        <tr><td>مکان</td><td>روی دیسک به‌صورت فایل اجرایی</td><td>در حافظه اصلی در حال اجرا</td></tr>
+        <tr><td>زمان حیات</td><td>تا زمان حذف فایل</td><td>از ایجاد تا خاتمه</td></tr>
+        <tr><td>تعداد</td><td>یک فایل برنامه، یک نسخه</td><td>یک برنامه می‌تواند چند فرایند هم‌زمان داشته باشد</td></tr>
+        <tr><td>نیاز به منابع</td><td>فقط فضای دیسک</td><td>CPU، حافظه، I/O، فایل‌ها</td></tr>
+      </tbody>
+    </table>
+    <p><strong>مثال:</strong> فایل <code>firefox.exe</code> روی دیسک، یک <em>Program</em> است. وقتی آن را اجرا می‌کنید، یک <em>Process</em> ایجاد می‌شود. اگر دوباره روی آیکون کلیک کنید، یک <em>Process دیگر</em> از همان Program ایجاد می‌شود — دو فرایند، اما یک برنامه.</p>
+  </div>
+
+  <h4>فعالیت‌های مدیریت فرایند <span class="slide-ref">1.75</span></h4>
+  <p>OS در زمینه فرایندها مسئول پنج فعالیت اصلی است:</p>
+  <ol>
+    <li><strong>Creating and deleting</strong> — ایجاد و حذف فرایندهای کاربر و سیستمی.</li>
+    <li><strong>Suspending and resuming</strong> — تعلیق و ازسرگیری فرایندها.</li>
+    <li><strong>Process synchronization</strong> — فراهم کردن مکانیزم‌هایی برای همگام‌سازی فرایندها.</li>
+    <li><strong>Process communication</strong> — فراهم کردن مکانیزم‌هایی برای ارتباط بین فرایندها (IPC).</li>
+    <li><strong>Deadlock handling</strong> — مدیریت بن‌بست‌ها.</li>
+  </ol>
+
+  <div class="callout tip">
+    <div class="ct-title">🎯 نکته امتحانی</div>
+    <p>این پنج فعالیت، چارچوب اصلی فصل‌های بعدی درس است. در ترم پیش‌رو، هرکدام به‌طور عمیق بررسی می‌شوند:
+    <ul>
+      <li>ایجاد و خاتمه: جلسه ۳ (Process Concept)</li>
+      <li>IPC: جلسه ۴</li>
+      <li>Threads: جلسه ۴</li>
+      <li>Scheduling: جلسه ۵</li>
+      <li>Synchronization: جلسه‌های ۶-۷</li>
+      <li>Deadlocks: جلسه‌های ۸-۹</li>
+    </ul>
+    </p>
+  </div>
+
+  <h3 id="ch5-2">۵-۲ مدیریت حافظه (Memory Management) <span class="slide-ref range">1.76–1.78</span></h3>
+
+  <h4>چرا مدیریت حافظه مهم است؟</h4>
+  <p>حافظه اصلی (RAM) مخزن داده‌های با دسترسی سریع است که بین CPU و دستگاه‌های I/O مشترک است. <strong>تنها حافظه‌ی بزرگ‌ای است که CPU می‌تواند مستقیماً آدرس‌دهی و دسترسی کند.</strong> <span class="slide-ref">1.76</span></p>
+
+  <p>برای اجرای یک برنامه:</p>
+  <ul>
+    <li>تمام (یا بخشی از) دستورالعمل‌های آن باید در حافظه باشند.</li>
+    <li>تمام (یا بخشی از) داده‌های مورد نیاز باید در حافظه باشند.</li>
+  </ul>
+
+  <p>و برای بهبود بهره‌وری CPU:</p>
+  <ul>
+    <li>چند برنامه باید هم‌زمان در حافظه نگه داشته شوند — این نیازمند <strong>مدیریت حافظه</strong> است.</li>
+  </ul>
+
+  <h4>فعالیت‌های مدیریت حافظه <span class="slide-ref">1.77</span></h4>
+  <p>مدیریت حافظه تعیین می‌کند چه چیزی در حافظه است و کِی. هدف: بهینه‌سازی بهره‌وری CPU و پاسخ به کاربر. فعالیت‌ها:</p>
+  <ol>
+    <li><strong>Tracking:</strong> پیگیری اینکه کدام بخش‌های حافظه در حال حاضر استفاده می‌شوند و توسط چه کسی.</li>
+    <li><strong>Decision:</strong> تصمیم‌گیری درباره اینکه کدام فرایندها (یا بخش‌هایی از آن‌ها) و چه داده‌ای به حافظه وارد یا از آن خارج شوند.</li>
+    <li><strong>Allocation:</strong> تخصیص و آزادسازی فضای حافظه بر حسب نیاز.</li>
+  </ol>
+
+  <div class="callout note">
+    <div class="ct-title">📖 نکته — جلسات بعدی</div>
+    <p>مباحث عمیق مدیریت حافظه در جلسات ۶-۷ درس بررسی می‌شوند: Swapping، Paging، Page Table، Segmentation، Virtual Memory و Demand Paging. این فصل صرفاً یک نگاه کلی است.</p>
+  </div>
+
+  <h3 id="ch5-3">۵-۳ مدیریت ذخیره‌سازی (Storage Management) <span class="slide-ref range">1.78–1.80</span></h3>
+
+  <h4>چرا مدیریت ذخیره‌سازی مهم است؟</h4>
+  <p>OS یک نمای <strong>منطقی و یکنواخت</strong> از ذخیره‌سازی اطلاعات ارائه می‌دهد — کاربر نیازی ندارد بداند داده روی HDD است یا SSD، یا کدام سکتور. OS ویژگی‌های فیزیکی را به یک واحد ذخیره‌سازی منطقی به‌نام <strong>فایل (File)</strong> انتزاع می‌کند. <span class="slide-ref">1.78</span></p>
+
+  <h4>چرا به ذخیره‌سازی انبوه نیاز داریم؟ <span class="slide-ref">1.79</span></h4>
+  <ul>
+    <li>حافظه اصلی برای نگه‌داری تمام داده‌ها/برنامه‌ها به‌قدر کافی بزرگ نیست.</li>
+    <li>حافظه اصلی فرّار است — هنگام قطع برق داده از دست می‌رود.</li>
+  </ul>
+
+  <p>دیسک معمولاً برای نگه‌داری داده‌ای استفاده می‌شود که در حافظه اصلی جا نمی‌شود یا باید برای مدت «طولانی» نگه داشته شود. مدیریت صحیح دیسک از اهمیت مرکزی برخوردار است — <strong>کل سرعت عملیات کامپیوتر به زیرسیستم دیسک و الگوریتم‌های آن بستگی دارد</strong>.</p>
+
+  <h4>فعالیت‌های OS در زمینه ذخیره‌سازی <span class="slide-ref">1.80</span></h4>
+  <ul>
+    <li><strong>Free-space management:</strong> مدیریت فضای آزاد روی دیسک.</li>
+    <li><strong>Storage allocation:</strong> تخصیص ذخیره‌سازی به فایل‌ها.</li>
+    <li><strong>Disk scheduling:</strong> زمان‌بندی دیسک (ترتیب خدمت‌رسانی به درخواست‌های I/O).</li>
+  </ul>
+
+  <h4>ذخیره‌سازی ثالثیه <span class="slide-ref">1.80</span></h4>
+  <p>برخی داده‌ها نیاز به سرعت بالا ندارند — روی ذخیره‌سازی ثالثیه (دیسک نوری، نوار مغناطیسی) نگه‌داری می‌شوند. این‌ها همچنان باید توسط OS یا برنامه‌ها مدیریت شوند. انواع:</p>
+  <ul>
+    <li><strong>WORM (Write-Once, Read-Many):</strong> یک‌بارنویس، چندبارخوان (مانند CD-R).</li>
+    <li><strong>RW (Read-Write):</strong> خوانا-نوشتنی (مانند CD-RW، DVD-RW).</li>
+  </ul>
+
+  <h4>مهاجرت داده بین سطوح <span class="slide-ref range">1.81–1.82</span></h4>
+  <div class="diagram">
+    <div class="d-title">عملکرد سطوح مختلف ذخیره‌سازی <span class="slide-ref">1.81</span></div>
+    <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg" style="font-family:Vazirmatn,sans-serif">
+      <!-- Pyramid levels with performance metrics -->
+      <polygon points="250,20 450,20 440,60 260,60" fill="#c75b39"/>
+      <text x="350" y="48" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Registers (~1 ns)</text>
+      <polygon points="260,60 440,60 425,110 275,110" fill="#b8860b"/>
+      <text x="350" y="92" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Cache L1 (~1 ns) / L2 (~10 ns)</text>
+      <polygon points="275,110 425,110 405,160 295,160" fill="#2f7d5b"/>
+      <text x="350" y="142" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Main Memory DRAM (~100 ns)</text>
+      <polygon points="295,160 405,160 380,210 320,210" fill="#1d4e6b"/>
+      <text x="350" y="192" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">SSD (~100 μs)</text>
+      <polygon points="320,210 380,210 360,255 340,255" fill="#266a8c"/>
+      <text x="350" y="240" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">HDD (~10 ms)</text>
+      <text x="60" y="50" fill="#5a6470" font-size="11">سریع‌تر، گران‌تر، کوچک‌تر ↑</text>
+      <text x="540" y="240" fill="#5a6470" font-size="11">↓ کندتر، ارزان‌تر، بزرگ‌تر</text>
+      <text x="350" y="275" fill="#5a6470" font-size="11" text-anchor="middle">ارقام تقریبی — برای درک نسبت سرعت</text>
+    </svg>
+    <div class="d-src">منبع: اسلاید ۱.۸۱ — Performance of Various Levels of Storage</div>
+  </div>
+
+  <div class="callout note">
+    <div class="ct-title">📖 ملاحظات حیاتی <span class="slide-ref">1.82</span></div>
+    <p>در محیط‌های Multitasking باید مراقب بود که <strong>همیشه جدیدترین مقدار داده استفاده شود</strong>، بدون توجه به اینکه در کجای سلسله‌مراتب ذخیره شده است. سه چالش:</p>
+    <ul>
+      <li><strong>Multitasking:</strong> داده ممکن است هم‌زمان در کش و حافظه باشد — باید آخرین نسخه استفاده شود.</li>
+      <li><strong>Multiprocessor:</strong> سخت‌افزار باید Cache Coherency را تضمین کند — همه CPUها باید آخرین مقدار را در کش خود ببینند.</li>
+      <li><strong>Distributed:</strong> چندین نسخه از داده می‌تواند وجود داشته باشد — به هماهنگ‌سازی در سطح OS نیاز است.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-outro">
+    <strong>پس از مطالعه این فصل، دانشجو باید بتواند:</strong>
+    <ul style="margin:8px 0 0">
+      <li>تعریف Process را بیان کند و تفاوت آن با Program را شرح دهد.</li>
+      <li>پنج فعالیت اصلی Process Management را برشمارد.</li>
+      <li>دلیل اهمیت Main Memory و سه فعالیت Memory Management را توضیح دهد.</li>
+      <li>نقش OS در ارائه «نمای منطقی» از ذخیره‌سازی را شرح دهد.</li>
+      <li>سه فعالیت اصلی Storage Management را برشمارد.</li>
+      <li>چالش‌های Coherency در Multitasking، Multiprocessor و Distributed را بداند.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CHAPTER 6: OPEN SOURCE OS ============ -->
+<section class="chapter" id="ch6">
+  <h2 class="chapter-title"><span class="ch-num">۶</span> فصل ششم: سیستم‌عامل‌های متن‌باز و بسته</h2>
+  <div class="chapter-intro">
+  <strong>در این فصل می‌آموزیم:</strong> تفاوت OSهای متن‌باز (Open-Source) و بسته (Closed-Source) چیست، چه مزایا و معایبی دارند، Linux چگونه شکل گرفت، BSD UNIX چه تاریخچه‌ای دارد و Solaris چه وضعیتی دارد. <span class="slide-ref range">1.83–1.88</span>
+  </div>
+
+  <h3 id="ch6-1">۶-۱ متن‌باز در برابر بسته <span class="slide-ref range">1.83–1.85</span></h3>
+
+  <table class="tbl compare">
+    <thead><tr><th style="width:22%">معیار</th><th>Closed-Source (بسته)</th><th>Open-Source (متن‌باز)</th></tr></thead>
+    <tbody>
+      <tr><td>فرمت ارائه</td><td>کد کامپایل‌شده (باینری)</td><td>کد منبع (Source Code)</td></tr>
+      <tr><td>نمونه</td><td>Microsoft Windows</td><td>GNU/Linux, BSD UNIX</td></tr>
+      <tr><td>توانایی تغییر کاربر</td><td>بسیار دشوار — نیاز به Reverse Engineering (در بسیاری از کشورها غیرقانونی)</td><td>کاربر می‌تواند تغییر دهد، کامپایل و اجرا کند</td></tr>
+      <tr><td>جامعه توسعه</td><td>تعداد محدود بررسی‌کننده کد</td><td>جامعه بزرگ برنامه‌نویسان که به کد کمک می‌کنند</td></tr>
+      <tr><td>امنیت</td><td>معمولاً مستعد خطاهای بیشتر</td><td>معمولاً امن‌تر — چشمان بیشتری کد را بررسی می‌کنند</td></tr>
+      <tr><td>مدل درآمد</td><td>فروش لایسنس</td><td>قرارداد پشتیبانی و فروش سخت‌افزار (Red Hat, SUSE, Sun)</td></tr>
+    </tbody>
+  </table>
+
+  <h4>جنبش نرم‌افزار آزاد <span class="slide-ref">1.85</span></h4>
+  <p>جنبش Open-Source توسط <strong>Free Software Foundation (FSF)</strong> و «کپی‌لفت» <strong>GNU Public License (GPL)</strong> آغاز شد:</p>
+  <ul>
+    <li><strong>بنیان‌گذار:</strong> Richard Stallman، ۱۹۸۳.</li>
+    <li><strong>قاعده GPL:</strong> هر تغییری در کد منبع باید تحت همان لایسنس GPL منتشر شود.</li>
+    <li><strong>نمونه‌ها:</strong> GNU/Linux، BSD UNIX (شامل هسته Mac OS X).</li>
+  </ul>
+
+  <div class="callout note">
+    <div class="ct-title">📖 توضیح تکمیلی — کپی‌لفت (Copyleft)</div>
+    <p>کپی‌لفت بازی با کلمه Copyright است. در حالی که Copyright حق محدود کردن استفاده را به نویسنده می‌دهد، Copyleft به کاربران اجازه می‌دهد کد را آزادانه استفاده، تغییر و توزیع کنند — به این شرط که هر تغییری نیز تحت همان لایسنس آزاد باقی بماند. این چرخه، تضمین می‌کند که کد و تمام مشتقاتش همیشه آزاد می‌مانند.</p>
+  </div>
+
+  <h3 id="ch6-2">۶-۲ نمونه‌های OS متن‌باز <span class="slide-ref range">1.86–1.88</span></h3>
+
+  <h4>Linux <span class="slide-ref">1.86</span></h4>
+  <ul>
+    <li>توسط یک دانشجو در فنلاند (Linus Torvalds) آغاز شد (۱۹۹۱).</li>
+    <li>به‌روزرسانی‌ها تقریباً هر هفته منتشر می‌شوند.</li>
+    <li>توزیع‌های مختلف در عملکرد، کاربرد، برنامه‌های نصب‌شده، پشتیبانی سخت‌افزاری و رابط کاربری متفاوت‌اند:
+      <ul>
+        <li><strong>Red Hat Enterprise:</strong> استفاده تجاری بزرگ.</li>
+        <li><strong>PCLinuxOS:</strong> می‌تواند از CD بوت شود (Live CD).</li>
+        <li><strong>سایر توزیع‌ها:</strong> Fedora, Debian, SUSE, Slackware, Ubuntu.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h4>BSD UNIX <span class="slide-ref">1.87</span></h4>
+  <ul>
+    <li>در ۱۹۷۸ به‌عنوان مشتقی از AT&amp;T UNIX آغاز شد.</li>
+    <li>در ۱۹۹۴ به‌طور کامل به‌صورت Open-Source منتشر شد.</li>
+    <li>توزیع‌های مختلف: FreeBSD، NetBSD، OpenBSD، DragonflyBSD.</li>
+  </ul>
+
+  <h4>Solaris <span class="slide-ref">1.88</span></h4>
+  <ul>
+    <li>OS تجاری مبتنی بر UNIX.</li>
+    <li><strong>جزئاً Open-Source</strong> — چون بخشی از کد همچنان متعلق به AT&amp;T است.</li>
+  </ul>
+
+  <div class="callout extra">
+    <div class="ct-title">📚 توضیح تکمیلی — سهم بازار OSها</div>
+    <p>اسلاید ۱.۸۸ به «OS Shares by Market Segments» اشاره می‌کند — یعنی سهم بازار سیستم‌عامل‌ها در بخش‌های مختلف (دسکتاپ، سرور، موبایل، تعبیه‌شده). در دسکتاپ Windows، در سرور Linux، در موبایل Android (مبتنی بر Linux) و iOS، در سیستم‌های تعبیه‌شده انواع Real-Time OS سهم بزرگی دارند. این تنوع نشان می‌دهد که هیچ OS واحدی برای همه کاربردها مناسب نیست.</p>
+  </div>
+
+  <div class="chapter-outro">
+    <strong>پس از مطالعه این فصل، دانشجو باید بتواند:</strong>
+    <ul style="margin:8px 0 0">
+      <li>تفاوت Open-Source و Closed-Source را از نظر فرمت، امنیت، جامعه و درآمد شرح دهد.</li>
+      <li>GPL و Copyleft را توضیح دهد.</li>
+      <li>Linux، BSD UNIX و Solaris را با تاریخچه و ویژگی‌ها معرفی کند.</li>
+      <li>چند توزیع معروف Linux را برشمارد.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PART 3: FINAL REVIEW ============ -->
+<h2 style="font-size:24px;color:var(--c-primary-dark);margin:40px 0 12px;border-bottom:2px solid var(--c-accent);padding-bottom:8px">بخش سوم: مرور نهایی</h2>
+
+<section class="chapter" id="review">
+  <h2 class="chapter-title" style="border-bottom-color:var(--c-green)"><span class="ch-num" style="background:var(--c-green)">مرور</span> جمع‌بندی کلی درس</h2>
+
+  <p>این جلسه، یک «نگاه کلی از بالا» به کل درس سیستم‌عامل بود. در طول ترم، هر یک از مفاهیمی که در این‌جا معرفی شدیم، به‌طور عمیق بررسی خواهد شد. در ادامه، مهم‌ترین مفاهیم این جلسه را در یک نگاه مرور می‌کنیم:</p>
+
+  <h3>سیستم‌عامل چیست؟</h3>
+  <p>سیستم‌عامل <strong>برنامه‌ای میانجی</strong> بین کاربر/برنامه‌های کاربردی و سخت‌افزار است. تنها بخشی از OS که همیشه در حال اجراست، <strong>Kernel</strong> است. هر چیز دیگر یا برنامه سیستمی (همراه OS) یا برنامه کاربردی است.</p>
+
+  <h3>روند بوت کامپیوتر</h3>
+  <p>ROM → بوت‌استرپ (Firmware) → BIOS/UEFI → Bootloader → Kernel → اولین فرایند (init). هر مرحله، مرحله بعد را بارگذاری می‌کند.</p>
+
+  <h3>ساختار سخت‌افزاری</h3>
+  <p>CPU و کنترل‌کننده‌های دستگاه از طریق یک گذراغ مشترک به حافظه دسترسی دارند. هر کنترل‌کننده یک Local Buffer دارد و با صدور وقفه به CPU خبر می‌دهد. درایور دستگاه، رابط یکنواختی بین کنترل‌کننده و Kernel فراهم می‌کند.</p>
+
+  <h3>وقفه (Interrupt) — قلب OS</h3>
+  <p>دو نوع: سخت‌افزاری (از دستگاه‌ها) و نرم‌افزاری (Trap/Exception — خطا یا System Call). OS مدرن مبتنی بر وقفه است. مراحل مدیریت وقفه: ذخیره وضعیت → تشخیص نوع → اجرای ISR → بازیابی وضعیت.</p>
+
+  <h3>سلسله‌مراتب حافظه</h3>
+  <p>از ثبات (سریع‌ترین، کوچک‌ترین) تا نوار مغناطیسی (کندترین، بزرگ‌ترین). کش، حافظه‌ی سریع‌تری است که داده‌های در حال استفاده را موقتاً از حافظه کندتر کپی می‌کند. DMA اجازه می‌دهد دستگاه مستقیماً به حافظه منتقل کند — یک وقفه به ازای هر بلوک به‌جای هر بایت.</p>
+
+  <h3>چندپردازنده</h3>
+  <p>SMP (همه پردازنده‌ها هم‌تراز، حافظه مشترک) رواج دارد. Multicore: چند هسته در یک تراشه — از دید OS همان چند CPU است.</p>
+
+  <h3>ساختار OS</h3>
+  <p>Multiprogramming (هدف: کارایی) → Multitasking (هدف: تعامل کاربر) → Multiprocessing (چند CPU). همه این‌ها روی Multiprogramming ساخته می‌شوند.</p>
+
+  <h3>حالت دوگانه (Dual-Mode)</h3>
+  <p>User Mode (Mode Bit=1) و Kernel Mode (Mode Bit=0). سه رویداد باعث User→Kernel می‌شوند: System Call، Exception، HW Interrupt. دستورات ممتاز فقط در Kernel قابل اجرا. تایمر از Process Hogging جلوگیری می‌کند.</p>
+
+  <h3>اجزای OS</h3>
+  <p>سه جزء اصلی: <strong>Process Management</strong> (ایجاد/حذف، تعلیق، همگام‌سازی، IPC، Deadlock)، <strong>Memory Management</strong> (پیگیری، تصمیم، تخصیص) و <strong>Storage Management</strong> (فضای آزاد، تخصیص، زمان‌بندی دیسک).</p>
+
+  <h3 id="compare">جدول‌های مقایسه مفاهیم کلیدی</h3>
+
+  <h4>مقایسه کلی مفاهیم پرتکرار</h4>
+  <table class="tbl compare">
+    <thead><tr><th style="width:24%">مفهوم A</th><th style="width:24%">مفهوم B</th><th>تفاوت کلیدی</th></tr></thead>
+    <tbody>
+      <tr><td>Program</td><td>Process</td><td>Program روی دیسک، منفعل؛ Process در RAM، فعال و در حال اجرا.</td></tr>
+      <tr><td>Multiprogramming</td><td>Multitasking</td><td>هدف اول کارایی (Batch)، هدف دوم تعامل کاربر (Response Time &lt; 1s).</td></tr>
+      <tr><td>HW Interrupt</td><td>Trap/Exception</td><td>اول از دستگاه (غیرهم‌زمان)، دوم از کد (هم‌زمان با دستور خاص).</td></tr>
+      <tr><td>User Mode</td><td>Kernel Mode</td><td>اول دسترسی محدود (Mode=1)، دوم دسترسی کامل (Mode=0).</td></tr>
+      <tr><td>System Call</td><td>دستور مستقیم تغییر Mode</td><td>اول غیرممتاز (همه می‌زنند)، دوم ممتاز (نباید وجود داشته باشد).</td></tr>
+      <tr><td>Cache Hit</td><td>Cache Miss</td><td>اول داده در کش بود (سریع)، دوم نبود (باید از حافظه کندتر آورده شود).</td></tr>
+      <tr><td>با DMA</td><td>بدون DMA</td><td>اول: یک وقفه به ازای بلوک، CPU آزاد؛ دوم: یک وقفه به ازای بایت، CPU مشغول.</td></tr>
+      <tr><td>Asymmetric MP</td><td>Symmetric MP</td><td>اول Master/Slave، دوم همه هم‌تراز (Peer).</td></tr>
+      <tr><td>HDD</td><td>SSD</td><td>اول مغناطیسی چرخان کند، دوم Flash بدون حرکت، سریع‌تر.</td></tr>
+      <tr><td>Open-Source</td><td>Closed-Source</td><td>اول کد منبع آزاد (Linux)، دوم باینری بسته (Windows).</td></tr>
+      <tr><td>Bootstrap</td><td>Kernel</td><td>اول در ROM، کرنل را بارگذاری می‌کند؛ دوم برنامه‌ای که همیشه در حال اجراست.</td></tr>
+      <tr><td>Volatile</td><td>Non-Volatile</td><td>اول داده با قطع برق از بین می‌رود (RAM)، دوم باقی می‌ماند (ROM, SSD, HDD).</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="glossary">واژه‌نامه انگلیسی ← فارسی</h3>
+  <div class="toc-list" style="padding:14px 24px">
+    <div class="glossary-item"><span class="en-word">Abstraction</span> <span class="fa-word">— انتزاع</span> : پنهان‌کردن پیچیدگی لایه زیرین با ارائه رابط ساده‌تر.</div>
+    <div class="glossary-item"><span class="en-word">Application Program</span> <span class="fa-word">— برنامه کاربردی</span> : برنامه‌های مخصوص حل مسئله کاربر (Word، مرورگر).</div>
+    <div class="glossary-item"><span class="en-word">Asymmetric Multiprocessing</span> <span class="fa-word">— چندپردازنده نامتقارن</span> : یک Master و چند Slave.</div>
+    <div class="glossary-item"><span class="en-word">Baseboard Management Controller (BMC)</span> <span class="fa-word">— کنترل‌کننده مدیریت پایه‌برد</span> : کامپیوتر کوچک روی مادربرد برای مدیریت از راه دور.</div>
+    <div class="glossary-item"><span class="en-word">BIOS</span> <span class="fa-word">— سیستم ورودی/خروجی پایه</span> : Firmware اولیه که POST و انتخاب دستگاه بوت را انجام می‌دهد.</div>
+    <div class="glossary-item"><span class="en-word">Bootstrap Program</span> <span class="fa-word">— برنامه بوت‌استرپ</span> : کد اولیه در ROM که Kernel را بارگذاری می‌کند.</div>
+    <div class="glossary-item"><span class="en-word">Cache</span> <span class="fa-word">— کش</span> : حافظه سریع و کوچک که داده‌های در حال استفاده را موقتاً ذخیره می‌کند.</div>
+    <div class="glossary-item"><span class="en-word">Cache Coherency</span> <span class="fa-word">— همدوستی کش</span> : تضمین اینکه همه CPUها آخرین نسخه داده را می‌بینند.</div>
+    <div class="glossary-item"><span class="en-word">Closed-Source OS</span> <span class="fa-word">— سیستم‌عامل بسته</span> : کد منبع در دسترس نیست (مانند Windows).</div>
+    <div class="glossary-item"><span class="en-word">Common Bus</span> <span class="fa-word">— گذرگاه مشترک</span> : مسیر ارتباطی بین CPU، حافظه و کنترل‌کننده‌ها.</div>
+    <div class="glossary-item"><span class="en-word">Context Switch</span> <span class="fa-word">— تعویض زمینه</span> : (مفهوم فصل‌های بعدی) ذخیره وضعیت فرایند و بارگذاری فرایند دیگر.</div>
+    <div class="glossary-item"><span class="en-word">Control Program</span> <span class="fa-word">— برنامه کنترل</span> : نقش OS در کنترل اجرای برنامه‌ها برای جلوگیری از خطا.</div>
+    <div class="glossary-item"><span class="en-word">Device Controller</span> <span class="fa-word">— کنترل‌کننده دستگاه</span> : سخت‌افزاری که یک نوع دستگاه I/O را مدیریت می‌کند.</div>
+    <div class="glossary-item"><span class="en-word">Device Driver</span> <span class="fa-word">— درایور دستگاه</span> : ماژول نرم‌افزاری در Kernel که رابط یکنواخت با کنترل‌کننده فراهم می‌کند.</div>
+    <div class="glossary-item"><span class="en-word">Direct Memory Access (DMA)</span> <span class="fa-word">— دسترسی مستقیم به حافظه</span> : انتقال بلوک داده به‌طور مستقیم بین دستگاه و حافظه بدون CPU.</div>
+    <div class="glossary-item"><span class="en-word">Dual-Mode Operation</span> <span class="fa-word">— عملکرد حالت دوگانه</span> : مکانیزم حفاظت با User/Kernel Mode.</div>
+    <div class="glossary-item"><span class="en-word">Exception</span> <span class="fa-word">— استثنا</span> : وقفه نرم‌افزاری ناشی از خطا (تقسیم بر صفر، دسترسی نامعتبر).</div>
+    <div class="glossary-item"><span class="en-word">Fault Tolerance</span> <span class="fa-word">— تحمل خطا</span> : ادامه کار سیستم حتی با خرابی یک جزء.</div>
+    <div class="glossary-item"><span class="en-word">Firmware</span> <span class="fa-word">— افزاره‌ثابت</span> : نرم‌افزار در ROM/EPROM (مانند BIOS).</div>
+    <div class="glossary-item"><span class="en-word">Graceful Degradation</span> <span class="fa-word">— تخریب تدریجی</span> : با خرابی یک پردازنده، سیستم با کارایی کمتر ادامه می‌دهد.</div>
+    <div class="glossary-item"><span class="en-word">Interrupt</span> <span class="fa-word">— وقفه</span> : سیگنال رویداد نیاز به توجه فوری CPU.</div>
+    <div class="glossary-item"><span class="en-word">Interrupt Service Routine (ISR)</span> <span class="fa-word">— روتین خدمت‌رسانی وقفه</span> : کدی که برای یک نوع وقفه اجرا می‌شود.</div>
+    <div class="glossary-item"><span class="en-word">Interrupt Vector</span> <span class="fa-word">— بردار وقفه</span> : جدول آدرس‌های ISR در حافظه.</div>
+    <div class="glossary-item"><span class="en-word">Job Pool</span> <span class="fa-word">— استخر شغل</span> : مجموعه شغل‌های در انتظار اجرا.</div>
+    <div class="glossary-item"><span class="en-word">Job Scheduling</span> <span class="fa-word">— زمان‌بندی شغل</span> : انتخاب شغل برای آوردن از دیسک به حافظه.</div>
+    <div class="glossary-item"><span class="en-word">Kernel</span> <span class="fa-word">— هسته</span> : آن یک برنامه‌ای که همیشه در حال اجراست.</div>
+    <div class="glossary-item"><span class="en-word">Kernel Mode</span> <span class="fa-word">— حالت هسته</span> : حالت اجرای با دسترسی کامل به HW (Mode Bit=0).</div>
+    <div class="glossary-item"><span class="en-word">Local Buffer</span> <span class="fa-word">— حافظه محلی</span> : حافظه کوچک در کنترل‌کننده دستگاه.</div>
+    <div class="glossary-item"><span class="en-word">Main Memory</span> <span class="fa-word">— حافظه اصلی (RAM)</span> : تنها حافظه‌ای که CPU مستقیماً آدرس‌دهی می‌کند.</div>
+    <div class="glossary-item"><span class="en-word">Mode Bit</span> <span class="fa-word">— بیت حالت</span> : بیت سخت‌افزاری که User (1) یا Kernel (0) را نشان می‌دهد.</div>
+    <div class="glossary-item"><span class="en-word">Multiprocessing</span> <span class="fa-word">— چندپردازنده‌ای</span> : سیستم با چند CPU هم‌زمان.</div>
+    <div class="glossary-item"><span class="en-word">Multiprogramming</span> <span class="fa-word">— چندبرنامه‌ای</span> : نگه‌داشتن چند شغل در حافظه برای کارایی CPU.</div>
+    <div class="glossary-item"><span class="en-word">Multitasking / Time-Sharing</span> <span class="fa-word">— چندوظیفه‌ای / اشتراک زمانی</span> : توسعه Multiprogramming با سرعت بالا برای تعامل کاربر.</div>
+    <div class="glossary-item"><span class="en-word">Multicore</span> <span class="fa-word">— چند‌هسته‌ای</span> : چند هسته CPU در یک تراشه.</div>
+    <div class="glossary-item"><span class="en-word">Open-Source OS</span> <span class="fa-word">— سیستم‌عامل متن‌باز</span> : کد منبع در دسترس (Linux، BSD).</div>
+    <div class="glossary-item"><span class="en-word">Privileged Instruction</span> <span class="fa-word">— دستور ممتاز</span> : دستوری که فقط در Kernel Mode قابل اجراست.</div>
+    <div class="glossary-item"><span class="en-word">Process</span> <span class="fa-word">— فرایند</span> : برنامه در حال اجرا (موجودیت فعال).</div>
+    <div class="glossary-item"><span class="en-word">Process Hogging</span> <span class="fa-word">— اشغال CPU توسط فرایند</span> : فرایندی که CPU را برای همیشه در اختیار می‌گیرد.</div>
+    <div class="glossary-item"><span class="en-word">Program</span> <span class="fa-word">— برنامه</span> : فایل اجرایی روی دیسک (موجودیت منفعل).</div>
+    <div class="glossary-item"><span class="en-word">Resource Allocator</span> <span class="fa-word">— تخصیص‌دهنده منابع</span> : نقش OS در مدیریت منابع سخت‌افزاری.</div>
+    <div class="glossary-item"><span class="en-word">Secondary Storage</span> <span class="fa-word">— حافظه ثانویه</span> : HDD/SSD — غیرفرّار، بزرگ.</div>
+    <div class="glossary-item"><span class="en-word">Storage Hierarchy</span> <span class="fa-word">— سلسله‌مراتب ذخیره‌سازی</span> : ترتیب حافظه‌ها بر اساس سرعت/ظرفیت.</div>
+    <div class="glossary-item"><span class="en-word">Stored Program</span> <span class="fa-word">— برنامه ذخیره‌شده</span> : مفهوم معماری فون‌نویمن — دستور و داده در یک حافظه.</div>
+    <div class="glossary-item"><span class="en-word">Symmetric Multiprocessing (SMP)</span> <span class="fa-word">— چندپردازنده متقارن</span> : همه پردازنده‌ها هم‌تراز، حافظه مشترک.</div>
+    <div class="glossary-item"><span class="en-word">System Call</span> <span class="fa-word">— فراخوانی سیستمی</span> : درخواست برنامه کاربر برای سرویس OS.</div>
+    <div class="glossary-item"><span class="en-word">System Program</span> <span class="fa-word">— برنامه سیستمی</span> : برنامه همراه OS (مانند compiler، loader).</div>
+    <div class="glossary-item"><span class="en-word">Tertiary Storage</span> <span class="fa-word">— حافظه ثالثیه</span> : دیسک نوری، نوار مغناطیسی.</div>
+    <div class="glossary-item"><span class="en-word">Throughput</span> <span class="fa-word">— توان عملیاتی</span> : مقدار کار انجام‌شده در واحد زمان.</div>
+    <div class="glossary-item"><span class="en-word">Timer</span> <span class="fa-word">— تایمر</span> : مکانیزم تولید وقفه دوره‌ای برای بازپس‌گیری کنترل CPU.</div>
+    <div class="glossary-item"><span class="en-word">Trap</span> <span class="fa-word">— تله</span> : وقفه نرم‌افزاری — خطا یا System Call.</div>
+    <div class="glossary-item"><span class="en-word">User Mode</span> <span class="fa-word">— حالت کاربر</span> : حالت اجرای محدود (Mode Bit=1).</div>
+    <div class="glossary-item"><span class="en-word">Virtual Memory</span> <span class="fa-word">— حافظه مجازی</span> : اجرای فرایندها حتی اگر کاملاً در حافظه نباشند.</div>
+    <div class="glossary-item"><span class="en-word">Volatile</span> <span class="fa-word">— فرّار</span> : داده با قطع برق از بین می‌رود (مانند RAM).</div>
+  </div>
+
+  <h3 id="slide-map">نمایه تطبیق اسلایدها با بخش‌های جزوه</h3>
+  <p>این جدول نشان می‌دهد هر اسلاید در کدام بخش از جزوه توضیح داده شده است:</p>
+  <table class="tbl">
+    <thead><tr><th style="width:18%">شماره اسلاید</th><th style="width:30%">موضوع اسلاید</th><th>بخش جزوه</th></tr></thead>
+    <tbody>
+      <tr><td>1.1</td><td>عنوان درس</td><td>جلد (Cover) جزوه</td></tr>
+      <tr><td>1.2</td><td>موضوعات جلسه</td><td>فصل ۱</td></tr>
+      <tr><td>1.3–1.7</td><td>معرفی درس، TAها</td><td>فصل ۱-۱</td></tr>
+      <tr><td>1.8</td><td>کتاب مرجع</td><td>فصل ۱-۱ (کادر کتاب مرجع)</td></tr>
+      <tr><td>1.9–1.13</td><td>سرفصل‌ها</td><td>فصل ۱-۱ (جدول محورها)</td></tr>
+      <tr><td>1.14–1.15</td><td>سیاست کلاس</td><td>فصل ۱-۲</td></tr>
+      <tr><td>1.16–1.17</td><td>اهداف درس</td><td>فصل ۱-۲</td></tr>
+      <tr><td>1.18</td><td>ارزشیابی</td><td>فصل ۱-۲ (جدول ارزشیابی)</td></tr>
+      <tr><td>1.19–1.20</td><td>کپی‌رایت</td><td>(بدون توضیح — صرفاً یادآوری حقوقی)</td></tr>
+      <tr><td>1.21</td><td>نگاه کلی</td><td>فصل ۲ (مقدمه)</td></tr>
+      <tr><td>1.22</td><td>سطوح انتزاع</td><td>فصل ۲-۱ (نمودار)</td></tr>
+      <tr><td>1.23</td><td>تعریف و اهداف OS</td><td>فصل ۲-۲</td></tr>
+      <tr><td>1.24</td><td>OS الزامی نیست</td><td>فصل ۲-۲</td></tr>
+      <tr><td>1.25–1.27</td><td>ساختار سیستم</td><td>فصل ۲-۲ (نمودار اجزا)</td></tr>
+      <tr><td>1.28–1.31</td><td>نقش OS (User/System View)</td><td>فصل ۲-۲ (جدول مقایسه)</td></tr>
+      <tr><td>1.32</td><td>داستان OS</td><td>فصل ۲-۳</td></tr>
+      <tr><td>1.33</td><td>تعریف Kernel</td><td>فصل ۲-۲ (تعریف Kernel)</td></tr>
+      <tr><td>1.34–1.35</td><td>راه‌اندازی، بوت</td><td>فصل ۲-۴ (نمودار بوت)</td></tr>
+      <tr><td>1.36–1.37</td><td>BMC</td><td>فصل ۲-۵</td></tr>
+      <tr><td>1.38</td><td>BIOS تا OS</td><td>فصل ۲-۵ (مراحل)</td></tr>
+      <tr><td>1.39</td><td>نگاه کلی ساختار</td><td>فصل ۳ (مقدمه)</td></tr>
+      <tr><td>1.40–1.41</td><td>سازمان سیستم</td><td>فصل ۳-۱ (نمودار گذراغ)</td></tr>
+      <tr><td>1.42</td><td>درایور دستگاه</td><td>فصل ۳-۳ (نمودار درایور)</td></tr>
+      <tr><td>1.43</td><td>وقفه و بردار وقفه</td><td>فصل ۳-۲</td></tr>
+      <tr><td>1.44</td><td>مدیریت وقفه</td><td>فصل ۳-۲ (مراحل)</td></tr>
+      <tr><td>1.45</td><td>خط زمانی وقفه</td><td>فصل ۳-۲ (نمودار)</td></tr>
+      <tr><td>1.46</td><td>ساختار حافظه</td><td>فصل ۳-۴ (جدول سه سطح)</td></tr>
+      <tr><td>1.47–1.48</td><td>کش و سلسله‌مراتب</td><td>فصل ۳-۴ و ۳-۵</td></tr>
+      <tr><td>1.49</td><td>هرم ذخیره‌سازی</td><td>فصل ۳-۴ (نمودار هرم)</td></tr>
+      <tr><td>1.50</td><td>DMA</td><td>فصل ۳-۶ (نمودار مقایسه)</td></tr>
+      <tr><td>1.51</td><td>فون‌نویمن</td><td>فصل ۳-۷ (کادر نکته)</td></tr>
+      <tr><td>1.52–1.53</td><td>معماری چندپردازنده</td><td>فصل ۳-۷</td></tr>
+      <tr><td>1.54</td><td>SMP</td><td>فصل ۳-۷ (نمودار SMP)</td></tr>
+      <tr><td>1.55</td><td>Dual-Core</td><td>فصل ۳-۷ (نمودار Dual-Core)</td></tr>
+      <tr><td>1.56</td><td>بازگشت به OS</td><td>فصل ۴ (مقدمه)</td></tr>
+      <tr><td>1.57–1.58</td><td>Multiprogramming / Multitasking</td><td>فصل ۴-۱</td></tr>
+      <tr><td>1.59</td><td>تعریف Process</td><td>فصل ۴-۱ (تعریف)</td></tr>
+      <tr><td>1.60</td><td>Swapping / Virtual Memory</td><td>فصل ۴-۱</td></tr>
+      <tr><td>1.61</td><td>مقایسه چهار پیکربندی</td><td>فصل ۴-۱ (جدول مقایسه)</td></tr>
+      <tr><td>1.62</td><td>چیدمان حافظه Multiprogrammed</td><td>فصل ۴-۱ (نمودار)</td></tr>
+      <tr><td>1.63–1.65</td><td>OS مبتنی بر وقفه</td><td>فصل ۴-۲</td></tr>
+      <tr><td>1.66–1.67</td><td>حالت دوگانه، Mode Bit</td><td>فصل ۴-۳</td></tr>
+      <tr><td>1.68</td><td>System Call</td><td>فصل ۴-۴ (مراحل)</td></tr>
+      <tr><td>1.69</td><td>سؤال ممتاز/غیرممتاز</td><td>فصل ۴-۳ (کادر هشدار)</td></tr>
+      <tr><td>1.70</td><td>عواقب نبود Dual-Mode</td><td>فصل ۴-۳</td></tr>
+      <tr><td>1.71</td><td>انتقال User/Kernel</td><td>فصل ۴-۳ (نمودار)</td></tr>
+      <tr><td>1.72–1.73</td><td>Timer و Process Hogging</td><td>فصل ۴-۵</td></tr>
+      <tr><td>1.74–1.75</td><td>Process Management</td><td>فصل ۵-۱</td></tr>
+      <tr><td>1.76–1.78</td><td>Memory Management</td><td>فصل ۵-۲</td></tr>
+      <tr><td>1.79–1.80</td><td>Mass-Storage Management</td><td>فصل ۵-۳</td></tr>
+      <tr><td>1.81</td><td>عملکرد سطوح ذخیره‌سازی</td><td>فصل ۵-۳ (نمودار)</td></tr>
+      <tr><td>1.82</td><td>مهاجرت داده و Coherency</td><td>فصل ۳-۵ و ۵-۳</td></tr>
+      <tr><td>1.83–1.85</td><td>Open/Closed Source</td><td>فصل ۶-۱</td></tr>
+      <tr><td>1.86</td><td>Linux</td><td>فصل ۶-۲</td></tr>
+      <tr><td>1.87</td><td>BSD UNIX</td><td>فصل ۶-۲</td></tr>
+      <tr><td>1.88</td><td>Solaris + سهم بازار</td><td>فصل ۶-۲</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="references">منابع علمی</h3>
+  <ol style="font-size:14px;line-height:1.9">
+    <li><strong>Silberschatz, A., Galvin, P. B., Gagne, G.</strong> (2018). <em>Operating System Concepts</em>, 9th Edition. Wiley. — کتاب مرجع اصلی درس.</li>
+    <li><strong>Silberschatz, A., Galvin, P. B., Gagne, G.</strong> (2009). <em>Operating System Concepts</em>, 8th Edition. Wiley. — ویرایش ۸ نیز قابل استفاده.</li>
+    <li><strong>Tanenbaum, A. S., Woodhull, A.</strong> (2006). <em>Operating Systems: Design and Implementation</em>, 3rd Edition. Prentice Hall.</li>
+    <li><strong>Stallings, W.</strong> (2005). <em>Operating Systems: Internals and Design Principles</em>, 5th Edition. Prentice Hall.</li>
+    <li><strong>Arpaci-Dusseau, R. H., Arpaci-Dusseau, A. C.</strong> <em>Operating Systems: Three Easy Pieces</em>. University of Wisconsin-Madison. (نسخه رایگان آنلاین: <a href="https://pages.cs.wisc.edu/~remzi/OSTep/" target="_blank">pages.cs.wisc.edu/~remzi/OSTep</a>)</li>
+    <li><strong>Tanenbaum, A. S., Bos, H.</strong> (2014). <em>Modern Operating Systems</em>, 4th Edition. Pearson.</li>
+    <li>مستندات رسمی Linux Kernel: <a href="https://www.kernel.org/doc/html/latest/" target="_blank">kernel.org/doc/html/latest</a></li>
+    <li>POSIX Standard: IEEE 1003.1 — <a href="https://pubs.opengroup.org/onlinepubs/9699919799/" target="_blank">pubs.opengroup.org</a></li>
+  </ol>
+
+  <div class="callout note">
+    <div class="ct-title">📖 یادآوری درباره منابع</div>
+    <p>تمام محتوای اصلی این جزوه از اسلایدهای درس (مبتنی بر سیلبرشاتز، ویراست ۹) استخراج شده است. توضیحات تکمیلی (مانند مقادیر زمانی سرعت سطوح ذخیره‌سازی، مثال‌های آموزشی، نام توزیع‌های BSD، و پیاده‌سازی System Call در x86-64) با استناد به منابع معتبر دانشگاهی بالا افزوده شده‌اند. هیچ منبع، DOI یا نقل‌قول جعل نشده است. ارقام سرعت حافظه تقریبی و صرفاً برای درک نسبت‌ها ارائه شده‌اند.</p>
+  </div>
+</section>
+
+<!-- ============ PART 4: COMPREHENSIVE EXAM ============ -->
+<h2 style="font-size:24px;color:var(--c-primary-dark);margin:40px 0 12px;border-bottom:2px solid var(--c-accent);padding-bottom:8px">بخش چهارم: امتحان جامع</h2>
+
+<section class="exam-section" id="exam">
+  <h2 class="chapter-title" style="border-bottom-color:var(--c-primary)"><span class="ch-num" style="background:var(--c-accent)">آزمون</span> امتحان جامع فصل اول</h2>
+  <p style="background:var(--c-primary-light);padding:14px 18px;border-radius:6px;font-size:14px">
+  <strong>راهنمای آزمون:</strong> این آزمون شامل <strong>۲۲ سؤال</strong> در شش نوع مختلف است. مجموع نمره: <strong>۱۰۰</strong>. زمان پیشنهادی: <strong>۹۰ دقیقه</strong>. پس از تلاش برای حل، پاسخ‌نامه تشریحی را در بخش بعد ببینید.
+  </p>
+
+  <table class="tbl">
+    <thead><tr><th>نوع سؤال</th><th>تعداد</th><th>بارم هر سؤال</th><th>مجموع</th></tr></thead>
+    <tbody>
+      <tr><td>چهارگزینه‌ای</td><td>۸</td><td>۳</td><td>۲۴</td></tr>
+      <tr><td>درست/نادرست با دلیل</td><td>۶</td><td>۴</td><td>۲۴</td></tr>
+      <tr><td>تشریحی کوتاه</td><td>۵</td><td>۶</td><td>۳۰</td></tr>
+      <tr><td>تحلیل سناریو</td><td>۲</td><td>۸</td><td>۱۶</td></tr>
+      <tr><td>مقایسه</td><td>۱</td><td>۶</td><td>۶</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="color:var(--c-primary-dark);margin-top:30px">بخش اول: سؤالات چهارگزینه‌ای (هر کدام ۳ نمره)</h3>
+
+  <div class="exam-q">
+    <span class="q-type">چهارگزینه‌ای</span>
+    <span class="q-num">۱</span>
+    <div class="q-text">کدام گزاره درباره Kernel درست است؟</div>
+    <ol class="q-options">
+      <li>Kernel برنامه‌ای است که فقط هنگام بوت اجرا می‌شود.</li>
+      <li>Kernel آن یک برنامه‌ای است که همیشه در حال اجراست.</li>
+      <li>Kernel همان برنامه‌های سیستمی است که همراه OS ارسال می‌شوند.</li>
+      <li>Kernel شامل تمام برنامه‌های کاربردی و سیستمی است.</li>
+    </ol>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">چهارگزینه‌ای</span>
+    <span class="q-num">۲</span>
+    <div class="q-text">برنامه Bootstrap در کجا ذخیره می‌شود و اولین وظیفه‌اش چیست؟</div>
+    <ol class="q-options">
+      <li>در HDD — بارگذاری اولین فرایند کاربر.</li>
+      <li>در RAM — مقداردهی ثبات‌های CPU.</li>
+      <li>در ROM/EPROM — بارگذاری Kernel از دیسک به RAM.</li>
+      <li>در Cache — بارگذاری درایور دستگاه.</li>
+    </ol>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">چهارگزینه‌ای</span>
+    <span class="q-num">۳</span>
+    <div class="q-text">هنگامی که یک برنامه در User Mode سعی می‌کند یک دستور ممتاز (مثل I/O Control) اجرا کند، چه اتفاقی می‌افتد؟</div>
+    <ol class="q-options">
+      <li>دستور اجرا می‌شود، چون CPU همیشه در Kernel Mode است.</li>
+      <li>CPU آن را illegal تلقی کرده و یک trap به OS ایجاد می‌کند.</li>
+      <li>دستور اجرا می‌شود، اما با تأخیر.</li>
+      <li>برنامه بلافاصله خاتمه می‌یابد بدون هیچ رویدادی.</li>
+    </ol>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">چهارگزینه‌ای</span>
+    <span class="q-num">۴</span>
+    <div class="q-text">تفاوت کلیدی Multiprogramming و Multitasking چیست؟</div>
+    <ol class="q-options">
+      <li>Multiprogramming چند CPU دارد، Multitasking یک CPU.</li>
+      <li>Multiprogramming هدفش کارایی است، Multitasking هدفش تعامل کاربر است.</li>
+      <li>Multiprogramming فقط در سرورهاست، Multitasking فقط در موبایل.</li>
+      <li>تفاوتی ندارند — دو نام برای یک مفهوم.</li>
+    </ol>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">چهارگزینه‌ای</span>
+    <span class="q-num">۵</span>
+    <div class="q-text">DMA باعث می‌شود تعداد وقفه‌ها به ازای انتقال N بایت چقدر باشد؟</div>
+    <ol class="q-options">
+      <li>N وقفه (یک وقفه به ازای هر بایت).</li>
+      <li>یک وقفه به ازای کل بلوک.</li>
+      <li>هیچ وقفه‌ای — DMA کاملاً بی‌وقفه است.</li>
+      <li>N/2 وقفه.</li>
+    </ol>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">چهارگزینه‌ای</span>
+    <span class="q-num">۶</span>
+    <div class="q-text">کدام‌یک از موارد زیر یک System Call نیست؟</div>
+    <ol class="q-options">
+      <li><code>read()</code></li>
+      <li><code>open()</code></li>
+      <li><code>fork()</code></li>
+      <li><code>printf()</code> — چاپ مستقیم به صفحه‌نمایش بدون درخواست سرویس OS</li>
+    </ol>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">چهارگزینه‌ای</span>
+    <span class="q-num">۷</span>
+    <div class="q-text">در SMP (Symmetric Multiprocessing)، کدام گزاره درست است؟</div>
+    <ol class="q-options">
+      <li>یک Master به Slave‌ها کار تخصیص می‌دهد.</li>
+      <li>هر پردازنده فقط وظیفه خاصی انجام می‌دهد.</li>
+      <li>همه پردازنده‌ها هم‌تراز (Peer) و حافظه مشترک دارند.</li>
+      <li>هر پردازنده حافظه جداگانه دارد.</li>
+    </ol>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">چهارگزینه‌ای</span>
+    <span class="q-num">۸</span>
+    <div class="q-text">وقتی شمارنده تایمر به صفر می‌رسد، چه اتفاقی رخ می‌دهد؟</div>
+    <ol class="q-options">
+      <li>تایمر متوقف می‌شود و CPU به اجرای برنامه ادامه می‌دهد.</li>
+      <li>یک وقفه سخت‌افزاری تولید می‌شود و کنترل به OS می‌رود.</li>
+      <li>یک System Call از سمت کاربر اجرا می‌شود.</li>
+      <li>RAM پاک می‌شود.</li>
+    </ol>
+  </div>
+
+  <h3 style="color:var(--c-primary-dark);margin-top:30px">بخش دوم: درست/نادرست با دلیل (هر کدام ۴ نمره)</h3>
+  <p style="font-size:13px;color:var(--c-muted)">برای هر گزاره، «درست» یا «نادرست» را مشخص کنید و یک جمله دلیل بنویسید.</p>
+
+  <div class="exam-q">
+    <span class="q-type">درست/نادرست</span>
+    <span class="q-num">۹</span>
+    <div class="q-text">دستور «تغییر مستقیم به Kernel Mode» یک دستور غیرممتاز است که هر برنامه کاربر می‌تواند آن را اجرا کند.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">درست/نادرست</span>
+    <span class="q-num">۱۰</span>
+    <div class="q-text">یک Program می‌تواند به چند Process هم‌زمان تبدیل شود.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">درست/نادرست</span>
+    <span class="q-num">۱۱</span>
+    <div class="q-text">Trap و Exception دقیقاً یک مفهوم هستند و تفاوتی ندارند.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">درست/نادرست</span>
+    <span class="q-num">۱۲</span>
+    <div class="q-text">در Cache Miss، داده مستقیماً از کش خوانده می‌شود بدون نیاز به دسترسی به حافظه کندتر.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">درست/نادرست</span>
+    <span class="q-num">۱۳</span>
+    <div class="q-text">تنظیم تایمر یک دستور ممتاز است.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">درست/نادرست</span>
+    <span class="q-num">۱۴</span>
+    <div class="q-text">از دید OS، یک تراشه Multicore و یک سیستم Multi-chip چند‌پردازنده‌ای تفاوتی دارند.</div>
+  </div>
+
+  <h3 style="color:var(--c-primary-dark);margin-top:30px">بخش سوم: سؤالات تشریحی کوتاه (هر کدام ۶ نمره)</h3>
+
+  <div class="exam-q">
+    <span class="q-type">تشریحی</span>
+    <span class="q-num">۱۵</span>
+    <div class="q-text">چهار هدف اصلی سیستم‌عامل را برشمارد و توضیح دهید چرا این اهداف ممکن است با هم در تضاد باشند.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">تشریحی</span>
+    <span class="q-num">۱۶</span>
+    <div class="q-text">مراحل اجرای یک System Call را (از صدا زدن تا بازگشت به User Mode) به‌ترتیب شرح دهید.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">تشریحی</span>
+    <span class="q-num">۱۷</span>
+    <div class="q-text">سه رویدادی که باعث انتقال از User Mode به Kernel Mode می‌شوند را نام برده و برای هر کدام یک مثال بزنید.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">تشریحی</span>
+    <span class="q-num">۱۸</span>
+    <div class="q-text">Device Controller و Device Driver را تعریف کنید و تفاوت نقش آن‌ها را شرح دهید.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">تشریحی</span>
+    <span class="q-num">۱۹</span>
+    <div class="q-text">سلسله‌مراتب ذخیره‌سازی را از سریع‌ترین/کوچک‌ترین تا کندترین/بزرگ‌ترین به‌ترتیب بنویسید و دلیل وجود این سلسله را توضیح دهید.</div>
+  </div>
+
+  <h3 style="color:var(--c-primary-dark);margin-top:30px">بخش چهارم: تحلیل سناریو (هر کدام ۸ نمره)</h3>
+
+  <div class="exam-q">
+    <span class="q-type">سناریو</span>
+    <span class="q-num">۲۰</span>
+    <div class="q-text">فرض کنید کامپیوتری بدون تایمر و بدون حالت دوگانه داریم. کاربری برنامه‌ای اجرا می‌کند که در یک حلقه بی‌نهایت گرفتار شده است: <code>while(1) { x++; }</code>. توضیح دهید چه اتفاقی می‌افتد و چرا. سپس توضیح دهید اضافه‌شدن هر یک از مکانیزم‌های «تایمر» و «حالت دوگانه» (به‌تنهایی) چه کمکی می‌کند.</div>
+  </div>
+
+  <div class="exam-q">
+    <span class="q-type">سناریو</span>
+    <span class="q-num">۲۱</span>
+    <div class="q-text">فرایند A در حال اجرا روی CPU است و در میانه اجرا، برای خواندن از دیسک درخواست I/O می‌دهد. فرایندهای B و C در صف Ready هستند. روند کامل رویدادها را به‌ترتیب زمانی شرح دهید: چه کسی I/O را شروع می‌کند، CPU در مدت I/O چه می‌کند، وقفه چگونه رخ می‌دهد، و چه کسی پس از پایان I/O اجرا می‌شود.</div>
+  </div>
+
+  <h3 style="color:var(--c-primary-dark);margin-top:30px">بخش پنجم: مقایسه (۶ نمره)</h3>
+
+  <div class="exam-q">
+    <span class="q-type">مقایسه</span>
+    <span class="q-num">۲۲</span>
+    <div class="q-text">جدول مقایسه‌ای بین «انتقال داده با DMA» و «انتقال داده بدون DMA» رسم کنید. معیارها: نقش CPU، تعداد وقفه، کارایی، پیچیدگی سخت‌افزاری.</div>
+  </div>
+</section>
+
+<!-- ============ ANSWER KEY ============ -->
+<section class="exam-section" id="answer-key" style="border-color:var(--c-green)">
+  <h2 class="chapter-title" style="border-bottom-color:var(--c-green)"><span class="ch-num" style="background:var(--c-green)">پاسخ</span> پاسخ‌نامه تشریحی</h2>
+  <p style="font-size:13px;color:var(--c-muted);background:#f0f5ed;padding:10px 14px;border-radius:6px">برای هر سؤال، پاسخ صحیح و دلیل آن آمده است. در سؤالات چهارگزینه‌ای، توضیح داده شده چرا گزینه‌های دیگر نادرست‌اند.</p>
+
+  <h3>پاسخ سؤالات چهارگزینه‌ای</h3>
+
+  <details class="answer" open>
+    <summary>سؤال ۱ — پاسخ: (b)</summary>
+    <div class="ans-body">
+    <p><strong>پاسخ صحیح: (b) Kernel آن یک برنامه‌ای است که همیشه در حال اجراست.</strong></p>
+    <p><strong>دلیل:</strong> طبق تعریف سیلبرشاتز (اسلاید ۱.۳۳)، Kernel تنها برنامه‌ای است که به‌طور مداوم در حال اجراست. سایر برنامه‌ها یا سیستم‌اند (همراه OS) یا کاربردی.</p>
+    <p><strong>چرا بقیه نادرست‌اند؟</strong> (a) Kernel فقط هنگام بوت اجرا نمی‌شود — همیشه مقیم است. (c) برنامه‌های سیستمی جدا از Kernel‌اند. (d) Kernel شامل برنامه‌های کاربردی نیست.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۲ — پاسخ: (c)</summary>
+    <div class="ans-body">
+    <p><strong>پاسخ صحیح: (c) در ROM/EPROM — بارگذاری Kernel از دیسک به RAM.</strong></p>
+    <p><strong>دلیل:</strong> طبق اسلاید ۱.۳۴، Bootstrap در ROM/EPROM (Firmware) ذخیره می‌شود و وظیفه‌اش بارگذاری Kernel از دیسک به RAM است.</p>
+    <p><strong>چرا بقیه نادرست‌اند؟</strong> (a) HDD فرّار در زمان خاموشی اولیه نیست ولی BIOS از ROM می‌خواند نه از HDD. (b) RAM در زمان خاموشی خالی است. (d) Cache بسیار کوچک است و نمی‌تواند درایور را نگه دارد.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۳ — پاسخ: (b)</summary>
+    <div class="ans-body">
+    <p><strong>پاسخ صحیح: (b) CPU آن را illegal تلقی کرده و یک trap به OS ایجاد می‌کند.</strong></p>
+    <p><strong>دلیل:</strong> طبق اسلاید ۱.۶۷، دستورات ممتاز فقط در Kernel Mode قابل اجرا هستند. اگر در User Mode اجرا شوند، به‌عنوان illegal تلقی شده و یک trap ایجاد می‌کنند.</p>
+    <p><strong>چرا بقیه نادرست‌اند؟</strong> (a) و (c) امنیت OS را نقض می‌کنند. (d) برنامه بدون رویداد خاتمه نمی‌یابد — قبل از خاتمه، trap رخ می‌دهد.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۴ — پاسخ: (b)</summary>
+    <div class="ans-body">
+    <p><strong>پاسخ صحیح: (b) Multiprogramming هدفش کارایی است، Multitasking هدفش تعامل کاربر است.</strong></p>
+    <p><strong>دلیل:</strong> طبق اسلایدهای ۱.۵۷-۱.۵۸، Multiprogramming یک Batch System است که CPU را مشغول نگه می‌دارد. Multitasking توسعه منطقی Multiprogramming است با سرعت جابه‌جایی بالا برای تعامل کاربر (Response Time &lt; 1s).</p>
+    <p><strong>چرا بقیه نادرست‌اند؟</strong> (a) هر دو می‌توانند روی تک‌CPU یا چندCPU باشند. (c) محدود به نوع دستگاه نیستند. (d) دو مفهوم متفاوت‌اند.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۵ — پاسخ: (b)</summary>
+    <div class="ans-body">
+    <p><strong>پاسخ صحیح: (b) یک وقفه به ازای کل بلوک.</strong></p>
+    <p><strong>دلیل:</strong> طبق اسلاید ۱.۵۰، با DMA فقط یک وقفه به ازای هر بلوک تولید می‌شود (نه به ازای هر بایت). این مزیت اصلی DMA است.</p>
+    <p><strong>چرا بقیه نادرست‌اند؟</strong> (a) حالت بدون DMA است. (c) DMA هنگام پایان بلوک وقفه می‌دهد. (d) نصف نیست — دقیقاً یک وقفه به ازای بلوک.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۶ — پاسخ: (d)</summary>
+    <div class="ans-body">
+    <p><strong>پاسخ صحیح: (d) <code>printf()</code> — چاپ مستقیم به صفحه‌نمایش بدون درخواست سرویس OS.</strong></p>
+    <p><strong>دلیل:</strong> در واقع، <code>printf</code> درون خود از System Callهایی مانند <code>write()</code> استفاده می‌کند، اما خود تابع <code>printf</code> یک تابع کتابخانه‌ای C است، نه یک System Call مستقیم. در مقابل، <code>read</code>، <code>open</code>، <code>fork</code> همگی System Call مستقیم‌اند.</p>
+    <p><strong>چرا بقیه نادرست‌اند؟</strong> (a)، (b)، (c) همگی System Call مستقیم‌اند.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۷ — پاسخ: (c)</summary>
+    <div class="ans-body">
+    <p><strong>پاسخ صحیح: (c) همه پردازنده‌ها هم‌تراز (Peer) و حافظه مشترک دارند.</strong></p>
+    <p><strong>دلیل:</strong> طبق اسلاید ۱.۵۳-۱.۵۴، در SMP همه پردازنده‌ها Peer هستند، هیچ Master/Slave وجود ندارد و همه از یک حافظه مشترک استفاده می‌کنند.</p>
+    <p><strong>چرا بقیه نادرست‌اند؟</strong> (a) و (b) ویژگی Asymmetric Multiprocessing‌اند. (d) ویژگی Distributed System است نه SMP.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۸ — پاسخ: (b)</summary>
+    <div class="ans-body">
+    <p><strong>پاسخ صحیح: (b) یک وقفه سخت‌افزاری تولید می‌شود و کنترل به OS می‌رود.</strong></p>
+    <p><strong>دلیل:</strong> طبق اسلاید ۱.۷۲، وقتی شمارنده تایمر به صفر برسد، یک وقفه تولید می‌شود. این وقفه، CPU را از User Mode به Kernel Mode منتقل می‌کند و کنترل به OS می‌رسد.</p>
+    <p><strong>چرا بقیه نادرست‌اند؟</strong> (a) نقض هدف تایمر است. (c) System Call از کاربر می‌آید، نه از تایمر. (d) پاک‌شدن RAM نیاز به دستور ممتاز جداگانه دارد.</p>
+    </div>
+  </details>
+
+  <h3 style="margin-top:30px">پاسخ سؤالات درست/نادرست</h3>
+
+  <details class="answer">
+    <summary>سؤال ۹ — نادرست</summary>
+    <div class="ans-body">
+    <p><strong>نادرست.</strong> دستور «تغییر مستقیم به Kernel Mode» یک دستور <em>ممتاز</em> است. اگر هر برنامه‌ای بتوانست مستقیماً به Kernel Mode برود، هیچ حفاظتی باقی نمی‌ماند. در عوض، System Call دستوری <em>غیرممتاز</em> است که به‌صورت کنترل‌شده به Kernel منتقل می‌کند (طبق اسلاید ۱.۶۹).</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۰ — درست</summary>
+    <div class="ans-body">
+    <p><strong>درست.</strong> یک Program (مانند <code>firefox.exe</code>) می‌تواند چندین بار اجرا شود و چند Process هم‌زمان ایجاد کند. هر اجرا یک Process جداگانه است، اما همگی از یک Program مشتق شده‌اند.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۱ — نادرست (با توضیح)</summary>
+    <div class="ans-body">
+    <p><strong>نادرست — با توضیح.</strong> در بسیاری از متون، Trap شامل Exception (خطاهای ناخواسته) و System Call (درخواست عمدی) می‌شود، در حالی که Exception معمولاً فقط به خطاها اشاره دارد. اما در اسلاید ۱.۴۳ سیلبرشاتز این دو یکسان فرض شده‌اند. پاسخ صحیح برای امتحان: «نادرست، با این توضیح که Trap دامنه وسیع‌تری دارد و شامل System Call نیز می‌شود، در حالی که Exception معمولاً فقط به خطاها اشاره دارد.»</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۲ — نادرست</summary>
+    <div class="ans-body">
+    <p><strong>نادرست.</strong> Cache Miss یعنی داده در کش <em>نبود</em>، بنابراین باید از حافظه کندتر به کش آورده شود. درست Cache Hit است که داده مستقیماً از کش خوانده می‌شود.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۳ — درست</summary>
+    <div class="ans-body">
+    <p><strong>درست.</strong> طبق اسلاید ۱.۶۷، تنظیم تایمر (Setting the Timer) یک دستور ممتاز است — فقط در Kernel Mode قابل اجراست. اگر هر برنامه‌ای بتوانست تایمر را تنظیم کند، می‌توانست آن را غیرفعال کند و CPU را برای همیشه اشغال کند.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۴ — نادرست</summary>
+    <div class="ans-body">
+    <p><strong>نادرست.</strong> طبق اسلاید ۱.۵۵، از دید OS هیچ تفاوتی بین Multicore و Multi-chip نیست — هر هسته به‌عنوان یک CPU جداگانه دیده می‌شود.</p>
+    </div>
+  </details>
+
+  <h3 style="margin-top:30px">پاسخ سؤالات تشریحی</h3>
+
+  <details class="answer">
+    <summary>سؤال ۱۵ — چهار هدف OS</summary>
+    <div class="ans-body">
+    <p>چهار هدف اصلی (اسلاید ۱.۲۳):</p>
+    <ol>
+      <li><strong>Execute user programs</strong> — اجرای برنامه‌های کاربر و آسان‌کردن حل مسئله.</li>
+      <li><strong>Convenient to use</strong> — آسانی استفاده از کامپیوتر.</li>
+      <li><strong>Efficient HW use</strong> — استفاده کارای سخت‌افزار.</li>
+      <li><strong>Multiple programs simultaneously</strong> — اجرای هم‌زمان چند برنامه.</li>
+    </ol>
+    <p><strong>تضاد:</strong> هدف «آسانی استفاده» گاهی با «کارایی» در تضاد است. مثلاً یک رابط گرافیکی زیبا (GUI) آسانی را بالا می‌برد اما CPU و حافظه را مصرف می‌کند و کارایی را پایین می‌آورد. به همین دلیل طراحی OS همیشه مصالحه (Trade-off) است.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۶ — مراحل System Call</summary>
+    <div class="ans-body">
+    <p>طبق اسلاید ۱.۶۸، مراحل به‌ترتیب:</p>
+    <ol>
+      <li>System Call به‌عنوان SW Interrupt اجرا می‌شود.</li>
+      <li>کنترل از طریق Interrupt Vector به روتین خدمت‌رسانی در OS منتقل می‌شود.</li>
+      <li>Mode Bit به ۰ (Kernel Mode) تغییر می‌کند.</li>
+      <li>Kernel دستور interrupt کننده را بررسی می‌کند تا نوع را تعیین کند.</li>
+      <li>اطلاعات اضافی از ثبات‌ها یا پشته خوانده می‌شود (پارامترها).</li>
+      <li>Kernel پارامترها را راستی‌آزمایی می‌کند.</li>
+      <li>System Call اجرا می‌شود.</li>
+      <li>کنترل به دستور بعد از System Call بازمی‌گردد.</li>
+      <li>Mode Bit به ۱ (User Mode) بازمی‌گردد.</li>
+    </ol>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۷ — سه رویداد User→Kernel</summary>
+    <div class="ans-body">
+    <p>طبق اسلاید ۱.۶۶:</p>
+    <ol>
+      <li><strong>System Call:</strong> درخواست عمدی سرویس — مثلاً <code>read(fd, buf, 100)</code>.</li>
+      <li><strong>Exception:</strong> خطای نرم‌افزاری — مثلاً تقسیم بر صفر، دسترسی نامعتبر به حافظه.</li>
+      <li><strong>HW Interrupt:</strong> وقفه از دستگاه — مثلاً پایان عملیات دیسک، یا تایمر.</li>
+    </ol>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۸ — Device Controller vs Driver</summary>
+    <div class="ans-body">
+    <p><strong>Device Controller:</strong> یک قطعه <em>سخت‌افزاری</em> است که نوع خاصی از دستگاه را مدیریت می‌کند. دارای Local Buffer است و عملیات I/O را مستقل از CPU انجام می‌دهد. مثلاً کنترل‌کننده دیسک، کنترل‌کننده شبکه.</p>
+    <p><strong>Device Driver:</strong> یک ماژول <em>نرم‌افزاری</em> در Kernel است که پیچیدگی کنترل‌کننده را از Kernel پنهان می‌کند و یک رابط یکنواخت فراهم می‌سازد. درایور از طریق وقفه از رویدادها مطلع می‌شود.</p>
+    <p><strong>تفاوت کلیدی:</strong> Controller سخت‌افزار است، Driver نرم‌افزار است. هر دو برای یک دستگاه کار می‌کنند، اما در سطوح متفاوت — Controller با دستگاه فیزیکی، Driver با Kernel.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۱۹ — سلسله‌مراتب ذخیره‌سازی</summary>
+    <div class="ans-body">
+    <p>از سریع‌ترین/کوچک‌ترین به کندترین/بزرگ‌ترین:</p>
+    <ol>
+      <li>Registers (~1 ns)</li>
+      <li>Cache (L1 ~1 ns, L2 ~10 ns, L3 ~30 ns)</li>
+      <li>Main Memory / DRAM (~100 ns)</li>
+      <li>SSD (~100 μs)</li>
+      <li>HDD (~10 ms)</li>
+      <li>Optical Disk (دیسک نوری)</li>
+      <li>Magnetic Tape (نوار مغناطیسی)</li>
+    </ol>
+    <p><strong>دلیل:</strong> هیچ حافظه‌ای هم‌زمان «ارزان، سریع، غیرفرّار و بزرگ» نیست. به همین دلیل، از چند سطح با مزایای متفاوت استفاده می‌کنیم — داده‌های پراستفاده در سطوح سریع‌تر، داده‌های کم‌استفاده در سطوح بزرگ‌تر. کش، پلی است که این سطوح را به هم متصل می‌کند.</p>
+    </div>
+  </details>
+
+  <h3 style="margin-top:30px">پاسخ سؤالات سناریو</h3>
+
+  <details class="answer">
+    <summary>سؤال ۲۰ — سناریوی حلقه بی‌نهایت</summary>
+    <div class="ans-body">
+    <p><strong>بدون تایمر و بدون Dual-Mode:</strong> برنامه در حلقه بی‌نهایت گرفتار می‌شود و چون هیچ مکانیزمی وجود ندارد که CPU را پس بگیرد، این فرایند برای همیشه CPU را اشغال می‌کند. هیچ فرایند دیگری اجرا نمی‌شود، حتی خود OS نمی‌تواند کار کند — سیستم کاملاً هنگ می‌کند.</p>
+    <p><strong>با فقط تایمر (بدون Dual-Mode):</strong> تایمر به‌طور دوره‌ای وقفه تولید می‌کند و کنترل به OS می‌رسد. OS می‌تواند فرایند دیگری را اجرا کند یا حتی فرایند بی‌نهایت را خاتمه دهد. اما چون Dual-Mode نیست، فرایند می‌تواند مستقیماً دستورات ممتاز اجرا کند — مثلاً تایمر را غیرفعال کند یا حافظه OS را پاک کند.</p>
+    <p><strong>با فقط Dual-Mode (بدون تایمر):</strong> فرایند در User Mode است و نمی‌تواند دستورات ممتاز اجرا کند — امنیت حفظ می‌شود. اما چون تایمر نیست، اگر فرایند در حلقه بی‌نهایت گرفتار شود، OS هیچ راهی برای پس‌گرفتن کنترل ندارد — برنامه برای همیشه CPU را اشغال می‌کند. هیچ System Call یا Exception که OS را فراخوانی کند رخ نمی‌دهد.</p>
+    <p><strong>نتیجه:</strong> هر دو مکانیزم لازم‌اند. تایمر برای <em>پس‌گرفتن زمان‌بندی‌شده کنترل</em>، و Dual-Mode برای <em>امنیت و حفاظت</em>.</p>
+    </div>
+  </details>
+
+  <details class="answer">
+    <summary>سؤال ۲۱ — سناریوی I/O</summary>
+    <div class="ans-body">
+    <p>رویدادها به‌ترتیب زمانی:</p>
+    <ol>
+      <li><strong>فرایند A در حال اجرا روی CPU است.</strong> در میانه اجرا، به <code>read()</code> از دیسک نیاز پیدا می‌کند.</li>
+      <li><strong>A یک System Call صدا می‌زند.</strong> Mode از User به Kernel تغییر می‌کند. OS درخواست را دریافت می‌کند.</li>
+      <li><strong>OS دستور را به Device Controller دیسک می‌فرستد.</strong> Controller مستقل، سرعت دیسک را می‌چرخاند و داده را به Local Buffer خود می‌ریزد.</li>
+      <li><strong>A به حالت Waiting/Blocked می‌رود</strong> (منتظر I/O).</li>
+      <li><strong>OS یک فرایند دیگر از Ready Queue انتخاب می‌کند</strong> (CPU Scheduling) — مثلاً B را.</li>
+      <li><strong>CPU به اجرای B می‌پردازد.</strong> در این مدت، دیسک در پس‌زمینه کار می‌کند.</li>
+      <li><strong>وقتی دیسک کارش تمام شد، یک وقفه سخت‌افزانی تولید می‌کند.</strong></li>
+      <li><strong>وقفه، CPU را از B به Kernel منتقل می‌کند.</strong> Mode از User به Kernel تغییر می‌کند.</li>
+      <li><strong>ISR اجرا می‌شود:</strong> داده از Local Buffer به RAM منتقل می‌شود و A به حالت Ready بازمی‌گردد.</li>
+      <li><strong>OS تصمیم می‌گیرد کدام فرایند بعد اجرا شود.</strong> اگر Scheduling مناسب باشد، ممکن است A ادامه دهد یا B ادامه دهد یا C شروع شود.</li>
+    </ol>
+    <p><strong>نکته کلیدی:</strong> در طول I/O، CPU بیکار نماند — به B پرداخت. این اصل Multiprogramming است.</p>
+    </div>
+  </details>
+
+  <h3 style="margin-top:30px">پاسخ سؤال مقایسه</h3>
+
+  <details class="answer">
+    <summary>سؤال ۲۲ — جدول مقایسه DMA</summary>
+    <div class="ans-body">
+    <table class="tbl">
+      <thead><tr><th>معیار</th><th>بدون DMA</th><th>با DMA</th></tr></thead>
+      <tbody>
+        <tr><td>نقش CPU</td><td>CPU در هر بایت دخالت می‌کند — داده از Device Buf به CPU، سپس به Memory.</td><td>CPU در ابتدا فقط تنظیمات اولیه را به DMA Controller می‌دهد، سپس آزاد است.</td></tr>
+        <tr><td>تعداد وقفه</td><td>N وقفه به ازای N بایت (یک وقفه به ازای هر بایت).</td><td>یک وقفه به ازای کل بلوک.</td></tr>
+        <tr><td>کارایی</td><td>پایین — CPU مشغول انتقال است و نمی‌تواند فرایندهای دیگر را اجرا کند.</td><td>بالا — CPU آزاد است و می‌تواند به فرایندهای دیگر بپردازد.</td></tr>
+        <tr><td>پیچیدگی سخت‌افزاری</td><td>ساده‌تر — نیازی به DMA Controller جداگانه نیست.</td><td>پیچیده‌تر — به یک DMA Controller جداگانه نیاز است.</td></tr>
+        <tr><td>مناسب برای</td><td>دستگاه‌های کند (مثل کیبورد، موس).</td><td>دستگاه‌های پرسرعت (مثل SSD، NIC، GPU).</td></tr>
+      </tbody>
+    </table>
+    <p><strong>نتیجه:</strong> DMA برای دستگاه‌های پرسرعت ضروری است — بدون DMA، CPU در یک انتقال بزرگ I/O کاملاً مشغول می‌شود و هیچ فرایند دیگری اجرا نمی‌شود.</p>
+    </div>
+  </details>
+
+  <div style="background:var(--c-primary-light);border-radius:8px;padding:18px 22px;margin-top:24px;text-align:center">
+    <p style="margin:0;font-size:14px"><strong>پایان امتحان.</strong> اگر به بیش از ۸۰٪ سؤالات پاسخ صحیح دادید، آمادگی خوبی برای امتحان میان‌ترم دارید. در غیر این صورت، فصل‌هایی که در آن‌ها ضعیف بودید را مرور کنید.</p>
+  </div>
+</section>
+
+<div class="footer-note">
+  این جزوه بر اساس اسلایدهای درس سیستم‌عامل دانشگاه صنعتی شریف (به تدریس دکتر حسین اسادی) تهیه شده است.<br>
+  مرجع اصلی: <em>Operating System Concepts, 9th Ed.</em> — Silberschatz, Galvin, Gagne ©2013<br>
+  © ۱۴۰۵ — برای استفاده آموزشی دانشجویان درس سیستم‌عامل.
+</div>
+
+</main>
+</div>
+</body>
+</html>
